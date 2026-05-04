@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kitchen Staff Guide — KDS</title>
+  <style>
+    /* ── Reset & base ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:   #2C3E50;
+      --accent:    #C0392B;
+      --accent-lt: #E74C3C;
+      --bg:        #F4F6F8;
+      --white:     #FFFFFF;
+      --text:      #2C3E50;
+      --muted:     #7F8C8D;
+      --border:    #D5DBDB;
+      --blue:      #2980B9;
+      --orange:    #E67E22;
+      --green:     #27AE60;
+      --font:      'Segoe UI', Arial, sans-serif;
+      --radius:    6px;
+    }
+
+    html { font-size: 15px; }
+
+    body {
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+    }
+
+    /* ── Print reset ──────────────────────────────────────────────────── */
+    @media print {
+      body { background: #fff; font-size: 11pt; }
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+      .page-break-avoid { page-break-inside: avoid; }
+      a { color: inherit; text-decoration: none; }
+      .cover { page-break-after: always; }
+    }
+
+    /* ── Cover page ───────────────────────────────────────────────────── */
+    .cover {
+      background: var(--primary);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 40px;
+    }
+    .cover .role-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 20px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+    }
+    .cover h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .cover h1 span { color: var(--accent-lt); }
+    .cover .subtitle {
+      font-size: 1.15rem;
+      color: #BDC3C7;
+      max-width: 480px;
+      margin: 0 auto 48px;
+    }
+    .cover .meta {
+      font-size: 0.8rem;
+      color: #95A5A6;
+      margin-top: 60px;
+    }
+    .cover .flame {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      line-height: 1;
+    }
+
+    /* ── Wrapper ──────────────────────────────────────────────────────── */
+    .wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── Table of contents ────────────────────────────────────────────── */
+    .toc {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 48px;
+    }
+    .toc h2 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    .toc ol {
+      list-style: none;
+      counter-reset: toc;
+      padding: 0;
+    }
+    .toc ol li {
+      counter-increment: toc;
+      padding: 5px 0;
+      border-bottom: 1px dashed var(--border);
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .toc ol li:last-child { border-bottom: none; }
+    .toc ol li::before {
+      content: counter(toc, decimal-leading-zero);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 26px;
+    }
+    .toc ol li a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .toc ol li a:hover { color: var(--accent); }
+    .toc .page-dots {
+      flex: 1;
+      border-bottom: 1px dotted var(--border);
+      margin: 0 6px;
+      position: relative;
+      top: -3px;
+    }
+
+    /* ── Section headings ─────────────────────────────────────────────── */
+    .section {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 32px 36px;
+      margin-bottom: 32px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--bg);
+    }
+    .section-number {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 20px 0 8px;
+      padding-left: 12px;
+      border-left: 3px solid var(--accent);
+    }
+
+    p { margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol {
+      padding-left: 22px;
+      margin-bottom: 12px;
+    }
+    li { margin-bottom: 5px; }
+
+    code {
+      background: #EAF0F6;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.88em;
+      color: var(--accent);
+    }
+
+    .url-box {
+      background: var(--primary);
+      color: var(--white);
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 1rem;
+      padding: 14px 20px;
+      border-radius: var(--radius);
+      margin: 14px 0;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── Status chips ─────────────────────────────────────────────────── */
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .chip-blue   { background: #D6EAF8; color: #1A5276; border: 2px solid #2980B9; }
+    .chip-orange { background: #FDEBD0; color: #784212; border: 2px solid #E67E22; }
+    .chip-green  { background: #D5F5E3; color: #145A32; border: 2px solid #27AE60; }
+    .chip-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .chip-blue   .chip-dot { background: #2980B9; }
+    .chip-orange .chip-dot { background: #E67E22; }
+    .chip-green  .chip-dot { background: #27AE60; }
+
+    /* ── Flow arrows ──────────────────────────────────────────────────── */
+    .flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: var(--bg);
+      padding: 18px 22px;
+      border-radius: var(--radius);
+      margin: 16px 0;
+    }
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .flow-arrow { color: var(--muted); font-size: 1.2rem; font-weight: 300; }
+
+    /* ── Screenshot placeholder ───────────────────────────────────────── */
+    .screenshot {
+      border: 2px dashed #F0C040;
+      background: #FFFEF0;
+      border-radius: var(--radius);
+      padding: 36px 20px;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .screenshot .ss-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      opacity: 0.4;
+    }
+    .screenshot .ss-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #A07800;
+      margin-bottom: 4px;
+    }
+    .screenshot .ss-caption {
+      font-size: 0.88rem;
+      color: #7D6608;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    /* ── Q&A / Scenario boxes ─────────────────────────────────────────── */
+    .qa-box {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .qa-q {
+      background: var(--primary);
+      color: var(--white);
+      padding: 12px 18px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .qa-q::before {
+      content: "Q";
+      background: var(--accent);
+      color: #fff;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-weight: 800;
+    }
+    .qa-a {
+      background: #FDFDFD;
+      padding: 14px 18px 14px 50px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* ── Note / Warning callout ───────────────────────────────────────── */
+    .callout {
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .callout-icon { font-size: 1.2rem; flex-shrink: 0; line-height: 1.6; }
+    .callout-note   { background: #EBF5FB; border-left: 4px solid #2980B9; }
+    .callout-warn   { background: #FEF9E7; border-left: 4px solid #F39C12; }
+    .callout-danger { background: #FDEDEC; border-left: 4px solid var(--accent); }
+
+    /* ── Quick reference card ─────────────────────────────────────────── */
+    .qr-card {
+      background: var(--primary);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      margin-top: 40px;
+    }
+    .qr-card h2 {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-lt);
+      margin-bottom: 24px;
+      font-weight: 800;
+    }
+    .qr-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 560px) { .qr-grid { grid-template-columns: 1fr; } }
+    .qr-item h4 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #95A5A6;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .qr-item p, .qr-item li {
+      font-size: 0.88rem;
+      color: #ECF0F1;
+      margin-bottom: 4px;
+    }
+    .qr-item ul { padding-left: 16px; }
+
+    /* ── Ticket mockup ────────────────────────────────────────────────── */
+    .ticket-mock {
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      max-width: 340px;
+      margin: 20px 0;
+      font-size: 0.88rem;
+    }
+    .ticket-mock-header {
+      background: var(--primary);
+      color: #fff;
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+    }
+    .ticket-mock-header .ttime { font-size: 0.78rem; color: #BDC3C7; font-weight: 400; }
+    .ticket-mock-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+    .ticket-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .ticket-item .ti-note { font-size: 0.75rem; font-weight: 400; color: #666; display: block; }
+    .ticket-item .ti-btn {
+      background: rgba(255,255,255,0.35);
+      border: none;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .ti-blue   { background: #D6EAF8; color: #1A5276; }
+    .ti-orange { background: #FDEBD0; color: #784212; }
+    .ti-green  { background: #D5F5E3; color: #145A32; }
+
+    /* ── Divider ──────────────────────────────────────────────────────── */
+    hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+    /* ── Print extras ─────────────────────────────────────────────────── */
+    @media print {
+      .cover { min-height: auto; padding: 100px 60px; }
+      .section { box-shadow: none; border-color: #ccc; }
+      .wrapper { padding: 20px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- COVER                                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="flame">&#128293;</div>
+  <div class="role-badge">Kitchen Staff</div>
+  <h1>Kitchen Display<br><span>System Guide</span></h1>
+  <p class="subtitle">Everything you need to read tickets, advance item status, and keep the pass running smoothly.</p>
+  <div class="meta">
+    Restaurant POS &nbsp;|&nbsp; ERPNext 17 &nbsp;|&nbsp; Version 1.0 &nbsp;|&nbsp; May 2026
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- BODY                                                                -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="wrapper">
+
+  <!-- TABLE OF CONTENTS ─────────────────────────────────────────────── -->
+  <nav class="toc" aria-label="Table of Contents">
+    <h2>Contents</h2>
+    <ol>
+      <li>
+        <a href="#intro">Introduction</a>
+        <span class="page-dots"></span>
+      </li>
+      <li>
+        <a href="#layout">The KDS Screen Layout</a>
+        <span class="page-dots"></span>
+      </li>
+      <li>
+        <a href="#reading">Reading a Ticket</a>
+        <span class="page-dots"></span>
+      </li>
+      <li>
+        <a href="#advancing">Advancing Item Status</a>
+        <span class="page-dots"></span>
+      </li>
+      <li>
+        <a href="#multi-station">Multi-Station Items</a>
+        <span class="page-dots"></span>
+      </li>
+      <li>
+        <a href="#special">Special Instructions</a>
+        <span class="page-dots"></span>
+      </li>
+      <li>
+        <a href="#refresh">Refreshing the Queue</a>
+        <span class="page-dots"></span>
+      </li>
+      <li>
+        <a href="#scenarios">Common Scenarios</a>
+        <span class="page-dots"></span>
+      </li>
+      <li>
+        <a href="#qr">Quick Reference Card</a>
+        <span class="page-dots"></span>
+      </li>
+    </ol>
+  </nav>
+
+  <!-- ── SECTION 1 ──────────────────────────────────────────────────── -->
+  <section class="section page-break-avoid" id="intro">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h2>Introduction</h2>
+    </div>
+
+    <p>The <strong>Kitchen Display System (KDS)</strong> is your real-time window into every order placed on the floor. As soon as a waiter sends an order from a table, it appears on the KDS as a <em>ticket</em>. You do not need to touch paper dockets, radio the floor, or wait for a printer — everything updates live.</p>
+
+    <h3>Purpose</h3>
+    <p>The KDS exists to give kitchen staff a clear, prioritised view of all incoming food orders, organised by preparation station. Your job is to read each ticket, start cooking when ready, and mark items done so the floor team knows exactly when to collect.</p>
+
+    <h3>Accessing the KDS</h3>
+    <p>Open any browser on the kitchen display terminal and navigate to:</p>
+    <div class="url-box">http://[server]/desk/kds</div>
+    <p>Replace <code>[server]</code> with the local IP address or hostname provided by your manager (for example <code>192.168.1.10</code> or <code>pos.restaurant.local</code>).</p>
+
+    <div class="callout callout-note">
+      <span class="callout-icon">&#8505;</span>
+      <div>No personal login is required to use the KDS action screen. The display uses a shared kitchen session. However, the URL above must be loaded from an approved device on the restaurant network.</div>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">Full KDS screen showing station columns, live tickets, and the refresh button in the top toolbar.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 2 ──────────────────────────────────────────────────── -->
+  <section class="section page-break-avoid" id="layout">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h2>The KDS Screen Layout</h2>
+    </div>
+
+    <p>The KDS screen is divided into vertical columns — one per preparation station. Common stations include <strong>Grill</strong>, <strong>Cold Kitchen</strong>, <strong>Desserts</strong>, <strong>Fryer</strong>, and <strong>Pastry</strong>. Your manager configures which stations appear.</p>
+
+    <h3>Column Structure</h3>
+    <ul>
+      <li><strong>Column header:</strong> Displays the station name (e.g. <em>Grill</em>) and a station-specific item count badge.</li>
+      <li><strong>Tickets:</strong> Each card inside a column represents one table's order for that station. A table may have a ticket in multiple columns if the order contains items from different stations.</li>
+      <li><strong>Chips:</strong> Each coloured pill inside a ticket is a single menu item. One chip = one ordered item.</li>
+    </ul>
+
+    <h3>Top Toolbar</h3>
+    <ul>
+      <li><strong>Station Name</strong> — confirms which KDS view you are on (relevant when using multiple screens).</li>
+      <li><strong>Refresh button</strong> — forces an immediate data reload (see Section 7).</li>
+      <li><strong>Item count</strong> — total number of items currently in queue across all stations.</li>
+    </ul>
+
+    <h3>Chip Colour Reference</h3>
+    <div class="chip-row">
+      <span class="chip chip-blue"><span class="chip-dot"></span>Sent — Not Started</span>
+      <span class="chip chip-orange"><span class="chip-dot"></span>Cooking — In Progress</span>
+      <span class="chip chip-green"><span class="chip-dot"></span>Ready — Plated</span>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">Annotated view of a single station column showing ticket headers, chips in three different states, and the advance button.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 3 ──────────────────────────────────────────────────── -->
+  <section class="section page-break-avoid" id="reading">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2>Reading a Ticket</h2>
+    </div>
+
+    <p>Each ticket card shows all the information you need at a glance. Here is what every element means:</p>
+
+    <h3>Ticket Header</h3>
+    <ul>
+      <li><strong>Table number</strong> — which table placed the order (e.g. <em>T-07</em>).</li>
+      <li><strong>Covers</strong> — number of guests at the table (e.g. <em>4 covers</em>). Useful context for portion sizing.</li>
+      <li><strong>Time sent</strong> — the clock time the waiter transmitted the order (e.g. <em>19:42</em>). Tickets are sorted oldest first so priority is always visible.</li>
+    </ul>
+
+    <h3>Chip Content</h3>
+    <ul>
+      <li><strong>Item name</strong> — the menu item (e.g. <em>Ribeye Steak 300g</em>).</li>
+      <li><strong>Quantity</strong> — number of portions (e.g. <em>x2</em>). If two identical items are ordered they appear as a single chip with quantity 2.</li>
+      <li><strong>Notes / modifiers</strong> — any special instructions the waiter recorded (shown in smaller text beneath the item name).</li>
+    </ul>
+
+    <!-- Ticket mockup -->
+    <div class="ticket-mock">
+      <div class="ticket-mock-header">
+        <span>T-07 &nbsp;&#183;&nbsp; 4 covers</span>
+        <span class="ttime">19:42</span>
+      </div>
+      <div class="ticket-mock-body">
+        <div class="ticket-item ti-blue">
+          <div>
+            Ribeye Steak 300g &times;2
+            <span class="ti-note">Medium rare &mdash; no sauce</span>
+          </div>
+          <button class="ti-btn">&#9654;</button>
+        </div>
+        <div class="ticket-item ti-orange">
+          <div>
+            Grilled Salmon &times;1
+            <span class="ti-note">Lemon butter on side</span>
+          </div>
+          <button class="ti-btn">&#9654;</button>
+        </div>
+        <div class="ticket-item ti-green">
+          <div>
+            Seasonal Vegetables &times;3
+            <span class="ti-note">&nbsp;</span>
+          </div>
+          <button class="ti-btn">&#9654;</button>
+        </div>
+      </div>
+    </div>
+
+    <p><em>Example ticket above: Table 7, 4 guests, order sent at 19:42. Two items still in progress, vegetables are ready.</em></p>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">&#9888;</span>
+      <div><strong>Oldest first:</strong> Tickets near the top of a column have been waiting longest. Always work from the top of each column down to maintain correct service order.</div>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">Close-up of a ticket header and two chips, with callout annotations pointing to table number, cover count, sent time, item name, quantity, and notes fields.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 4 ──────────────────────────────────────────────────── -->
+  <section class="section" id="advancing">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2>Advancing Item Status</h2>
+    </div>
+
+    <p>This is the main action you will take on the KDS. Each chip has a <strong>&#9654; (play/advance) button</strong> on its right side. Tapping it moves the item forward one stage in the preparation lifecycle.</p>
+
+    <h3>The Three Stages</h3>
+    <div class="flow">
+      <div class="flow-step">
+        <span class="chip chip-blue"><span class="chip-dot"></span>Sent</span>
+      </div>
+      <span class="flow-arrow">&#8594;</span>
+      <div class="flow-step">
+        <span class="chip chip-orange"><span class="chip-dot"></span>Cooking</span>
+      </div>
+      <span class="flow-arrow">&#8594;</span>
+      <div class="flow-step">
+        <span class="chip chip-green"><span class="chip-dot"></span>Ready</span>
+      </div>
+    </div>
+
+    <ul>
+      <li><strong>Sent &#8594; Cooking:</strong> Tap &#9654; when you take the item from the queue and begin active preparation. The chip turns orange so the whole team can see it is in progress.</li>
+      <li><strong>Cooking &#8594; Ready:</strong> Tap &#9654; again when the dish is fully cooked and plated on the pass. The chip turns green.</li>
+      <li><strong>All chips green:</strong> When every chip on a ticket reaches Ready status, the ticket fades out and is removed from the column automatically. The waiter receives a notification to collect the order.</li>
+    </ul>
+
+    <h3>Step-by-Step</h3>
+    <ol>
+      <li>Locate the ticket for the table you are about to cook.</li>
+      <li>Read all chip notes before touching any ingredient (see Section 6).</li>
+      <li>Tap <strong>&#9654;</strong> on each chip as you begin cooking that item (blue &#8594; orange).</li>
+      <li>When the item is plated and on the pass, tap <strong>&#9654;</strong> again (orange &#8594; green).</li>
+      <li>If cooking multiple items simultaneously, advance each chip independently as they finish.</li>
+    </ol>
+
+    <div class="callout callout-danger">
+      <span class="callout-icon">&#9888;</span>
+      <div><strong>No confirmation step:</strong> Advancing a chip takes effect immediately. If you advance a chip by mistake, notify your manager — a void or correction must be done from the Order Screen. See Section 8 (Scenarios) for the recovery process.</div>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">Sequence of three screenshots showing a chip transitioning from blue (Sent) to orange (Cooking) to green (Ready) after each tap of the advance button.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 5 ──────────────────────────────────────────────────── -->
+  <section class="section page-break-avoid" id="multi-station">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2>Multi-Station Items</h2>
+    </div>
+
+    <p>Some menu items are prepared across more than one station — for example, a plated dish that requires components from both the <strong>Grill</strong> and the <strong>Cold Kitchen</strong>. In this case the same ticket appears in both station columns, each showing only the chips relevant to that station.</p>
+
+    <h3>How It Works</h3>
+    <ul>
+      <li>Each station sees and advances only its own chips.</li>
+      <li>You do not need to wait for another station to finish before advancing your own chips.</li>
+      <li>The system tracks readiness across all stations. The waiter is notified — and the ticket is fully dismissed — only once <em>all</em> items on the ticket are green across all stations.</li>
+    </ul>
+
+    <div class="callout callout-note">
+      <span class="callout-icon">&#8505;</span>
+      <div><strong>Coordination tip:</strong> If your chips are ready but the ticket has not disappeared, it means another station is still cooking items for that table. Communicate with the other station verbally so dishes do not sit on the pass and cool down.</div>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">Side-by-side view of the Grill column and Cold Kitchen column, both showing the same Table 12 ticket with different chips at different statuses.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 6 ──────────────────────────────────────────────────── -->
+  <section class="section page-break-avoid" id="special">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2>Special Instructions</h2>
+    </div>
+
+    <p>Special instructions entered by the waiter appear as a secondary line of text directly below the item name on each chip. These may include:</p>
+    <ul>
+      <li>Allergy warnings — <code>ALLERGY: No nuts</code></li>
+      <li>Cooking preferences — <code>Well done</code>, <code>Medium rare</code></li>
+      <li>Modifications — <code>No onions</code>, <code>Extra sauce on side</code></li>
+      <li>Guest preferences — <code>Child portion</code>, <code>No salt</code></li>
+    </ul>
+
+    <div class="callout callout-danger">
+      <span class="callout-icon">&#128683;</span>
+      <div><strong>Always read the notes before you start cooking.</strong> Allergy instructions in particular must be followed exactly. If an instruction is unclear, ask your manager or the floor team before plating — never guess.</div>
+    </div>
+
+    <h3>Long Notes</h3>
+    <p>If a note is too long to fit on a single chip line, tap the chip once to expand it and see the full text. Tap again to collapse.</p>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">A chip in expanded view showing a multi-line special instruction including an allergy note highlighted in red.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 7 ──────────────────────────────────────────────────── -->
+  <section class="section page-break-avoid" id="refresh">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h2>Refreshing the Queue</h2>
+    </div>
+
+    <p>The KDS receives new orders in real time over the network. In most cases, tickets appear within a few seconds of the waiter sending them. However, if the connection hiccups or the browser tab has been open for a long time, the display may fall behind.</p>
+
+    <h3>Auto-Refresh</h3>
+    <p>The KDS automatically polls the server every <strong>30 seconds</strong>. A small loading indicator flashes briefly in the toolbar each time this occurs. You do not need to do anything for this to work.</p>
+
+    <h3>Manual Refresh</h3>
+    <ol>
+      <li>Look for the <strong>Refresh</strong> button in the top toolbar (circular arrow icon).</li>
+      <li>Tap it once to force an immediate reload of all pending tickets.</li>
+      <li>The screen will briefly go blank, then repopulate with the current queue.</li>
+    </ol>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">&#9888;</span>
+      <div>If the screen goes blank after a manual refresh and does not repopulate within 10 seconds, check that the kitchen terminal has an active network connection. Notify your manager if the problem persists.</div>
+    </div>
+
+    <div class="callout callout-note">
+      <span class="callout-icon">&#8505;</span>
+      <div><strong>Do not use the browser&#8217;s own refresh (F5).</strong> Use only the in-app Refresh button. The browser refresh will reload the entire page and may briefly log out of the kitchen session.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 8 ──────────────────────────────────────────────────── -->
+  <section class="section" id="scenarios">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <h2>Common Scenarios</h2>
+    </div>
+
+    <p>The situations below come up regularly in a busy kitchen. Read through them so you know exactly what to do without having to stop and think during service.</p>
+
+    <div class="qa-box">
+      <div class="qa-q">A ticket appears but an item on it is 86&#8217;d (out of stock)</div>
+      <div class="qa-a">
+        <strong>Do not advance the chip for the out-of-stock item.</strong> Call the floor immediately — a waiter must return to the table, inform the guest, and void the item from the Order Screen. Once voided, the chip will disappear from your KDS. If the chip remains and you are sure stock is zero, call your manager rather than marking the item Ready.
+      </div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">The KDS screen goes completely blank</div>
+      <div class="qa-a">
+        <ol style="margin:0; padding-left:18px;">
+          <li>Wait 10 seconds — the 30-second auto-refresh may be mid-cycle.</li>
+          <li>Tap the <strong>Refresh</strong> button in the toolbar.</li>
+          <li>If blank persists, check network connectivity on the kitchen terminal (Wi-Fi or Ethernet indicator).</li>
+          <li>If the network is fine, alert your manager. Continue using the back-up paper docket process until the system is restored.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">An item was advanced by mistake (wrong chip tapped)</div>
+      <div class="qa-a">
+        The KDS does not have an undo button. Notify your manager or a senior waiter immediately. The manager can void and re-send the item from the POS Order Screen, which will create a new chip at Sent (Blue) status. You then advance it normally when the item is actually ready.
+      </div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">A new ticket appears in a station column that does not handle that item</div>
+      <div class="qa-a">
+        This typically means the menu item was assigned to the wrong station in the back office. <strong>Do not advance the chip.</strong> Alert your manager. They will update the item&#8217;s station assignment in the ERPNext Menu Item doctype and re-fire the order.
+      </div>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">KDS screen showing a blank/empty state with the Refresh button highlighted and a network error banner at the top.</div>
+    </div>
+  </section>
+
+  <!-- ── QUICK REFERENCE CARD ───────────────────────────────────────── -->
+  <div class="qr-card page-break-avoid" id="qr">
+    <h2>&#9889; Quick Reference Card</h2>
+    <div class="qr-grid">
+
+      <div class="qr-item">
+        <h4>KDS URL</h4>
+        <p>http://[server]/desk/kds</p>
+      </div>
+
+      <div class="qr-item">
+        <h4>Auto-refresh interval</h4>
+        <p>Every 30 seconds</p>
+      </div>
+
+      <div class="qr-item">
+        <h4>Chip colours</h4>
+        <ul>
+          <li>&#9679; Blue = Sent (not started)</li>
+          <li>&#9679; Orange = Cooking (in progress)</li>
+          <li>&#9679; Green = Ready (plated)</li>
+        </ul>
+      </div>
+
+      <div class="qr-item">
+        <h4>Advance button</h4>
+        <p>&#9654; on each chip — tap once per stage</p>
+        <p>Blue &#8594; Orange &#8594; Green</p>
+      </div>
+
+      <div class="qr-item">
+        <h4>Ticket auto-dismissed when</h4>
+        <p>ALL chips on the ticket across ALL stations are Green</p>
+      </div>
+
+      <div class="qr-item">
+        <h4>Priority order</h4>
+        <p>Top of column = oldest ticket = highest priority</p>
+      </div>
+
+      <div class="qr-item">
+        <h4>Mistake on a chip?</h4>
+        <p>Call manager immediately — kitchen cannot undo</p>
+      </div>
+
+      <div class="qr-item">
+        <h4>Screen blank?</h4>
+        <p>Tap Refresh &rarr; check network &rarr; call manager</p>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /.wrapper -->
+</body>
+</html>

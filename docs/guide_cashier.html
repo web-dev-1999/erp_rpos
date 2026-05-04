@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cashier User Guide — ILI Digital Restaurant POS</title>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:   #2C3E50;
+      --accent:    #27AE60;
+      --accent-lt: #D5F0E0;
+      --warn:      #E67E22;
+      --warn-lt:   #FDEBD0;
+      --danger:    #C0392B;
+      --danger-lt: #FADBD8;
+      --info:      #2980B9;
+      --info-lt:   #D6EAF8;
+      --section-bg:#F8F9FA;
+      --border:    #DEE2E6;
+      --text:      #212529;
+      --muted:     #6C757D;
+      --white:     #FFFFFF;
+      --placeholder-border: #F0A500;
+      --placeholder-bg:     #FFFBF0;
+    }
+
+    html { font-size: 10.5pt; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.65;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5cm;
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1 { font-size: 2rem;   color: var(--primary); }
+    h2 { font-size: 1.45rem; color: var(--primary); }
+    h3 { font-size: 1.15rem; color: var(--primary); }
+    h4 { font-size: 1rem;    color: var(--primary); }
+
+    p  { margin-bottom: 0.75em; }
+    ul, ol { margin: 0.5em 0 0.75em 1.5em; }
+    li { margin-bottom: 0.3em; }
+
+    a  { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    strong { font-weight: 600; }
+    code {
+      font-family: 'Consolas', 'Courier New', monospace;
+      background: #EAECEE;
+      border-radius: 3px;
+      padding: 0.1em 0.35em;
+      font-size: 0.92em;
+    }
+
+    /* ===== COVER / HEADER ===== */
+    .cover {
+      background: var(--primary);
+      color: var(--white);
+      padding: 3rem 2.5rem 2.5rem;
+      margin: 0 -1.5cm 2.5rem;
+      page-break-after: avoid;
+    }
+    .cover .role-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--white);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3em 0.9em;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+    .cover h1 { color: var(--white); font-size: 2.4rem; line-height: 1.2; margin-bottom: 0.4rem; }
+    .cover .subtitle { color: #B2BABB; font-size: 1.05rem; margin-bottom: 0; }
+    .cover .meta {
+      margin-top: 1.8rem;
+      font-size: 0.82rem;
+      color: #7F8C8D;
+      border-top: 1px solid #3D5166;
+      padding-top: 1rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    /* ===== TABLE OF CONTENTS ===== */
+    .toc-box {
+      background: var(--section-bg);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 4px;
+      padding: 1.4rem 1.8rem;
+      margin-bottom: 2.5rem;
+      page-break-inside: avoid;
+    }
+    .toc-box h2 { font-size: 1.1rem; margin-bottom: 0.9rem; }
+    .toc-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; }
+    .toc-item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.4em;
+      padding: 0.2em 0;
+      font-size: 0.92rem;
+    }
+    .toc-item .toc-num {
+      color: var(--accent);
+      font-weight: 700;
+      min-width: 1.5em;
+    }
+    .toc-item a { color: var(--text); }
+    .toc-item a:hover { color: var(--accent); }
+
+    /* ===== SECTION WRAPPER ===== */
+    .section {
+      margin-bottom: 2.8rem;
+      page-break-inside: avoid;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: var(--primary);
+      color: var(--white);
+      padding: 0.65rem 1.2rem;
+      border-radius: 4px 4px 0 0;
+      margin-bottom: 0;
+    }
+    .section-num {
+      background: var(--accent);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.82rem;
+      min-width: 1.9em;
+      height: 1.9em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    .section-header h2 { color: var(--white); font-size: 1.15rem; margin: 0; }
+    .section-body {
+      background: var(--section-bg);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      padding: 1.5rem 1.8rem;
+    }
+
+    /* ===== SCREENSHOT PLACEHOLDER ===== */
+    .screenshot {
+      border: 2px dashed var(--placeholder-border);
+      background: var(--placeholder-bg);
+      border-radius: 6px;
+      padding: 2.5rem 1rem;
+      text-align: center;
+      margin: 1.2rem 0;
+      page-break-inside: avoid;
+    }
+    .screenshot .ph-icon {
+      font-size: 2.2rem;
+      display: block;
+      margin-bottom: 0.4rem;
+      opacity: 0.45;
+    }
+    .screenshot .ph-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--placeholder-border);
+    }
+    .screenshot figcaption {
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ===== CALLOUT BOXES ===== */
+    .callout {
+      border-radius: 4px;
+      padding: 0.9rem 1.1rem;
+      margin: 1rem 0;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      page-break-inside: avoid;
+    }
+    .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+    .callout-body { flex: 1; }
+    .callout-body strong { display: block; margin-bottom: 0.2em; }
+    .callout-body p:last-child { margin-bottom: 0; }
+
+    .callout-tip    { background: var(--accent-lt); border-left: 4px solid var(--accent); }
+    .callout-warn   { background: var(--warn-lt);   border-left: 4px solid var(--warn);  }
+    .callout-danger { background: var(--danger-lt); border-left: 4px solid var(--danger);}
+    .callout-info   { background: var(--info-lt);   border-left: 4px solid var(--info);  }
+
+    /* ===== STEP LIST ===== */
+    .steps { counter-reset: step-counter; list-style: none; margin: 0.5em 0 1em; padding: 0; }
+    .steps li {
+      counter-increment: step-counter;
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      margin-bottom: 0.7rem;
+    }
+    .steps li::before {
+      content: counter(step-counter);
+      background: var(--accent);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.8rem;
+      min-width: 1.6em;
+      height: 1.6em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+
+    /* ===== BUTTON LABELS ===== */
+    .btn-label {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--white);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.15em 0.6em;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+    }
+    .btn-green  { background: var(--accent); }
+    .btn-orange { background: var(--warn); }
+    .btn-red    { background: var(--danger); }
+    .btn-blue   { background: var(--info); }
+
+    /* ===== INLINE TABLE ===== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin: 1rem 0;
+      page-break-inside: avoid;
+    }
+    th {
+      background: var(--primary);
+      color: var(--white);
+      text-align: left;
+      padding: 0.55rem 0.9rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    td { padding: 0.5rem 0.9rem; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: #F0F2F4; }
+
+    /* ===== BILL LAYOUT DIAGRAM ===== */
+    .layout-diagram {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.2rem 0;
+    }
+    .layout-panel {
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .layout-panel-title {
+      background: var(--primary);
+      color: var(--white);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.8rem;
+    }
+    .layout-panel-body {
+      padding: 0.8rem;
+      font-size: 0.83rem;
+      line-height: 1.7;
+    }
+    .layout-panel-body .row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #DEE2E6;
+      padding: 0.15rem 0;
+    }
+    .layout-panel-body .row.total {
+      font-weight: 700;
+      border-top: 2px solid var(--primary);
+      border-bottom: none;
+      margin-top: 0.3rem;
+      padding-top: 0.3rem;
+    }
+    .numpad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      margin-bottom: 0.5rem;
+    }
+    .numpad-btn {
+      background: #E8EEF0;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      text-align: center;
+      padding: 0.45rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .numpad-btn.wide { grid-column: span 3; }
+    .pay-methods { display: flex; flex-direction: column; gap: 4px; }
+    .pay-btn {
+      padding: 0.45rem;
+      border-radius: 3px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: var(--white);
+    }
+    .pay-btn.cash    { background: var(--accent); }
+    .pay-btn.card    { background: var(--info); }
+    .pay-btn.online  { background: var(--warn); }
+    .pay-btn.confirm { background: var(--danger); margin-top: 4px; }
+
+    /* ===== Q&A SCENARIO BOX ===== */
+    .qa-block {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 1rem 0;
+      page-break-inside: avoid;
+    }
+    .qa-q {
+      background: var(--primary);
+      color: var(--white);
+      padding: 0.6rem 1rem;
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+    .qa-q::before { content: "Q  "; opacity: 0.55; }
+    .qa-a {
+      background: var(--section-bg);
+      padding: 0.75rem 1rem;
+      font-size: 0.92rem;
+    }
+    .qa-a::before { content: "A  "; font-weight: 700; color: var(--accent); }
+
+    /* ===== CHECKLIST BOX ===== */
+    .checklist {
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 4px;
+      padding: 1.4rem 1.8rem;
+      page-break-inside: avoid;
+    }
+    .checklist h3 { color: var(--white); margin-bottom: 0.8rem; }
+    .checklist ul { list-style: none; padding: 0; margin: 0; }
+    .checklist li {
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      gap: 0.7rem;
+      align-items: center;
+      font-size: 0.93rem;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before {
+      content: "";
+      display: inline-block;
+      width: 1.1em;
+      height: 1.1em;
+      min-width: 1.1em;
+      border: 2px solid rgba(255,255,255,0.6);
+      border-radius: 3px;
+      background: transparent;
+    }
+
+    /* ===== QUICK REFERENCE CARD ===== */
+    .qr-card {
+      border: 2px solid var(--accent);
+      border-radius: 6px;
+      overflow: hidden;
+      page-break-inside: avoid;
+    }
+    .qr-card-header {
+      background: var(--accent);
+      color: var(--white);
+      padding: 0.7rem 1.3rem;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .qr-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .qr-cell {
+      padding: 0.9rem 1.2rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .qr-cell:nth-child(even) { border-right: none; }
+    .qr-cell h4 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .qr-cell ul { margin: 0; padding-left: 1.2em; font-size: 0.85rem; }
+    .qr-cell li { margin-bottom: 0.2em; }
+    .qr-cell code { font-size: 0.8rem; }
+
+    /* ===== FOOTER ===== */
+    .doc-footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 2px solid var(--accent);
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+
+    /* ===== PRINT STYLES ===== */
+    @media print {
+      @page {
+        size: A4;
+        margin: 1.8cm 1.5cm 2cm;
+      }
+
+      body { max-width: 100%; padding: 0; font-size: 10pt; }
+
+      .cover {
+        margin: -1.8cm -1.5cm 2rem;
+        padding: 2.5rem 1.5cm 2rem;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .section-header,
+      .toc-box,
+      .callout,
+      .qa-q,
+      .qr-card-header,
+      .checklist,
+      th,
+      .numpad-btn,
+      .pay-btn,
+      .layout-panel-title {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      .section { page-break-inside: avoid; }
+      .screenshot { page-break-inside: avoid; }
+      .qa-block { page-break-inside: avoid; }
+      .qr-card  { page-break-inside: avoid; page-break-before: always; }
+      .checklist { page-break-inside: avoid; }
+      table { page-break-inside: avoid; }
+
+      h2, h3 { page-break-after: avoid; }
+
+      .toc-columns { grid-template-columns: 1fr 1fr; }
+      .layout-diagram { grid-template-columns: 1fr 1fr; }
+      .qr-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media screen {
+      body { padding: 0 24px; }
+      .cover { margin: 0 -24px 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================ COVER -->
+<div class="cover">
+  <div class="role-badge">Cashier Role Guide</div>
+  <h1>ILI Digital Restaurant POS</h1>
+  <p class="subtitle">Complete User Guide &mdash; Payment Processing, Splitting &amp; End-of-Day</p>
+  <div class="meta">
+    <span>Version 1.0</span>
+    <span>Platform: ERPNext 17</span>
+    <span>Audience: Cashier Staff</span>
+    <span>Issued: May 2026</span>
+  </div>
+</div>
+
+<!-- ============================================================ TABLE OF CONTENTS -->
+<nav class="toc-box" id="top">
+  <h2>Contents</h2>
+  <div class="toc-columns">
+    <div>
+      <div class="toc-item"><span class="toc-num">1</span><a href="#s1">Introduction &amp; Login</a></div>
+      <div class="toc-item"><span class="toc-num">2</span><a href="#s2">The Payment Screen</a></div>
+      <div class="toc-item"><span class="toc-num">3</span><a href="#s3">Cash Payment</a></div>
+      <div class="toc-item"><span class="toc-num">4</span><a href="#s4">Card Payment</a></div>
+      <div class="toc-item"><span class="toc-num">5</span><a href="#s5">Mixed Payments</a></div>
+      <div class="toc-item"><span class="toc-num">6</span><a href="#s6">Online / Digital Wallet</a></div>
+    </div>
+    <div>
+      <div class="toc-item"><span class="toc-num">7</span><a href="#s7">Bill Splitting</a></div>
+      <div class="toc-item"><span class="toc-num">8</span><a href="#s8">Applying Discounts</a></div>
+      <div class="toc-item"><span class="toc-num">9</span><a href="#s9">Printing Receipts</a></div>
+      <div class="toc-item"><span class="toc-num">10</span><a href="#s10">Handling Voids</a></div>
+      <div class="toc-item"><span class="toc-num">11</span><a href="#s11">End-of-Day Checklist</a></div>
+      <div class="toc-item"><span class="toc-num">12</span><a href="#s12">Common Scenarios</a></div>
+      <div class="toc-item"><span class="toc-num">&mdash;</span><a href="#qr">Quick Reference Card</a></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================ SECTION 1 -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <span class="section-num">1</span>
+    <h2>Introduction &amp; Login</h2>
+  </div>
+  <div class="section-body">
+    <h3>Your Role as Cashier</h3>
+    <p>The <strong>Cashier</strong> is responsible for the financial close of every table transaction. Your core duties are:</p>
+    <ul>
+      <li>Process all payments (cash, card, online/digital wallet, mixed methods)</li>
+      <li>Apply approved discounts and vouchers to bills</li>
+      <li>Split bills between guests when requested</li>
+      <li>Issue printed or digital receipts</li>
+      <li>Escalate voiding requests to a Manager</li>
+      <li>Reconcile the cash drawer at end of shift</li>
+    </ul>
+
+    <div class="callout callout-info">
+      <span class="callout-icon">&#9432;</span>
+      <div class="callout-body">
+        <strong>Access Level</strong>
+        <p>The Cashier role includes everything the Waiter role can do (view tables, send orders to kitchen) <em>plus</em> the ability to open the Payment Screen, confirm payments, and apply discounts. Voids and system-level overrides require a Manager.</p>
+      </div>
+    </div>
+
+    <h3>Accessing the POS</h3>
+    <ol class="steps">
+      <li>Open a web browser on the POS terminal.</li>
+      <li>Navigate to <code>http://[server]/desk/rpos</code> &mdash; replace <code>[server]</code> with the IP or hostname given by your IT team (e.g. <code>192.168.1.10</code> or <code>pos.restaurant.local</code>).</li>
+      <li>On the ERPNext login page, enter your <strong>username</strong> (usually your work e-mail) and <strong>password</strong>.</li>
+      <li>Click <span class="btn-label btn-green">Log In</span>. The POS Floor Plan screen opens automatically.</li>
+    </ol>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 1.1 &mdash; ERPNext login page at <code>/desk/rpos</code>. Enter your credentials and click Log In.</figcaption>
+    </div>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">&#9888;</span>
+      <div class="callout-body">
+        <strong>Password Security</strong>
+        <p>Never share your login credentials. Each cashier action (payments, discounts) is recorded against your user account and appears in end-of-day reports.</p>
+      </div>
+    </div>
+
+    <h3>Navigating to a Table</h3>
+    <p>After login you will see the <strong>Floor Plan</strong>. Tables are colour-coded:</p>
+    <table>
+      <thead><tr><th>Colour</th><th>Status</th><th>Cashier Action</th></tr></thead>
+      <tbody>
+        <tr><td>Grey</td><td>Available / Unoccupied</td><td>No action needed</td></tr>
+        <tr><td>Green</td><td>Occupied — order in progress</td><td>Open to review order</td></tr>
+        <tr><td>Amber / Orange</td><td>Bill requested by waiter</td><td>Open and process payment</td></tr>
+        <tr><td>Red</td><td>Kitchen alert or item voided</td><td>Review and escalate if needed</td></tr>
+      </tbody>
+    </table>
+    <p>Tap any <strong>amber</strong> table to open the Order Screen for that table, then proceed to payment.</p>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 2 -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <span class="section-num">2</span>
+    <h2>The Payment Screen</h2>
+  </div>
+  <div class="section-body">
+    <h3>Opening the Payment Screen</h3>
+    <p>From the <strong>Order Screen</strong> of any table with a bill ready, tap the <span class="btn-label btn-green">&#128179; Pay</span> button in the top-right toolbar. The Payment Screen slides in as a full-page modal.</p>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 2.1 &mdash; Order Screen showing the Pay button in the toolbar. Table T3, 4 guests, bill ready.</figcaption>
+    </div>
+
+    <h3>Screen Layout</h3>
+    <p>The Payment Screen is divided into two panels side-by-side:</p>
+
+    <div class="layout-diagram">
+      <div class="layout-panel">
+        <div class="layout-panel-title">Left Panel &mdash; Itemised Bill</div>
+        <div class="layout-panel-body">
+          <div class="row"><span>Chicken Karahi &times;2</span><span>PKR 1,400</span></div>
+          <div class="row"><span>Naan &times;4</span><span>PKR 200</span></div>
+          <div class="row"><span>Mango Lassi &times;2</span><span>PKR 400</span></div>
+          <div class="row"><span>Subtotal</span><span>PKR 2,000</span></div>
+          <div class="row"><span>GST 16%</span><span>PKR 320</span></div>
+          <div class="row"><span>Discount</span><span>&mdash;</span></div>
+          <div class="row total"><span>GRAND TOTAL</span><span>PKR 2,320</span></div>
+        </div>
+      </div>
+      <div class="layout-panel">
+        <div class="layout-panel-title">Right Panel &mdash; Numpad &amp; Methods</div>
+        <div class="layout-panel-body">
+          <div class="numpad">
+            <div class="numpad-btn">7</div><div class="numpad-btn">8</div><div class="numpad-btn">9</div>
+            <div class="numpad-btn">4</div><div class="numpad-btn">5</div><div class="numpad-btn">6</div>
+            <div class="numpad-btn">1</div><div class="numpad-btn">2</div><div class="numpad-btn">3</div>
+            <div class="numpad-btn">&#8592;</div><div class="numpad-btn">0</div><div class="numpad-btn">.</div>
+            <div class="numpad-btn wide">Clear</div>
+          </div>
+          <div class="pay-methods">
+            <div class="pay-btn cash">Cash</div>
+            <div class="pay-btn card">Credit Card</div>
+            <div class="pay-btn card">Debit Card</div>
+            <div class="pay-btn online">Online</div>
+            <div class="pay-btn confirm">Confirm Payment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Bill Panel — Field Descriptions</h3>
+    <table>
+      <thead><tr><th>Field</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Line items</td><td>Each ordered item with quantity and unit price</td></tr>
+        <tr><td>Subtotal</td><td>Sum of all items before tax and discounts</td></tr>
+        <tr><td>Tax (GST / Service Charge)</td><td>Calculated automatically based on POS configuration; may be zero</td></tr>
+        <tr><td>Discount</td><td>Shows only if a discount was applied on the Order Screen</td></tr>
+        <tr><td>Grand Total</td><td>Final amount the guest owes; this is what you collect</td></tr>
+        <tr><td>Amount Tendered</td><td>Running total of amounts entered via the numpad so far</td></tr>
+        <tr><td>Change Due</td><td>Difference if cash tendered exceeds Grand Total; shown in green</td></tr>
+        <tr><td>Balance Remaining</td><td>Amount still outstanding in a mixed-payment scenario</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-tip">
+      <span class="callout-icon">&#9989;</span>
+      <div class="callout-body">
+        <strong>Tip — Closing the Payment Screen</strong>
+        <p>Tap the <span class="btn-label">&#10005; Cancel</span> button or press <code>Esc</code> to return to the Order Screen without losing any entered amounts. The bill is not altered until you tap <span class="btn-label btn-red">Confirm Payment</span>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 3 -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <span class="section-num">3</span>
+    <h2>Single-Method Payment — Cash</h2>
+  </div>
+  <div class="section-body">
+    <p>Use this flow when the entire bill is paid in cash.</p>
+
+    <ol class="steps">
+      <li>Open the Payment Screen via the <span class="btn-label btn-green">&#128179; Pay</span> button.</li>
+      <li>Verify the <strong>Grand Total</strong> on the left panel matches the amount the guest expects to pay.</li>
+      <li><strong>If the guest pays the exact amount:</strong> skip to step 5 (no amount needs to be entered; the system will use the Grand Total as the tendered amount).</li>
+      <li><strong>If the guest pays a different amount</strong> (e.g. hands over PKR 3,000): use the numpad to type the tendered amount — e.g. <code>3000</code>. The display updates as you type.</li>
+      <li>Tap the <span class="btn-label btn-green">Cash</span> button. The system logs this as a cash payment for the entered (or exact) amount.</li>
+      <li>The <strong>Change Due</strong> field turns <span style="color:var(--accent);font-weight:700;">green</span> and displays the amount to return to the guest (e.g. PKR 680).</li>
+      <li>Hand the change to the guest.</li>
+      <li>Tap <span class="btn-label btn-red">Confirm Payment</span>. The table is cleared and moves back to Available (grey).</li>
+    </ol>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 3.1 &mdash; Payment Screen after entering PKR 3,000 cash for a PKR 2,320 bill. Change due (PKR 680) shown in green.</figcaption>
+    </div>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">&#9888;</span>
+      <div class="callout-body">
+        <strong>Underpayment</strong>
+        <p>If the tendered amount is less than the Grand Total and you tap <span class="btn-label btn-red">Confirm Payment</span>, the system will alert you. You cannot confirm until the full amount is covered. Either collect the remaining cash or switch to a mixed-payment approach (see Section 5).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 4 -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <span class="section-num">4</span>
+    <h2>Single-Method Payment — Card</h2>
+  </div>
+  <div class="section-body">
+    <p>Use this flow when the entire bill is settled on a single credit or debit card. The POS does not integrate directly with card terminals — it records the method for reporting purposes; the physical card swipe/tap is handled by your card terminal device separately.</p>
+
+    <ol class="steps">
+      <li>Open the Payment Screen via the <span class="btn-label btn-green">&#128179; Pay</span> button.</li>
+      <li>Process the payment on the physical card terminal first: swipe/insert/tap the card and confirm approval.</li>
+      <li>Once the card terminal shows <strong>Approved</strong>, return to the POS screen.</li>
+      <li><strong>Do not enter any amount</strong> on the numpad — the full Grand Total is charged automatically.</li>
+      <li>Tap <span class="btn-label btn-blue">Credit Card</span> or <span class="btn-label btn-blue">Debit Card</span> as appropriate. The full Grand Total is applied.</li>
+      <li>No change is applicable for card payments.</li>
+      <li>Tap <span class="btn-label btn-red">Confirm Payment</span>. The table clears.</li>
+    </ol>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 4.1 &mdash; Payment Screen with Credit Card selected. Full grand total PKR 2,320 assigned; no change due.</figcaption>
+    </div>
+
+    <table>
+      <thead><tr><th>Card Type</th><th>When to Use</th><th>Change?</th></tr></thead>
+      <tbody>
+        <tr><td>Credit Card</td><td>Guest pays with any credit card (Visa, Mastercard, Amex)</td><td>No</td></tr>
+        <tr><td>Debit Card</td><td>Guest pays with a bank debit/ATM card</td><td>No</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-danger">
+      <span class="callout-icon">&#128683;</span>
+      <div class="callout-body">
+        <strong>Card Declined</strong>
+        <p>If the physical terminal shows <strong>Declined</strong>, do <em>not</em> tap any button in the POS. Politely inform the guest and ask for an alternative payment method (cash or another card). See Section 12 for the full scenario walkthrough.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 5 -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <span class="section-num">5</span>
+    <h2>Mixed Payments</h2>
+  </div>
+  <div class="section-body">
+    <p>Mixed payments allow a guest to pay part of the bill in cash and the rest on card (or any combination of methods). The POS tracks each portion separately.</p>
+
+    <h3>Example Scenario</h3>
+    <p>Grand Total: <strong>PKR 2,320</strong>. Guest wants to pay PKR 1,000 cash and the rest on credit card.</p>
+
+    <ol class="steps">
+      <li>Open the Payment Screen.</li>
+      <li>Using the numpad, enter <code>1000</code> (the cash portion).</li>
+      <li>Tap <span class="btn-label btn-green">Cash</span>. The system records PKR 1,000 as cash and the <strong>Balance Remaining</strong> updates to PKR 1,320.</li>
+      <li>Process PKR 1,320 on the physical card terminal and confirm approval.</li>
+      <li>Back in the POS, the remaining balance (PKR 1,320) is pre-filled. You may also type it manually on the numpad to confirm.</li>
+      <li>Tap <span class="btn-label btn-blue">Credit Card</span>. The balance drops to PKR 0.</li>
+      <li>Tap <span class="btn-label btn-red">Confirm Payment</span>. The table clears.</li>
+    </ol>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 5.1 &mdash; Mixed payment: PKR 1,000 cash recorded, balance remaining PKR 1,320 awaiting card payment.</figcaption>
+    </div>
+
+    <h3>General Rules for Mixed Payments</h3>
+    <ul>
+      <li>You can combine <strong>any number of methods</strong> — tap each method button after entering its portion on the numpad.</li>
+      <li>The <strong>Balance Remaining</strong> always shows how much is still outstanding.</li>
+      <li>Each method is logged as a separate line in the payment record for reporting purposes.</li>
+      <li>You cannot confirm the payment until the Balance Remaining is exactly PKR 0.</li>
+      <li>To remove a partially entered method, tap <span class="btn-label">Clear</span> on the numpad and re-enter the correct amount.</li>
+    </ul>
+
+    <div class="callout callout-tip">
+      <span class="callout-icon">&#9989;</span>
+      <div class="callout-body">
+        <strong>Three-Way Split</strong>
+        <p>You can apply three or more methods by repeating the enter-amount → tap-method cycle as many times as needed. For example: cash + credit card + online wallet.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 6 -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <span class="section-num">6</span>
+    <h2>Online / Digital Wallet Payments</h2>
+  </div>
+  <div class="section-body">
+    <p>The <strong>Online</strong> payment method covers digital wallets, mobile payment apps, bank transfers, and QR-code payments (e.g. JazzCash, EasyPaisa, bank mobile app transfer).</p>
+
+    <ol class="steps">
+      <li>Ask the guest to complete the payment on their phone or digital wallet app to the restaurant's registered account/QR code.</li>
+      <li>Verify the transaction notification or screenshot from the guest (or check the restaurant's wallet app for the incoming transfer).</li>
+      <li>On the POS Payment Screen, enter the amount received on the numpad (or leave blank for the full amount).</li>
+      <li>Tap <span class="btn-label btn-orange">Online</span>. The system records this as a digital payment.</li>
+      <li><strong>Optional — add a reference:</strong> tap the <span class="btn-label">&#128221; Notes</span> field that appears and type the customer's transaction ID, phone number, or any reference provided. This helps with reconciliation.</li>
+      <li>Tap <span class="btn-label btn-red">Confirm Payment</span> once the full amount is covered.</li>
+    </ol>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 6.1 &mdash; Online payment selected. Transaction reference field visible for entering customer's transfer ID.</figcaption>
+    </div>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">&#9888;</span>
+      <div class="callout-body">
+        <strong>Verify Before Confirming</strong>
+        <p>Always confirm the transfer has been received in the restaurant's wallet account before tapping Confirm Payment. Screenshots can be faked — if in doubt, ask your manager to verify the bank balance.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 7 -->
+<div class="section" id="s7">
+  <div class="section-header">
+    <span class="section-num">7</span>
+    <h2>Bill Splitting</h2>
+  </div>
+  <div class="section-body">
+    <p>Bill splitting allows you to divide a table's order into separate bills, each paid independently. This is common when a group wants to pay individually or when two couples share a table but pay separately.</p>
+
+    <div class="callout callout-info">
+      <span class="callout-icon">&#9432;</span>
+      <div class="callout-body">
+        <strong>When to Split</strong>
+        <p>Always split the bill <em>before</em> processing any payment. Splitting after a partial payment has been confirmed is not supported and will require manager intervention.</p>
+      </div>
+    </div>
+
+    <h3>Step-by-Step: Splitting a Bill</h3>
+
+    <ol class="steps">
+      <li>From the <strong>Order Screen</strong> (not the Payment Screen), tap the <span class="btn-label">&#9986; Split Bill</span> button in the toolbar. The Split Bill dialog opens.</li>
+      <li>All items in the order are listed on the <strong>left side</strong> with their quantities. On the right, you will see bill assignment buttons: <span class="btn-label btn-green">Bill A</span> and <span class="btn-label btn-blue">Bill B</span>.</li>
+      <li>For each item, tap the bill it belongs to:<br>
+        — Tap <span class="btn-label btn-green">Bill A</span> to assign the item to Guest A's bill<br>
+        — Tap <span class="btn-label btn-blue">Bill B</span> to assign the item to Guest B's bill</li>
+      <li><strong>More than 2 guests?</strong> Tap <span class="btn-label">+ Add Bill</span> to create Bill C, Bill D, etc. Additional assignment buttons appear for each new bill.</li>
+      <li>Continue assigning all items until every line has a bill assigned. Unassigned items will be highlighted in amber as a warning.</li>
+      <li>Tap <span class="btn-label btn-green">Confirm Split</span>. The system creates separate sub-bills. You are returned to the Order Screen where each bill now appears as a separate tab (Bill A, Bill B, etc.).</li>
+      <li>Process each bill through the normal payment flow: select a bill tab → tap <span class="btn-label btn-green">&#128179; Pay</span> → complete the payment → Confirm.</li>
+      <li>The table clears only after <strong>all</strong> sub-bills are fully paid.</li>
+    </ol>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 7.1 &mdash; Split Bill dialog. Items listed on left; Bill A / Bill B assignment buttons on right. "+ Add Bill" at bottom for additional guests.</figcaption>
+    </div>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 7.2 &mdash; Order Screen after confirming split. Bill A and Bill B tabs visible at top; Bill B currently selected showing its items and Pay button.</figcaption>
+    </div>
+
+    <h3>Handling Shared / Fractional Items</h3>
+    <p>If two guests share a dish (e.g. one pizza split between two people), the system does not support sub-item splitting. The recommended approach:</p>
+    <ul>
+      <li>Assign the shared item to the bill of whichever guest will pay for it.</li>
+      <li>The guests settle the fractional cost between themselves — the restaurant collects the full item price from one bill.</li>
+      <li>Alternatively, if both guests want to share the cost equally, ask the waiter to re-enter the item as two half-portions (if the menu supports it).</li>
+    </ul>
+
+    <div class="callout callout-tip">
+      <span class="callout-icon">&#9989;</span>
+      <div class="callout-body">
+        <strong>Tip — Re-splitting</strong>
+        <p>If you need to change the bill assignment after Confirm Split has been tapped, tap <span class="btn-label">&#9986; Split Bill</span> again to re-open the dialog and reassign items. No payments must have been started on any bill for this to work.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 8 -->
+<div class="section" id="s8">
+  <div class="section-header">
+    <span class="section-num">8</span>
+    <h2>Applying Discounts</h2>
+  </div>
+  <div class="section-body">
+    <p>Discounts can be applied to an entire bill before payment is processed. There are two types: a fixed PKR amount deducted or a percentage reduction on the total.</p>
+
+    <h3>How to Apply a Discount</h3>
+
+    <ol class="steps">
+      <li>From the <strong>Order Screen</strong>, tap the <span class="btn-label">% Discount</span> button in the toolbar. The Discount dialog opens.</li>
+      <li>Choose the discount type:<br>
+        — <strong>Fixed Amount</strong>: deducts an exact PKR value from the bill total (e.g. PKR 200 off)<br>
+        — <strong>Percentage</strong>: deducts a percentage of the subtotal (e.g. 10% off)</li>
+      <li>Enter the discount value using the on-screen keyboard or numpad.</li>
+      <li>Tap <span class="btn-label btn-green">Apply</span>. A <strong>Discount</strong> line appears in the bill summary, showing the deducted amount. The Grand Total updates immediately.</li>
+      <li>Proceed to payment as normal.</li>
+    </ol>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 8.1 &mdash; Discount dialog with "Percentage" selected and "10" entered. Preview shows PKR 232 will be deducted from a PKR 2,320 bill.</figcaption>
+    </div>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 8.2 &mdash; Bill panel after discount applied. Discount line shows –PKR 232; Grand Total updated to PKR 2,088.</figcaption>
+    </div>
+
+    <h3>Discount Authorisation</h3>
+    <div class="callout callout-warn">
+      <span class="callout-icon">&#9888;</span>
+      <div class="callout-body">
+        <strong>Manager Approval May Be Required</strong>
+        <p>Your restaurant may configure a <strong>maximum discount threshold</strong> for the Cashier role. If you enter a discount above this limit, a Manager Authorisation dialog will appear prompting a manager to enter their credentials before the discount is applied. Do not attempt to bypass this — all discount attempts are logged.</p>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Discount Type</th><th>Example Input</th><th>Effect on PKR 2,320 Bill</th></tr></thead>
+      <tbody>
+        <tr><td>Fixed Amount</td><td>200</td><td>PKR 2,120 Grand Total</td></tr>
+        <tr><td>Percentage</td><td>10</td><td>PKR 2,088 Grand Total (10% off)</td></tr>
+        <tr><td>Percentage</td><td>100</td><td>PKR 0 — requires manager approval</td></tr>
+      </tbody>
+    </table>
+
+    <p>To <strong>remove a discount</strong> already applied, tap <span class="btn-label">% Discount</span> again and tap <span class="btn-label btn-red">Remove Discount</span> in the dialog.</p>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 9 -->
+<div class="section" id="s9">
+  <div class="section-header">
+    <span class="section-num">9</span>
+    <h2>Printing Receipts</h2>
+  </div>
+  <div class="section-body">
+    <h3>Printing at Payment Time</h3>
+    <ol class="steps">
+      <li>On the Payment Screen, locate the <strong>Print Receipt</strong> toggle near the Confirm Payment button.</li>
+      <li>Ensure the toggle is switched <strong>ON</strong> (green). If you do not want a printed receipt, leave it OFF.</li>
+      <li>Tap <span class="btn-label btn-red">Confirm Payment</span>. The receipt is sent to the thermal printer automatically upon payment confirmation.</li>
+    </ol>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 9.1 &mdash; Print Receipt toggle in ON state (green) at the bottom of the Payment Screen, just above the Confirm Payment button.</figcaption>
+    </div>
+
+    <h3>Thermal Printer Requirements</h3>
+    <ul>
+      <li>The thermal printer must be <strong>powered on</strong>, loaded with receipt paper, and connected to the network or the POS terminal.</li>
+      <li>Printer configuration (IP address, port, paper width) is set by your IT administrator. Contact IT if the receipt does not print.</li>
+      <li>If the printer is offline, the payment will still complete — the receipt will not print. You can reprint later (see below).</li>
+    </ul>
+
+    <h3>Re-printing a Receipt</h3>
+    <p>If a receipt failed to print or a guest requests a duplicate:</p>
+    <ol class="steps">
+      <li>Open ERPNext desk: navigate to <code>Accounts &gt; POS Invoice</code>.</li>
+      <li>Search for the invoice by table number, date, or amount.</li>
+      <li>Open the invoice and click <span class="btn-label">&#128438; Print</span> in the top toolbar.</li>
+      <li>Select the <strong>POS Invoice</strong> print format and click Print / Send to Printer.</li>
+    </ol>
+
+    <div class="callout callout-info">
+      <span class="callout-icon">&#9432;</span>
+      <div class="callout-body">
+        <strong>Digital Receipt</strong>
+        <p>If your restaurant has email receipts configured, you can also e-mail the invoice directly from the POS Invoice record. Open the invoice → click the <span class="btn-label">&#9993; Email</span> button → enter the guest's address.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 10 -->
+<div class="section" id="s10">
+  <div class="section-header">
+    <span class="section-num">10</span>
+    <h2>Handling Voids (Escalation to Manager)</h2>
+  </div>
+  <div class="section-body">
+    <div class="callout callout-danger">
+      <span class="callout-icon">&#128683;</span>
+      <div class="callout-body">
+        <strong>Cashiers Cannot Void Sent Items</strong>
+        <p>Once an item has been sent to the kitchen (status: <em>Sent</em> or <em>Prepared</em>), it cannot be removed from the bill by a Cashier. This is a deliberate control to prevent revenue leakage. A Manager must authorise all voids.</p>
+      </div>
+    </div>
+
+    <h3>What is a Void?</h3>
+    <p>A <strong>void</strong> removes an item from the current order and notifies the kitchen to stop preparation (if not already done). The item is struck from the bill and will not be charged to the guest.</p>
+
+    <h3>How to Request a Void</h3>
+    <ol class="steps">
+      <li>Identify the item the guest wishes to remove on the Order Screen.</li>
+      <li>Tap the item to select it, then tap the <span class="btn-label btn-red">&#128683; Void Item</span> button.</li>
+      <li>A <strong>Manager Authorisation</strong> dialog appears. The cashier <em>cannot</em> proceed past this dialog.</li>
+      <li>Call your manager to the POS. The manager enters their <strong>username and password</strong> in the dialog, then selects a void reason from the dropdown (e.g. "Guest changed mind", "Wrong item sent", "Complaint").</li>
+      <li>Manager taps <span class="btn-label btn-red">Confirm Void</span>. The item is removed from the bill and a void notification is sent to the Kitchen Display System (KDS).</li>
+      <li>The updated bill (without the voided item) is reflected immediately. If payment was in progress, the Grand Total is recalculated.</li>
+    </ol>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 10.1 &mdash; Manager Authorisation dialog for a void. The cashier has selected the item; the manager must enter credentials to proceed.</figcaption>
+    </div>
+
+    <h3>Void Reasons Reference</h3>
+    <table>
+      <thead><tr><th>Reason</th><th>Typical Situation</th></tr></thead>
+      <tbody>
+        <tr><td>Guest changed mind</td><td>Guest decides they no longer want the item before it arrives</td></tr>
+        <tr><td>Wrong item sent</td><td>Waiter sent incorrect item due to miscommunication</td></tr>
+        <tr><td>Allergy / dietary concern</td><td>Guest has an allergy and item cannot be modified</td></tr>
+        <tr><td>Quality complaint</td><td>Kitchen error — food unacceptable</td></tr>
+        <tr><td>Duplicate entry</td><td>Same item entered twice by mistake</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">&#9888;</span>
+      <div class="callout-body">
+        <strong>After a Payment is Confirmed</strong>
+        <p>Voids cannot be performed after a payment is confirmed. If a guest disputes a charge after payment, the manager must raise a <strong>Refund / Credit Note</strong> through ERPNext Accounts. This is outside the scope of the POS cashier workflow.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 11 -->
+<div class="section" id="s11">
+  <div class="section-header">
+    <span class="section-num">11</span>
+    <h2>End-of-Day Checklist</h2>
+  </div>
+  <div class="section-body">
+    <p>At the end of your shift, complete the following steps in order to ensure the POS is correctly closed and all transactions are reconciled.</p>
+
+    <div class="checklist">
+      <h3>&#9997; End-of-Day Checklist &mdash; Cashier</h3>
+      <ul>
+        <li>Confirm all tables are settled &mdash; no amber (bill-requested) tables remain on the Floor Plan.</li>
+        <li>Check that no table is stuck in a partial-payment state (Balance Remaining &gt; 0).</li>
+        <li>Count the physical cash in the cash drawer.</li>
+        <li>Compare cash drawer total with the POS Cash Summary for your shift (ask manager to run the POS Closing Entry report).</li>
+        <li>Record any discrepancy (over or short) on the shift discrepancy log and inform your manager immediately.</li>
+        <li>Confirm all discount applications are accompanied by valid authorisation notes.</li>
+        <li>Confirm all split bills have been fully settled (no open sub-bills).</li>
+        <li>Verify the receipt roll in the thermal printer is sufficient for the next shift; replace if low.</li>
+        <li>Log out of the POS: tap your name/avatar in the top-right corner → <span class="btn-label">Log Out</span>.</li>
+      </ul>
+    </div>
+
+    <div class="callout callout-info" style="margin-top:1.2rem;">
+      <span class="callout-icon">&#9432;</span>
+      <div class="callout-body">
+        <strong>POS Closing Entry</strong>
+        <p>Your manager will close the POS session in ERPNext (POS Closing Entry), which generates the official daily sales report. You do not need to create this entry yourself, but you may be asked to confirm the closing cash amount.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 12 -->
+<div class="section" id="s12">
+  <div class="section-header">
+    <span class="section-num">12</span>
+    <h2>Common Cashier Scenarios</h2>
+  </div>
+  <div class="section-body">
+    <p>The following Q&amp;A covers the most frequent edge-case situations you will encounter at the payment counter.</p>
+
+    <div class="qa-block">
+      <div class="qa-q">A guest realises they have a voucher or discount code after the payment screen has already been opened.</div>
+      <div class="qa-a">Tap <span class="btn-label">Cancel</span> on the Payment Screen to return to the Order Screen without any changes. Then tap <span class="btn-label">% Discount</span>, apply the voucher value as a Fixed Amount discount (or the voucher's percentage), and re-open the Payment Screen. The discount will be reflected in the updated Grand Total. If the discount exceeds your cashier limit, call the manager before reopening the payment screen.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="qa-q">A guest wants completely separate receipts for each person at the table but did not ask for this when ordering.</div>
+      <div class="qa-a">Cancel out of the Payment Screen (if open). From the Order Screen, tap <span class="btn-label">&#9986; Split Bill</span> and assign items to each guest's bill. Once you tap Confirm Split, each bill appears as a separate tab. Process each tab through the full payment flow independently. Each confirmed payment generates its own invoice and receipt. Ensure the Print Receipt toggle is ON for each payment if physical receipts are needed.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="qa-q">The card terminal shows "Declined" — the guest now wants to pay cash instead.</div>
+      <div class="qa-a">Do <strong>not</strong> tap any button on the POS after a card decline. The POS has not recorded any payment yet. Simply inform the guest politely. Now proceed normally: use the numpad to enter the cash amount tendered and tap <span class="btn-label btn-green">Cash</span> instead of the card button. The original Grand Total remains unchanged. No manager intervention is needed for this switch.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="qa-q">The guest accidentally overpays (e.g. hands over a large note and you enter the wrong amount).</div>
+      <div class="qa-a">Before tapping Confirm Payment: tap <span class="btn-label">Clear</span> on the numpad and re-enter the correct tendered amount. The Change Due will update automatically. If you have <em>already confirmed</em> the payment with an incorrect overpayment recorded, inform your manager — a correction must be made through ERPNext Accounts as a refund entry. Never issue change exceeding the actual cash handed to you without first re-verifying the amount.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="qa-q">The guest claims they paid but the table is still showing as Amber (not cleared).</div>
+      <div class="qa-a">This can happen if the browser lost connection at the moment of confirmation. Check the POS Invoice list (ERPNext → Accounts → POS Invoice) for a recent invoice for this table. If an invoice exists and is submitted, the payment was recorded — tap <span class="btn-label">Refresh</span> on the Floor Plan; the table should clear. If no invoice exists, the payment was not completed; process it again normally. If uncertain, call the manager before accepting any further payments for this table.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="qa-q">A guest is paying with both a digital wallet and cash but the online transfer amount is pending (not yet received).</div>
+      <div class="qa-a">Do <strong>not</strong> record the online portion until you have verified it in the restaurant's wallet app. Collect and record the cash portion first (enter cash amount → tap Cash). Then wait for online transfer confirmation. Once confirmed, enter the remaining amount → tap Online (add the reference ID in Notes) → tap Confirm Payment. If the guest is impatient, call your manager to supervise. Never confirm a payment for an unverified digital transfer.</div>
+    </div>
+
+    <div class="qa-block">
+      <div class="qa-q">A group of 6 wants to split the bill evenly — how do I divide equally?</div>
+      <div class="qa-a">The POS does not automatically divide amounts equally. You need to manually assign items to each bill (Bill A through Bill F for 6 guests). For items shared equally, assign each shared item to one guest's bill (they can sort it among themselves), or better — ask the waiter to enter each guest's items separately during ordering to avoid this situation at payment. Equal-split automation is a planned feature; for now, use the manual assignment method.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ QUICK REFERENCE CARD -->
+<div class="qr-card" id="qr">
+  <div class="qr-card-header">&#9889; Quick Reference Card — Cashier</div>
+  <div class="qr-grid">
+
+    <div class="qr-cell">
+      <h4>Cash Payment</h4>
+      <ul>
+        <li>Open Payment Screen → Pay</li>
+        <li>Enter tendered amount (or skip for exact)</li>
+        <li>Tap <strong>Cash</strong></li>
+        <li>Note Change Due (green)</li>
+        <li>Tap <strong>Confirm Payment</strong></li>
+      </ul>
+    </div>
+
+    <div class="qr-cell">
+      <h4>Card Payment</h4>
+      <ul>
+        <li>Process on physical terminal first</li>
+        <li>Wait for <em>Approved</em></li>
+        <li>Open Payment Screen → Pay</li>
+        <li>Tap <strong>Credit Card</strong> or <strong>Debit Card</strong></li>
+        <li>Tap <strong>Confirm Payment</strong></li>
+      </ul>
+    </div>
+
+    <div class="qr-cell">
+      <h4>Mixed Payment</h4>
+      <ul>
+        <li>Enter cash portion → tap <strong>Cash</strong></li>
+        <li>Check Balance Remaining</li>
+        <li>Process remainder on terminal</li>
+        <li>Tap <strong>Credit/Debit Card</strong></li>
+        <li>Balance = 0 → <strong>Confirm</strong></li>
+      </ul>
+    </div>
+
+    <div class="qr-cell">
+      <h4>Bill Split</h4>
+      <ul>
+        <li>Order Screen → <strong>&#9986; Split Bill</strong></li>
+        <li>Assign each item to Bill A / B / C…</li>
+        <li>Tap <strong>+ Add Bill</strong> for more guests</li>
+        <li><strong>Confirm Split</strong></li>
+        <li>Pay each bill tab separately</li>
+      </ul>
+    </div>
+
+    <div class="qr-cell">
+      <h4>Applying Discount</h4>
+      <ul>
+        <li>Order Screen → <strong>% Discount</strong></li>
+        <li>Choose Fixed Amount or Percentage</li>
+        <li>Enter value → <strong>Apply</strong></li>
+        <li>Manager auth required above limit</li>
+        <li>Then proceed to payment</li>
+      </ul>
+    </div>
+
+    <div class="qr-cell">
+      <h4>Online / Wallet</h4>
+      <ul>
+        <li>Verify transfer received first</li>
+        <li>Enter amount → tap <strong>Online</strong></li>
+        <li>Add transaction ref in <strong>Notes</strong></li>
+        <li>Tap <strong>Confirm Payment</strong></li>
+      </ul>
+    </div>
+
+    <div class="qr-cell">
+      <h4>Void (Escalation)</h4>
+      <ul>
+        <li>Select item → <strong>&#128683; Void Item</strong></li>
+        <li>Manager Auth dialog appears</li>
+        <li>Call manager to enter credentials</li>
+        <li>Manager selects reason → <strong>Confirm Void</strong></li>
+        <li>Grand Total updates automatically</li>
+      </ul>
+    </div>
+
+    <div class="qr-cell">
+      <h4>End of Day</h4>
+      <ul>
+        <li>All tables grey (no amber)</li>
+        <li>Count cash drawer</li>
+        <li>Match vs POS Cash Summary</li>
+        <li>Log discrepancies with manager</li>
+        <li>Log out of POS</li>
+      </ul>
+    </div>
+
+    <div class="qr-cell" style="grid-column: span 2;">
+      <h4>Key URLs &amp; Access</h4>
+      <ul>
+        <li>POS: <code>http://[server]/desk/rpos</code></li>
+        <li>Invoices: ERPNext → Accounts → POS Invoice</li>
+        <li>Re-print: Open Invoice → Print → POS Invoice format</li>
+        <li>Login: ERPNext credentials (ask manager if locked out)</li>
+        <li>Issues: Contact IT or <code>wajihuz.zaman@ili.digital</code></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ FOOTER -->
+<div class="doc-footer">
+  <span>ILI Digital Restaurant POS &mdash; Cashier User Guide v1.0</span>
+  <span>ERPNext 17 | May 2026</span>
+  <span>ILI Digital &mdash; wajihuz.zaman@ili.digital</span>
+</div>
+
+</body>
+</html>

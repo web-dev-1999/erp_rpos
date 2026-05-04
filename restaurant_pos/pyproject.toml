@@ -1,0 +1,16 @@
+[project]
+name = "restaurant_pos"
+authors = [{ name = "ILI Digital", email = "dev@ili.digital" }]
+description = "Restaurant-grade POS system for ERPNext"
+requires-python = ">=3.10"
+readme = "README.md"
+dynamic = ["version"]
+dependencies = []
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["restaurant_pos*"]

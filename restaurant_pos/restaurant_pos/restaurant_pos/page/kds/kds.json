@@ -1,0 +1,18 @@
+{
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "Page",
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Restaurant POS",
+ "name": "kds",
+ "owner": "Administrator",
+ "page_name": "kds",
+ "restrict_to_domain": "",
+ "roles": [
+  {"role": "System Manager"},
+  {"role": "POS Manager"},
+  {"role": "Kitchen Staff"}
+ ],
+ "standard": "Yes",
+ "title": "Kitchen Display System"
+}

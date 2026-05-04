@@ -1,0 +1,45 @@
+{
+ "autoname": "RRES-.YYYY.-.####",
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "guest_name","phone","email","covers","section_a",
+  "table_id","reservation_datetime","status","source","section_b",
+  "notes","pos_order","auto_release_at","notified"
+ ],
+ "fields": [
+  {"fieldname": "guest_name", "fieldtype": "Data", "label": "Guest Name", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "phone", "fieldtype": "Data", "label": "Phone", "in_list_view": 1},
+  {"fieldname": "email", "fieldtype": "Data", "label": "Email", "options": "Email"},
+  {"fieldname": "covers", "fieldtype": "Int", "label": "Covers", "default": "2", "in_list_view": 1},
+  {"fieldname": "section_a", "fieldtype": "Section Break"},
+  {"fieldname": "table_id", "fieldtype": "Link", "label": "Table", "options": "POS Table", "in_list_view": 1},
+  {"fieldname": "reservation_datetime", "fieldtype": "Datetime", "label": "Date & Time", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "status", "fieldtype": "Select", "label": "Status",
+   "options": "Confirmed\nSeated\nCancelled\nNo-Show\nCompleted",
+   "default": "Confirmed", "in_list_view": 1},
+  {"fieldname": "source", "fieldtype": "Select", "label": "Source",
+   "options": "Phone\nWalk-in\nOnline\nThird-party\nOther",
+   "default": "Phone"},
+  {"fieldname": "section_b", "fieldtype": "Section Break"},
+  {"fieldname": "notes", "fieldtype": "Small Text", "label": "Notes"},
+  {"fieldname": "pos_order", "fieldtype": "Link", "label": "POS Order", "options": "POS Order", "read_only": 1},
+  {"fieldname": "auto_release_at", "fieldtype": "Datetime", "label": "Auto-release At", "read_only": 1},
+  {"fieldname": "notified", "fieldtype": "Check", "label": "Release Notified", "read_only": 1}
+ ],
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Restaurant POS",
+ "name": "POS Reservation",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {"create": 1, "delete": 1, "email": 1, "export": 1, "print": 1, "read": 1, "report": 1, "role": "POS Manager", "share": 1, "write": 1},
+  {"create": 1, "read": 1, "write": 1, "role": "POS Cashier"}
+ ],
+ "sort_field": "reservation_datetime",
+ "sort_order": "ASC",
+ "track_changes": 1
+}

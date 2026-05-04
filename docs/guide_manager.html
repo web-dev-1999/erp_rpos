@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manager Guide — Restaurant POS</title>
+  <style>
+    /* ── Reset & base ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:   #2C3E50;
+      --accent:    #8E44AD;
+      --accent-lt: #BB8FD8;
+      --bg:        #F4F6F8;
+      --white:     #FFFFFF;
+      --text:      #2C3E50;
+      --muted:     #7F8C8D;
+      --border:    #D5DBDB;
+      --font:      'Segoe UI', Arial, sans-serif;
+      --radius:    6px;
+    }
+
+    html { font-size: 15px; }
+
+    body {
+      font-family: var(--font);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+    }
+
+    /* ── Print reset ──────────────────────────────────────────────────── */
+    @media print {
+      body { background: #fff; font-size: 11pt; }
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+      .page-break-avoid { page-break-inside: avoid; }
+      a { color: inherit; text-decoration: none; }
+      .cover { page-break-after: always; }
+    }
+
+    /* ── Cover page ───────────────────────────────────────────────────── */
+    .cover {
+      background: var(--primary);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 40px;
+    }
+    .cover .role-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 20px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+    }
+    .cover h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .cover h1 span { color: var(--accent-lt); }
+    .cover .subtitle {
+      font-size: 1.15rem;
+      color: #BDC3C7;
+      max-width: 480px;
+      margin: 0 auto 48px;
+    }
+    .cover .meta {
+      font-size: 0.8rem;
+      color: #95A5A6;
+      margin-top: 60px;
+    }
+    .cover .crown {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      line-height: 1;
+    }
+
+    /* ── Wrapper ──────────────────────────────────────────────────────── */
+    .wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── Table of contents ────────────────────────────────────────────── */
+    .toc {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 48px;
+    }
+    .toc h2 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    .toc ol {
+      list-style: none;
+      counter-reset: toc;
+      padding: 0;
+    }
+    .toc ol li {
+      counter-increment: toc;
+      padding: 5px 0;
+      border-bottom: 1px dashed var(--border);
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .toc ol li:last-child { border-bottom: none; }
+    .toc ol li::before {
+      content: counter(toc, decimal-leading-zero);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 26px;
+    }
+    .toc ol li a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .toc ol li a:hover { color: var(--accent); }
+    .toc .page-dots {
+      flex: 1;
+      border-bottom: 1px dotted var(--border);
+      margin: 0 6px;
+      position: relative;
+      top: -3px;
+    }
+
+    /* ── Section headings ─────────────────────────────────────────────── */
+    .section {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 32px 36px;
+      margin-bottom: 32px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--bg);
+    }
+    .section-number {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 20px 0 8px;
+      padding-left: 12px;
+      border-left: 3px solid var(--accent);
+    }
+
+    p { margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol {
+      padding-left: 22px;
+      margin-bottom: 12px;
+    }
+    li { margin-bottom: 5px; }
+
+    code {
+      background: #F4ECF7;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.88em;
+      color: var(--accent);
+    }
+
+    .url-box {
+      background: var(--primary);
+      color: var(--white);
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 1rem;
+      padding: 14px 20px;
+      border-radius: var(--radius);
+      margin: 14px 0;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── Screenshot placeholder ───────────────────────────────────────── */
+    .screenshot {
+      border: 2px dashed #F0C040;
+      background: #FFFEF0;
+      border-radius: var(--radius);
+      padding: 36px 20px;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .screenshot .ss-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      opacity: 0.4;
+    }
+    .screenshot .ss-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #A07800;
+      margin-bottom: 4px;
+    }
+    .screenshot .ss-caption {
+      font-size: 0.88rem;
+      color: #7D6608;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    /* ── Step list (numbered visual) ──────────────────────────────────── */
+    .step-list {
+      list-style: none;
+      padding: 0;
+      counter-reset: steps;
+      margin: 16px 0;
+    }
+    .step-list li {
+      counter-increment: steps;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--bg);
+    }
+    .step-list li:last-child { border-bottom: none; }
+    .step-list li::before {
+      content: counter(steps);
+      background: var(--accent);
+      color: #fff;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      font-size: 0.78rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── Inline tag ───────────────────────────────────────────────────── */
+    .tag {
+      display: inline-block;
+      background: #F4ECF7;
+      color: var(--accent);
+      border: 1px solid var(--accent-lt);
+      padding: 2px 10px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    /* ── Note / Warning callout ───────────────────────────────────────── */
+    .callout {
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 0.9rem;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .callout-icon { font-size: 1.2rem; flex-shrink: 0; line-height: 1.6; }
+    .callout-note   { background: #EBF5FB; border-left: 4px solid #2980B9; }
+    .callout-warn   { background: #FEF9E7; border-left: 4px solid #F39C12; }
+    .callout-danger { background: #FDEDEC; border-left: 4px solid #C0392B; }
+    .callout-purple { background: #F4ECF7; border-left: 4px solid var(--accent); }
+
+    /* ── Q&A / Scenario boxes ─────────────────────────────────────────── */
+    .qa-box {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .qa-q {
+      background: var(--primary);
+      color: var(--white);
+      padding: 12px 18px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .qa-q::before {
+      content: "Q";
+      background: var(--accent);
+      color: #fff;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-weight: 800;
+    }
+    .qa-a {
+      background: #FDFDFD;
+      padding: 14px 18px 14px 50px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* ── Cross-reference box ──────────────────────────────────────────── */
+    .xref {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+    .xref-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .xref ul { margin: 0; padding-left: 18px; }
+    .xref li { font-size: 0.9rem; margin-bottom: 4px; }
+
+    /* ── Reports table ────────────────────────────────────────────────── */
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.9rem;
+    }
+    .report-table th {
+      background: var(--primary);
+      color: #fff;
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .report-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .report-table tr:last-child td { border-bottom: none; }
+    .report-table tr:nth-child(even) td { background: #FAFAFA; }
+    .report-table td:first-child { font-weight: 600; }
+
+    /* ── Roles pill table ─────────────────────────────────────────────── */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .role-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+    }
+    .role-card .rc-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .role-card ul { padding-left: 16px; margin: 0; }
+    .role-card li { font-size: 0.82rem; margin-bottom: 3px; color: var(--muted); }
+
+    /* ── Quick reference card ─────────────────────────────────────────── */
+    .qr-card {
+      background: var(--primary);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      margin-top: 40px;
+    }
+    .qr-card h2 {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-lt);
+      margin-bottom: 24px;
+      font-weight: 800;
+    }
+    .qr-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 560px) { .qr-grid { grid-template-columns: 1fr; } }
+    .qr-item h4 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #95A5A6;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .qr-item p, .qr-item li {
+      font-size: 0.88rem;
+      color: #ECF0F1;
+      margin-bottom: 4px;
+    }
+    .qr-item ul { padding-left: 16px; }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+    /* ── Print extras ─────────────────────────────────────────────────── */
+    @media print {
+      .cover { min-height: auto; padding: 100px 60px; }
+      .section { box-shadow: none; border-color: #ccc; }
+      .wrapper { padding: 20px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- COVER                                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="crown">&#128081;</div>
+  <div class="role-badge">Manager</div>
+  <h1>Restaurant POS<br><span>Manager Guide</span></h1>
+  <p class="subtitle">Full-access reference covering voids, discounts, floor editing, reservations, reports, and user management.</p>
+  <div class="meta">
+    Restaurant POS &nbsp;|&nbsp; ERPNext 17 &nbsp;|&nbsp; Version 1.0 &nbsp;|&nbsp; May 2026
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- BODY                                                                -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="wrapper">
+
+  <!-- TABLE OF CONTENTS ─────────────────────────────────────────────── -->
+  <nav class="toc" aria-label="Table of Contents">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#intro">Introduction</a><span class="page-dots"></span></li>
+      <li><a href="#waiter-cashier">Waiter &amp; Cashier Capabilities</a><span class="page-dots"></span></li>
+      <li><a href="#voids">Voiding a Sent Item</a><span class="page-dots"></span></li>
+      <li><a href="#discounts">Applying Discounts</a><span class="page-dots"></span></li>
+      <li><a href="#floor-layout">Editing the Floor Layout</a><span class="page-dots"></span></li>
+      <li><a href="#floor-management">Managing Floors (Back Office)</a><span class="page-dots"></span></li>
+      <li><a href="#reservations">Reservation Management</a><span class="page-dots"></span></li>
+      <li><a href="#reports">Reports &amp; Analytics</a><span class="page-dots"></span></li>
+      <li><a href="#users">User &amp; Access Management</a><span class="page-dots"></span></li>
+      <li><a href="#scenarios">Common Manager Scenarios</a><span class="page-dots"></span></li>
+      <li><a href="#qr">Quick Reference Card</a><span class="page-dots"></span></li>
+    </ol>
+  </nav>
+
+  <!-- ── SECTION 1 ──────────────────────────────────────────────────── -->
+  <section class="section page-break-avoid" id="intro">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h2>Introduction</h2>
+    </div>
+
+    <p>The <strong>Manager role</strong> is the highest-privilege level in the Restaurant POS. It includes everything a Waiter or Cashier can do — opening tables, taking orders, processing payments, splitting bills — plus elevated actions such as voiding sent items, applying discounts beyond the standard threshold, editing the floor layout, managing reservations, and pulling reports.</p>
+
+    <h3>Accessing the POS</h3>
+    <p>Open any browser and navigate to:</p>
+    <div class="url-box">http://[server]/desk/rpos</div>
+    <p>Log in with your <strong>manager credentials</strong> (username and password assigned in ERPNext). The interface will reflect your elevated permissions immediately on login.</p>
+
+    <div class="callout callout-purple">
+      <span class="callout-icon">&#128274;</span>
+      <div><strong>Your credentials are personal.</strong> Never share your username or password with waiting staff. All voids, discounts, and layout changes are recorded against your account for audit purposes.</div>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">Manager login screen at /desk/rpos showing the username and password fields, with the restaurant logo and a "Manager Access" indicator.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 2 ──────────────────────────────────────────────────── -->
+  <section class="section page-break-avoid" id="waiter-cashier">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h2>Waiter &amp; Cashier Capabilities</h2>
+    </div>
+
+    <p>As manager you have full access to all standard floor operations. The summary below is for reference; detailed instructions are covered in the Waiter and Cashier user guides.</p>
+
+    <div class="xref">
+      <div class="xref-title">Covered in detail in the Waiter Guide</div>
+      <ul>
+        <li>Viewing the floor plan and table status (available, occupied, reserved)</li>
+        <li>Opening a table, selecting covers, assigning a waiter</li>
+        <li>Browsing the menu by category and adding items to an order</li>
+        <li>Adding modifiers and special instructions to individual items</li>
+        <li>Sending orders to the kitchen (KDS)</li>
+        <li>Adding or removing items before and after sending</li>
+        <li>Transferring a table or merging two tables</li>
+      </ul>
+    </div>
+
+    <div class="xref">
+      <div class="xref-title">Covered in detail in the Cashier Guide</div>
+      <ul>
+        <li>Viewing the bill summary and applicable taxes</li>
+        <li>Processing payment (cash, card, mixed)</li>
+        <li>Splitting the bill by amount, by seat, or by items</li>
+        <li>Printing or emailing receipts</li>
+        <li>Closing a table after payment</li>
+      </ul>
+    </div>
+
+    <div class="callout callout-note">
+      <span class="callout-icon">&#8505;</span>
+      <div>All cashier and waiter actions performed under a manager login are logged against the manager account. If a waiter uses your credentials, traceability is lost. Always log out before handing a terminal to floor staff.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 3 ──────────────────────────────────────────────────── -->
+  <section class="section" id="voids">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2>Voiding a Sent Item</h2>
+    </div>
+
+    <p>Once an order is sent to the kitchen, standard users cannot delete items. A guest may change their mind, an item may be out of stock, or a waiter may have sent the wrong item to the wrong table. In all these cases, a manager must perform a <strong>void</strong>.</p>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">&#9888;</span>
+      <div>A void permanently removes the item from the order and creates an immutable audit record. It does not refund a payment that has already been processed. If payment has been taken, a refund must be handled separately.</div>
+    </div>
+
+    <h3>How to Void an Item</h3>
+    <ol class="step-list">
+      <li>On the floor plan, tap the table with the item to be voided to open the Order Screen.</li>
+      <li>Locate the item in the order list. Sent, Cooking, and Ready items display a <strong>&#9940; (void) button</strong> to the right of the item name.</li>
+      <li>Tap the &#9940; button. The <strong>Manager Void dialog</strong> opens.</li>
+      <li>Enter <strong>your own</strong> manager username and password in the authentication fields. <em>Do not enter the waiter&#8217;s credentials.</em></li>
+      <li>Enter a void <strong>reason</strong> in the text field. This is mandatory — the system will not allow submission without a reason. Choose a clear, specific reason (e.g. <em>"Guest changed order after sending"</em> or <em>"Item 86&#8217;d"</em>).</li>
+      <li>Tap <strong>Void Item</strong>. The item is removed from the order immediately.</li>
+    </ol>
+
+    <h3>What Happens After a Void</h3>
+    <ul>
+      <li>The item disappears from the Order Screen and bill total adjusts automatically.</li>
+      <li>The KDS shows a <strong>VOID</strong> notification on the chip for that item so kitchen staff are aware.</li>
+      <li>An audit log entry is created in ERPNext with your name, the item, reason, and timestamp.</li>
+    </ul>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">Manager Void dialog open over the Order Screen, showing the authentication fields, reason text box, and the Void Item button highlighted in red.</div>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">KDS chip showing the VOID banner overlaid on an orange (Cooking) chip after a successful manager void.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 4 ──────────────────────────────────────────────────── -->
+  <section class="section page-break-avoid" id="discounts">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2>Applying Discounts</h2>
+    </div>
+
+    <p>Discounts can be applied to any open order before payment is finalised. Standard cashier staff can apply discounts up to the configured threshold (typically 10%). Only managers can apply discounts above this threshold or apply a fixed-amount discount.</p>
+
+    <h3>How to Apply a Discount</h3>
+    <ol class="step-list">
+      <li>Open the table&#8217;s Order Screen and verify the order is correct before adding any discount.</li>
+      <li>Tap the <strong>% Discount</strong> button in the payment/bill area of the Order Screen.</li>
+      <li>Select the discount type:
+        <ul>
+          <li><strong>Percentage</strong> — enter a number between 1 and 100 (e.g. <code>15</code> for 15% off).</li>
+          <li><strong>Fixed Amount</strong> — enter the exact currency amount to deduct (e.g. <code>10.00</code>).</li>
+        </ul>
+      </li>
+      <li>For discounts above the waiter threshold, a manager authentication prompt appears. Enter your manager credentials.</li>
+      <li>Optionally enter a reason (recommended for audit trail).</li>
+      <li>Tap <strong>Apply Discount</strong>. The bill total recalculates immediately.</li>
+    </ol>
+
+    <h3>Discount Audit</h3>
+    <p>All applied discounts are automatically logged against the order record. You can review them in:</p>
+    <ul>
+      <li><strong>ERPNext &#8594; Restaurant POS &#8594; POS Order</strong> — open any order and scroll to the Discounts section.</li>
+      <li><strong>Sales Analytics</strong> — filter by discount type to see aggregated discount impact over a date range.</li>
+    </ul>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">&#9888;</span>
+      <div>Discounts cannot be removed once a payment has been processed. Double-check the discount amount before completing the transaction.</div>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">The Discount dialog showing the Percentage and Fixed Amount toggle, an input field with "15" entered, and the Apply Discount confirmation button.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 5 ──────────────────────────────────────────────────── -->
+  <section class="section" id="floor-layout">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2>Editing the Floor Layout</h2>
+    </div>
+
+    <p>The floor plan is a live representation of your dining room. You can reposition tables, add new tables, and adjust their properties directly from the POS interface without going into the ERPNext back office.</p>
+
+    <div class="callout callout-danger">
+      <span class="callout-icon">&#9888;</span>
+      <div><strong>Do not edit the floor during active service.</strong> Layout changes take effect immediately for all logged-in staff. Moving a table that has an open order can confuse floor staff. Schedule layout edits during quiet periods.</div>
+    </div>
+
+    <h3>Entering Edit Mode</h3>
+    <ol class="step-list">
+      <li>From the main floor plan view, tap <strong>&#9998; Edit Floor</strong> in the top-right header. The floor switches to edit mode — tables gain a drag handle and the toolbar updates.</li>
+      <li>All tables are now draggable. Press and hold a table, then drag it to its new position on the grid.</li>
+    </ol>
+
+    <h3>Adding a New Table</h3>
+    <ol class="step-list">
+      <li>In edit mode, tap <strong>+ Add Table</strong>.</li>
+      <li>A properties panel opens. Fill in:
+        <ul>
+          <li><strong>Table Number</strong> — a unique identifier (e.g. <code>T-15</code>).</li>
+          <li><strong>Capacity</strong> — maximum number of covers.</li>
+          <li><strong>Shape</strong> — Square or Round (affects how the table renders on the floor plan).</li>
+        </ul>
+      </li>
+      <li>Tap <strong>Add</strong>. The new table appears in the top-left corner of the grid.</li>
+      <li>Drag it to the correct position in the dining room.</li>
+    </ol>
+
+    <h3>Saving or Discarding Changes</h3>
+    <ul>
+      <li>Tap <strong>&#128190; Save Layout</strong> to commit all changes. Staff on other terminals will see the updated layout within seconds.</li>
+      <li>Tap <strong>Cancel</strong> to discard all changes made in this edit session and return the layout to its previous state.</li>
+    </ul>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">Floor plan in edit mode showing a table mid-drag, the Add Table button in the toolbar, and the Save Layout / Cancel buttons highlighted.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 6 ──────────────────────────────────────────────────── -->
+  <section class="section page-break-avoid" id="floor-management">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2>Managing Floors (Back Office)</h2>
+    </div>
+
+    <p>For deeper floor configuration — creating a brand-new floor, changing the grid dimensions, or setting a background colour or image — use the ERPNext back office rather than the live POS interface.</p>
+
+    <h3>Navigating to POS Floor</h3>
+    <ol class="step-list">
+      <li>Log in to ERPNext at <code>http://[server]/desk</code> using your manager credentials.</li>
+      <li>Go to <strong>ERPNext &#8594; Restaurant POS &#8594; POS Floor</strong>.</li>
+      <li>You will see a list of all configured floors (e.g. Ground Floor, Terrace, Private Dining).</li>
+    </ol>
+
+    <h3>Creating a New Floor</h3>
+    <ol class="step-list">
+      <li>Click <strong>+ New</strong> in the POS Floor list view.</li>
+      <li>Fill in the <strong>Floor Name</strong> (e.g. <em>Rooftop Terrace</em>).</li>
+      <li>Set the <strong>Background Colour</strong> or upload a floor plan image.</li>
+      <li>Set <strong>Grid Size</strong> to determine how many grid squares the floor plan uses.</li>
+      <li>Click <strong>Save</strong>.</li>
+    </ol>
+
+    <h3>Assigning Tables to Floors</h3>
+    <p>Individual tables are managed in the <strong>POS Table</strong> doctype (<code>Restaurant POS &#8594; POS Table</code>). Each table record has a <em>Floor</em> field. Set it to the correct floor name and save.</p>
+
+    <div class="callout callout-note">
+      <span class="callout-icon">&#8505;</span>
+      <div>After creating a new floor and assigning tables, refresh the POS on all terminals so the new floor appears in the floor switcher at the top of the POS screen.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 7 ──────────────────────────────────────────────────── -->
+  <section class="section" id="reservations">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h2>Reservation Management</h2>
+    </div>
+
+    <p>The Reservations module gives you full control over bookings — creating, modifying, cancelling, and seating guests. Access it directly from the POS header.</p>
+
+    <h3>Viewing All Reservations</h3>
+    <p>From the main POS screen, tap <strong>&#128197; Reservations</strong> in the header. A list view opens showing all upcoming reservations sorted by date and time, with status indicators (Confirmed, Seated, Cancelled, No-Show).</p>
+
+    <h3>Creating a New Reservation</h3>
+    <ol class="step-list">
+      <li>In the Reservations view, tap <strong>+ New Reservation</strong>.</li>
+      <li>Fill in the booking details:
+        <ul>
+          <li><strong>Guest Name</strong> — full name of the primary contact.</li>
+          <li><strong>Phone Number</strong> — for confirmation and reminder messages.</li>
+          <li><strong>Covers</strong> — number of guests expected.</li>
+          <li><strong>Table</strong> — select from available tables for that time slot.</li>
+          <li><strong>Date &amp; Time</strong> — reservation date and arrival time.</li>
+          <li><strong>Source</strong> — how the booking was made (Walk-in, Phone, Online, Third-party).</li>
+        </ul>
+      </li>
+      <li>Tap <strong>Save Reservation</strong>. The table is immediately marked as Reserved on the floor plan (shown in blue).</li>
+    </ol>
+
+    <h3>Cancelling a Reservation</h3>
+    <ol class="step-list">
+      <li>Find the reservation in the list view or by tapping the reserved table on the floor plan.</li>
+      <li>Tap <strong>Cancel Reservation</strong>.</li>
+      <li>A confirmation prompt appears — tap <strong>Confirm Cancel</strong>. The table status reverts to Available.</li>
+    </ol>
+
+    <h3>Seating a Reserved Guest</h3>
+    <ol class="step-list">
+      <li>When the guest arrives, tap the reserved table (blue) on the floor plan.</li>
+      <li>Tap <strong>Seat Guest</strong>. The table switches from Reserved to Occupied and an order session opens.</li>
+    </ol>
+
+    <h3>Auto-Release Rules</h3>
+    <ul>
+      <li>The system alerts you after <strong>60 minutes</strong> of no-show (no guest seated for a confirmed reservation).</li>
+      <li>After <strong>90 minutes</strong> of no-show the reservation is automatically cancelled and the table released.</li>
+      <li>Both events are logged in the reservation record for reporting purposes.</li>
+    </ul>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">Reservations list view showing a mix of Confirmed, Seated, and Cancelled bookings, with the + New Reservation button visible in the top-right.</div>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">New Reservation form with all fields filled in and the table selector dropdown open showing available tables.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 8 ──────────────────────────────────────────────────── -->
+  <section class="section page-break-avoid" id="reports">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <h2>Reports &amp; Analytics</h2>
+    </div>
+
+    <p>All financial and operational reporting is handled through the standard ERPNext reporting suite. Access these reports via the ERPNext desk (<code>http://[server]/desk</code>) using your manager credentials.</p>
+
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>Report</th>
+          <th>Location in ERPNext</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sales Analytics</td>
+          <td>Accounts &#8594; Sales Analytics</td>
+          <td>Daily, weekly, and monthly revenue by item, category, table, or waiter</td>
+        </tr>
+        <tr>
+          <td>Stock Ledger</td>
+          <td>Stock &#8594; Stock Ledger</td>
+          <td>Item-level stock movement; identify consumption patterns and shrinkage</td>
+        </tr>
+        <tr>
+          <td>Profit &amp; Loss Statement</td>
+          <td>Accounts &#8594; Profit and Loss Statement</td>
+          <td>Full P&amp;L for any period; compare against budget</td>
+        </tr>
+        <tr>
+          <td>Customer Acquisition</td>
+          <td>CRM &#8594; Customer Acquisition</td>
+          <td>Reservation source breakdown; track online vs. walk-in vs. phone bookings</td>
+        </tr>
+        <tr>
+          <td>Void Log</td>
+          <td>Restaurant POS &#8594; Void Log</td>
+          <td>All void events with reason, manager, time, and item detail</td>
+        </tr>
+        <tr>
+          <td>Discount Report</td>
+          <td>Restaurant POS &#8594; Discount Report</td>
+          <td>All discounts applied, by amount and percentage, grouped by date or staff</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-purple">
+      <span class="callout-icon">&#128204;</span>
+      <div><strong>Tip:</strong> Filter all reports by Company <strong>"Admin (Demo)"</strong> for clean demo results that exclude test transactions. Switch to your live company name for production reporting.</div>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">Sales Analytics report filtered to the current month, grouped by menu category, showing a bar chart summary and a detailed table below.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 9 ──────────────────────────────────────────────────── -->
+  <section class="section page-break-avoid" id="users">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <h2>User &amp; Access Management</h2>
+    </div>
+
+    <p>Staff access is controlled through ERPNext&#8217;s standard user management system. Navigate to <strong>ERPNext &#8594; Settings &#8594; User</strong> to manage all system users.</p>
+
+    <h3>Available Roles</h3>
+    <div class="role-grid">
+      <div class="role-card">
+        <div class="rc-title">POS Manager</div>
+        <ul>
+          <li>All POS actions</li>
+          <li>Void items</li>
+          <li>High-value discounts</li>
+          <li>Floor editing</li>
+          <li>Reports access</li>
+          <li>User management</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <div class="rc-title">POS Cashier</div>
+        <ul>
+          <li>All waiter actions</li>
+          <li>Process payments</li>
+          <li>Split bills</li>
+          <li>Standard discounts (threshold)</li>
+          <li>Print receipts</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <div class="rc-title">Kitchen Staff</div>
+        <ul>
+          <li>KDS view only</li>
+          <li>Advance chip status</li>
+          <li>No order creation</li>
+          <li>No payment access</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Adding a New Staff Member</h3>
+    <ol class="step-list">
+      <li>Go to <strong>Settings &#8594; User &#8594; + New</strong>. Fill in the staff member&#8217;s full name, email address, and a temporary password.</li>
+      <li>In the <strong>Roles</strong> table, add the appropriate role (POS Manager, POS Cashier, or Kitchen Staff). Save.</li>
+      <li>Go to <strong>Human Resources &#8594; Employee &#8594; + New</strong>. Fill in the employee record and link it to the User created above using the <em>User ID</em> field. Save.</li>
+      <li>The staff member can now log in. Ask them to change their password on first login.</li>
+    </ol>
+
+    <h3>Deactivating a User</h3>
+    <p>Open the User record and tick <strong>Disabled</strong>, then save. The user will be logged out immediately and unable to log back in. Their historical records are preserved.</p>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">&#9888;</span>
+      <div>Never delete a User record for a departed staff member. Deleting a user can orphan historical records and break audit trails. Always <strong>disable</strong> rather than delete.</div>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">ERPNext User form with the Roles table open, showing "POS Cashier" being added from the role selector dropdown.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 10 ─────────────────────────────────────────────────── -->
+  <section class="section" id="scenarios">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <h2>Common Manager Scenarios</h2>
+    </div>
+
+    <p>The situations below are the most frequently escalated issues during service. Review them to be prepared.</p>
+
+    <div class="qa-box">
+      <div class="qa-q">A waiter accidentally sent the wrong items for two different tables</div>
+      <div class="qa-a">
+        <strong>Step 1 &#8212; Notify the kitchen immediately</strong> so they can hold preparation on any items not yet started.<br><br>
+        <strong>Step 2 &#8212; Void the incorrect items</strong> on both tables using the Manager Void dialog (Section 3). Use reason <em>"Sent to wrong table"</em>.<br><br>
+        <strong>Step 3 &#8212; Re-send the correct items</strong> from each table&#8217;s Order Screen. The kitchen will receive fresh tickets with updated table numbers.<br><br>
+        <strong>Step 4 &#8212; Check with the kitchen</strong> whether any voided items are already being cooked. If so, those items may still be served with a waiter&#8217;s manual instruction, or discarded — your call based on food safety and waste policy.
+      </div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">End-of-day cash reconciliation</div>
+      <div class="qa-a">
+        <ol style="margin:0; padding-left:18px;">
+          <li>From the POS, tap <strong>Close Shift</strong> (or <strong>End of Day</strong>) in the top-right menu.</li>
+          <li>Count the physical cash in the till. Enter the counted amount in the <em>Closing Amount</em> field.</li>
+          <li>The system compares counted amount against expected (opening float + cash sales). Any discrepancy is flagged.</li>
+          <li>Save and print the End-of-Day summary. File it with your daily paperwork.</li>
+          <li>Deposit surplus cash in the safe and set the opening float for the next shift.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">Adding a new seasonal item to the menu</div>
+      <div class="qa-a">
+        <ol style="margin:0; padding-left:18px;">
+          <li>Go to <strong>ERPNext &#8594; Restaurant POS &#8594; POS Menu Item &#8594; + New</strong>.</li>
+          <li>Enter the item name, description, price, and food category.</li>
+          <li>Assign the <strong>KDS Station</strong> (e.g. Grill, Desserts) so it routes to the correct kitchen column.</li>
+          <li>Upload an image (optional but recommended for visual menus).</li>
+          <li>Set <strong>Available</strong> to Yes and save.</li>
+          <li>The item appears on the POS menu immediately. Refresh POS terminals if it does not appear within 60 seconds.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="qa-box">
+      <div class="qa-q">Closing a floor for a private event</div>
+      <div class="qa-a">
+        <ol style="margin:0; padding-left:18px;">
+          <li>Ensure all open orders on the floor are closed and paid before making changes.</li>
+          <li>Go to <strong>ERPNext &#8594; Restaurant POS &#8594; POS Floor</strong> and open the relevant floor record.</li>
+          <li>Set the <strong>Status</strong> field to <em>Closed</em> and add a note in the <em>Closure Reason</em> field (e.g. <em>"Private event 18:00–23:00"</em>).</li>
+          <li>Save. The floor will no longer appear in the POS floor selector for standard staff.</li>
+          <li>To reopen, return to the same record and set Status back to <em>Active</em>.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="screenshot">
+      <div class="ss-icon">&#128247;</div>
+      <div class="ss-label">Screenshot placeholder</div>
+      <div class="ss-caption">End-of-Day summary screen showing opening float, cash sales total, expected closing balance, counted balance, and a variance indicator.</div>
+    </div>
+  </section>
+
+  <!-- ── QUICK REFERENCE CARD ───────────────────────────────────────── -->
+  <div class="qr-card page-break-avoid" id="qr">
+    <h2>&#9889; Quick Reference Card</h2>
+    <div class="qr-grid">
+
+      <div class="qr-item">
+        <h4>Manager POS URL</h4>
+        <p>http://[server]/desk/rpos</p>
+      </div>
+
+      <div class="qr-item">
+        <h4>ERPNext Back Office</h4>
+        <p>http://[server]/desk</p>
+      </div>
+
+      <div class="qr-item">
+        <h4>Voiding a sent item</h4>
+        <ul>
+          <li>Order Screen &#8594; &#9940; button</li>
+          <li>Enter your credentials</li>
+          <li>Enter reason &#8594; Void Item</li>
+        </ul>
+      </div>
+
+      <div class="qr-item">
+        <h4>Applying a discount</h4>
+        <ul>
+          <li>Order Screen &#8594; % Discount</li>
+          <li>Choose Percentage or Fixed</li>
+          <li>Manager auth for above-threshold</li>
+        </ul>
+      </div>
+
+      <div class="qr-item">
+        <h4>Edit floor layout</h4>
+        <ul>
+          <li>POS &#8594; &#9998; Edit Floor (top-right)</li>
+          <li>Drag tables to reposition</li>
+          <li>&#128190; Save Layout to commit</li>
+        </ul>
+      </div>
+
+      <div class="qr-item">
+        <h4>Reservation no-show rules</h4>
+        <ul>
+          <li>Alert at 60 min</li>
+          <li>Auto-cancel at 90 min</li>
+        </ul>
+      </div>
+
+      <div class="qr-item">
+        <h4>Key roles</h4>
+        <ul>
+          <li>POS Manager</li>
+          <li>POS Cashier</li>
+          <li>Kitchen Staff</li>
+        </ul>
+      </div>
+
+      <div class="qr-item">
+        <h4>Report tip</h4>
+        <p>Filter by Company "Admin (Demo)" for clean demo data</p>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /.wrapper -->
+</body>
+</html>

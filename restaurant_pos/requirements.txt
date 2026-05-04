@@ -1,0 +1,1 @@
+# frappe is managed by bench — no version pin needed here

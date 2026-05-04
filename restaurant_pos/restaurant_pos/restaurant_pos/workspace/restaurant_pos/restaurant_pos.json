@@ -1,0 +1,250 @@
+{
+ "app": "restaurant_pos",
+ "charts": [],
+ "content": "[{\"id\":\"rpos_hdr0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>POS</b></span>\",\"col\":12}},{\"id\":\"rpos_crd0\",\"type\":\"card\",\"data\":{\"card_name\":\"Restaurant POS App\",\"col\":4}},{\"id\":\"rpos_hdr1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Operations</b></span>\",\"col\":12}},{\"id\":\"rpos_crd1\",\"type\":\"card\",\"data\":{\"card_name\":\"Orders\",\"col\":4}},{\"id\":\"rpos_crd2\",\"type\":\"card\",\"data\":{\"card_name\":\"Floor Plan\",\"col\":4}},{\"id\":\"rpos_crd3\",\"type\":\"card\",\"data\":{\"card_name\":\"Kitchen\",\"col\":4}},{\"id\":\"rpos_hdr2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Configuration</b></span>\",\"col\":12}},{\"id\":\"rpos_crd4\",\"type\":\"card\",\"data\":{\"card_name\":\"Setup\",\"col\":4}}]",
+ "creation": "2024-01-01 00:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "restaurant",
+ "idx": 0,
+ "indicator_color": "orange",
+ "is_hidden": 0,
+ "label": "Restaurant POS",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Restaurant POS App",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Open Restaurant POS",
+   "link_count": 0,
+   "link_to": "rpos",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Orders",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Order",
+   "link_count": 0,
+   "link_to": "POS Order",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Reservation",
+   "link_count": 0,
+   "link_to": "POS Reservation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Floor Plan",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Table",
+   "link_count": 0,
+   "link_to": "POS Table",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Floor",
+   "link_count": 0,
+   "link_to": "POS Floor",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Kitchen",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Kitchen Display System",
+   "link_count": 0,
+   "link_to": "kds",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Kitchen Station",
+   "link_count": 0,
+   "link_to": "POS Kitchen Station",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Setup",
+   "link_count": 0,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Kitchen Station",
+   "link_count": 0,
+   "link_to": "POS Kitchen Station",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Item Routing",
+   "link_count": 0,
+   "link_to": "POS Item Routing",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Table",
+   "link_count": 0,
+   "link_to": "POS Table",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Modifier Group",
+   "link_count": 0,
+   "link_to": "POS Modifier Group",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "POS Item Modifier Map",
+   "link_count": 0,
+   "link_to": "POS Item Modifier Map",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Restaurant POS",
+ "name": "Restaurant POS",
+ "owner": "Administrator",
+ "public": 1,
+ "restrict_to_domain": "",
+ "roles": [],
+ "sequence_id": 99.0,
+ "shortcuts": [
+  {
+   "color": "Red",
+   "doc_view": "",
+   "format": "",
+   "label": "Restaurant POS",
+   "link_to": "rpos",
+   "type": "Page"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "",
+   "format": "List",
+   "label": "POS Orders",
+   "link_to": "POS Order",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "",
+   "format": "List",
+   "label": "Tables",
+   "link_to": "POS Table",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "",
+   "format": "List",
+   "label": "Reservations",
+   "link_to": "POS Reservation",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "",
+   "format": "",
+   "label": "Kitchen Display",
+   "link_to": "kds",
+   "type": "Page"
+  },
+  {
+   "color": "Red",
+   "doc_view": "",
+   "format": "List",
+   "label": "Kitchen Stations",
+   "link_to": "POS Kitchen Station",
+   "type": "DocType"
+  }
+ ],
+ "title": "Restaurant POS"
+}

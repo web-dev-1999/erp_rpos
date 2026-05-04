@@ -1,0 +1,31 @@
+{
+ "autoname": "field:floor_name",
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["floor_name","sequence","is_active","background_color","col_break1","grid_cols","grid_rows"],
+ "fields": [
+  {"fieldname": "floor_name", "fieldtype": "Data", "label": "Floor Name", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "sequence", "fieldtype": "Int", "label": "Display Order", "default": "1", "in_list_view": 1},
+  {"fieldname": "is_active", "fieldtype": "Check", "label": "Active", "default": "1", "in_list_view": 1},
+  {"fieldname": "background_color", "fieldtype": "Color", "label": "Canvas Color", "default": "#f0f2f5"},
+  {"fieldname": "col_break1", "fieldtype": "Column Break"},
+  {"fieldname": "grid_cols", "fieldtype": "Int", "label": "Grid Columns", "default": "20"},
+  {"fieldname": "grid_rows", "fieldtype": "Int", "label": "Grid Rows", "default": "15"}
+ ],
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Restaurant POS",
+ "name": "POS Floor",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {"create": 1, "delete": 1, "email": 1, "export": 1, "print": 1, "read": 1, "report": 1, "role": "POS Manager", "share": 1, "write": 1},
+  {"read": 1, "role": "POS Cashier"},
+  {"read": 1, "role": "Kitchen Staff"}
+ ],
+ "sort_field": "sequence",
+ "sort_order": "ASC",
+ "track_changes": 0
+}

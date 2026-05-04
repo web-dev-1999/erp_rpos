@@ -1,0 +1,5 @@
+include requirements.txt
+recursive-include restaurant_pos/public *
+recursive-include restaurant_pos/templates *
+recursive-include restaurant_pos/restaurant_pos/doctype *.json
+recursive-include restaurant_pos/restaurant_pos/page *.json *.js *.html

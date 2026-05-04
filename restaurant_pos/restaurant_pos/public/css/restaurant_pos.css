@@ -1,0 +1,240 @@
+/* ── Restaurant POS — Global Styles ────────────────────────────────────────── */
+
+/* ── Floor plan ──────────────────────────────────────────────────────────── */
+.rpos-floor-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 12px;
+}
+
+.rpos-floor-section { }
+
+.rpos-section-label {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-size: 11px;
+}
+
+.rpos-tables-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.rpos-table-tile {
+    width: 110px;
+    min-height: 90px;
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    user-select: none;
+}
+
+.rpos-table-tile:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+
+.rpos-table-num  { font-size: 20px; font-weight: 700; }
+.rpos-table-cap  { font-size: 11px; color: var(--text-muted); }
+.rpos-table-status { font-size: 10px; margin-top: 4px; }
+.rpos-table-order  { font-size: 10px; color: var(--text-muted); }
+
+.rpos-table-available { background: #eafaf1; border-color: #27ae60; }
+.rpos-table-occupied  { background: #fdebd0; border-color: #e67e22; }
+.rpos-table-reserved  { background: #eaf2ff; border-color: #2980b9; }
+.rpos-table-cleaning  { background: #f4f6f7; border-color: #95a5a6; }
+
+/* ── KDS ─────────────────────────────────────────────────────────────────── */
+.kds-grid {
+    display: flex;
+    gap: 16px;
+    padding: 12px;
+    min-height: calc(100vh - 120px);
+    overflow-x: auto;
+}
+
+.kds-station {
+    flex: 1;
+    min-width: 260px;
+    max-width: 360px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.kds-station-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.kds-station-name { font-weight: 700; font-size: 14px; flex: 1; }
+.kds-station-type { font-size: 11px; color: var(--text-muted); }
+
+.kds-tickets { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+
+.kds-ticket {
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+.kds-ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+
+.kds-elapsed { font-size: 11px; color: var(--text-muted); }
+.kds-elapsed.kds-overdue { color: var(--red); font-weight: 700; }
+
+.kds-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.kds-item-qty  { font-weight: 700; min-width: 24px; }
+.kds-item-name { flex: 1; }
+.kds-seat      { font-size: 10px; color: var(--text-muted); }
+.kds-modifiers { margin: 2px 0 0 24px; padding: 0; font-size: 10px; list-style: none; color: var(--text-muted); }
+.kds-item-notes { font-size: 10px; font-style: italic; color: var(--text-muted); margin-left: 24px; }
+
+.status-sent    { background: #fff3cd; border-left: 3px solid #f0ad4e; }
+.status-cooking { background: #fde8d8; border-left: 3px solid #e67e22; animation: rpos-pulse 2s ease-in-out infinite; }
+.status-ready   { background: #d4edda; border-left: 3px solid #27ae60; }
+.status-served  { background: #f8f9fa; border-left: 3px solid #adb5bd; opacity: 0.6; }
+
+.kds-advance-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.5;
+    transition: opacity 0.1s;
+}
+.kds-advance-btn:hover { opacity: 1; }
+
+.kds-ticket-complete { opacity: 0.5; border: 1px solid var(--green); }
+.kds-empty { padding: 40px; text-align: center; color: var(--text-muted); }
+
+@keyframes rpos-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.75; }
+}
+
+/* ── Split Bill dialog ───────────────────────────────────────────────────── */
+.rpos-split-root {
+    padding: 4px;
+}
+
+.rpos-split-panels {
+    display: flex;
+    gap: 16px;
+    min-height: 400px;
+}
+
+.rpos-panel {
+    flex: 1;
+    min-width: 0;
+}
+
+.rpos-unassigned-panel {
+    max-width: 220px;
+    flex-shrink: 0;
+}
+
+.rpos-drop-zone {
+    border: 2px dashed var(--border-color);
+    border-radius: 6px;
+    padding: 8px;
+    min-height: 300px;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.rpos-drop-zone.rpos-drag-over {
+    border-color: var(--primary);
+    background: rgba(82, 90, 255, 0.04);
+}
+
+.rpos-buckets-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    min-height: 320px;
+}
+
+.rpos-bucket {
+    min-width: 180px;
+    flex: 1;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px;
+}
+
+.rpos-bucket-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.rpos-bucket-total {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--primary);
+    white-space: nowrap;
+}
+
+.rpos-item-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--fg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 6px 8px;
+    margin-bottom: 6px;
+    cursor: grab;
+    font-size: 12px;
+}
+
+.rpos-item-chip:active { cursor: grabbing; opacity: 0.7; }
+.rpos-chip-name { flex: 1; font-weight: 500; }
+.rpos-chip-qty  { width: 60px !important; height: 26px !important; font-size: 12px !important; }
+.rpos-chip-rate { white-space: nowrap; color: var(--text-muted); }
+.rpos-pool-empty { padding: 20px; text-align: center; }
+
+/* ── Payment queue ───────────────────────────────────────────────────────── */
+.rpos-pay-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* ── Toolbar buttons ─────────────────────────────────────────────────────── */
+.rpos-tables-btn, .rpos-split-btn {
+    margin-right: 6px;
+}

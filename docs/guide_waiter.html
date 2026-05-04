@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ILI Digital Restaurant POS – Waiter/Server User Guide</title>
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #2C3E50;
+      --orange: #E67E22;
+      --orange-light: #F39C12;
+      --bg-section: #F8F9FA;
+      --border: #DEE2E6;
+      --text:   #2D3436;
+      --muted:  #636E72;
+      --white:  #FFFFFF;
+      --green:  #27AE60;
+      --amber:  #F39C12;
+      --blue:   #2980B9;
+      --purple: #8E44AD;
+      --red:    #E74C3C;
+    }
+
+    html { font-size: 11pt; }
+
+    body {
+      font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: #EAECEE;
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       PAGE WRAPPER (A4 simulation on screen)
+    ============================================================ */
+    .page-wrapper {
+      max-width: 210mm;
+      margin: 0 auto;
+      background: var(--white);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+
+    /* ============================================================
+       COVER PAGE
+    ============================================================ */
+    .cover {
+      background: var(--navy);
+      color: var(--white);
+      padding: 60px 50px 50px;
+      min-height: 280px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: rgba(230,126,34,0.18);
+    }
+    .cover-badge {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--white);
+      font-size: 9pt;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 3px;
+      margin-bottom: 22px;
+    }
+    .cover h1 {
+      font-size: 26pt;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .cover h1 span { color: var(--orange); }
+    .cover-subtitle {
+      font-size: 13pt;
+      opacity: 0.82;
+      margin-bottom: 30px;
+    }
+    .cover-meta {
+      font-size: 9pt;
+      opacity: 0.6;
+      letter-spacing: 1px;
+    }
+
+    /* ============================================================
+       CONTENT WRAPPER
+    ============================================================ */
+    .content {
+      padding: 40px 50px 60px;
+    }
+
+    /* ============================================================
+       TABLE OF CONTENTS
+    ============================================================ */
+    .toc {
+      background: var(--bg-section);
+      border: 1.5px solid var(--border);
+      border-left: 5px solid var(--orange);
+      border-radius: 6px;
+      padding: 28px 32px;
+      margin-bottom: 44px;
+    }
+    .toc h2 {
+      font-size: 13pt;
+      color: var(--navy);
+      margin-bottom: 18px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .toc ol {
+      list-style: none;
+      padding: 0;
+      columns: 2;
+      column-gap: 40px;
+    }
+    .toc li {
+      margin-bottom: 7px;
+      break-inside: avoid;
+    }
+    .toc a {
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 10pt;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .toc a:hover { color: var(--orange); text-decoration: underline; }
+    .toc-num {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 8pt;
+      min-width: 20px;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .toc-extra {
+      font-size: 9.5pt;
+      color: var(--muted);
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ============================================================
+       SECTIONS
+    ============================================================ */
+    section {
+      margin-bottom: 44px;
+    }
+    section:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--navy);
+    }
+    .section-num {
+      background: var(--navy);
+      color: var(--white);
+      font-size: 11pt;
+      font-weight: 700;
+      min-width: 36px;
+      height: 36px;
+      line-height: 36px;
+      text-align: center;
+      border-radius: 5px;
+      flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-size: 15pt;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 20px 0 8px;
+    }
+
+    p {
+      margin-bottom: 12px;
+      font-size: 10.5pt;
+    }
+
+    ul, ol {
+      margin: 0 0 14px 22px;
+      font-size: 10.5pt;
+    }
+    li { margin-bottom: 5px; }
+
+    code {
+      background: #EEF0F2;
+      border: 1px solid #CDD3DA;
+      border-radius: 3px;
+      padding: 1px 6px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 9.5pt;
+      color: var(--navy);
+    }
+
+    strong { font-weight: 700; }
+    em { font-style: italic; }
+
+    /* ============================================================
+       SCREENSHOT PLACEHOLDER
+    ============================================================ */
+    .screenshot-placeholder {
+      border: 2.5px dashed #F39C12;
+      background: #FFFDF0;
+      border-radius: 8px;
+      padding: 30px 20px;
+      text-align: center;
+      margin: 20px 0 24px;
+    }
+    .screenshot-placeholder .ph-icon {
+      font-size: 28pt;
+      display: block;
+      margin-bottom: 8px;
+      opacity: 0.5;
+    }
+    .screenshot-placeholder .ph-caption {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #B7770D;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .screenshot-placeholder .ph-hint {
+      font-size: 8.5pt;
+      color: #C49A2C;
+      margin-top: 4px;
+    }
+
+    /* ============================================================
+       CALLOUT / NOTE / TIP / WARNING BOXES
+    ============================================================ */
+    .callout {
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin: 14px 0 20px;
+      font-size: 10pt;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .callout-icon { font-size: 16pt; flex-shrink: 0; line-height: 1.3; }
+    .callout-body { flex: 1; }
+    .callout-body strong { display: block; margin-bottom: 3px; }
+
+    .callout.tip    { background: #EAF7EE; border-left: 4px solid var(--green); }
+    .callout.note   { background: #EBF5FB; border-left: 4px solid var(--blue); }
+    .callout.warn   { background: #FEF9E7; border-left: 4px solid var(--amber); }
+    .callout.danger { background: #FDEDEC; border-left: 4px solid var(--red); }
+
+    /* ============================================================
+       STATUS LEGEND / BADGE
+    ============================================================ */
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 16px 0 20px;
+    }
+    .status-card {
+      border-radius: 8px;
+      padding: 14px 12px;
+      text-align: center;
+    }
+    .status-card .sc-dot {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16pt;
+      color: #fff;
+    }
+    .status-card .sc-label {
+      font-size: 9pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .status-card .sc-desc {
+      font-size: 8.5pt;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .sc-green  { background: #EAF7EE; }
+    .sc-amber  { background: #FEF9E7; }
+    .sc-blue   { background: #EBF5FB; }
+    .sc-purple { background: #F5EEF8; }
+
+    /* ============================================================
+       ORDER STATUS PIPELINE
+    ============================================================ */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin: 18px 0 22px;
+      flex-wrap: wrap;
+    }
+    .pip-step {
+      background: var(--bg-section);
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 14px;
+      text-align: center;
+      flex: 1;
+      min-width: 80px;
+    }
+    .pip-step .pip-icon { font-size: 14pt; display: block; }
+    .pip-step .pip-label {
+      font-size: 8pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: var(--navy);
+      margin-top: 4px;
+    }
+    .pip-arrow {
+      color: var(--orange);
+      font-size: 14pt;
+      padding: 0 4px;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       STEP-BY-STEP NUMBERED LIST
+    ============================================================ */
+    .steps {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px;
+      counter-reset: steps;
+    }
+    .steps li {
+      counter-increment: steps;
+      display: flex;
+      gap: 14px;
+      margin-bottom: 10px;
+      align-items: flex-start;
+    }
+    .steps li::before {
+      content: counter(steps);
+      background: var(--orange);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 9pt;
+      min-width: 24px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ============================================================
+       Q&A / SCENARIO BOX
+    ============================================================ */
+    .scenario {
+      background: var(--bg-section);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+    .scenario-q {
+      background: var(--navy);
+      color: var(--white);
+      padding: 11px 18px;
+      font-size: 10pt;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .scenario-q .sq-icon { font-size: 14pt; flex-shrink: 0; }
+    .scenario-a {
+      padding: 14px 18px;
+      font-size: 10pt;
+    }
+    .scenario-a ol, .scenario-a ul {
+      margin: 6px 0 4px 20px;
+    }
+
+    /* ============================================================
+       QUICK REFERENCE TABLE
+    ============================================================ */
+    .qr-section {
+      background: var(--bg-section);
+      border: 2px solid var(--navy);
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-top: 44px;
+    }
+    .qr-section h2 {
+      font-size: 14pt;
+      color: var(--navy);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .qr-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.5pt;
+    }
+    .qr-table thead tr {
+      background: var(--navy);
+      color: var(--white);
+    }
+    .qr-table th {
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .qr-table tbody tr:nth-child(even) { background: #EEF0F2; }
+    .qr-table tbody tr:nth-child(odd)  { background: var(--white); }
+    .qr-table td {
+      padding: 9px 14px;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+    }
+    .qr-table td:first-child { font-weight: 600; color: var(--navy); }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .doc-footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.6);
+      padding: 18px 50px;
+      font-size: 8.5pt;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .doc-footer strong { color: var(--white); }
+
+    /* ============================================================
+       PRINT / PDF STYLES
+    ============================================================ */
+    @media print {
+      @page {
+        size: A4;
+        margin: 18mm 15mm 18mm 15mm;
+      }
+
+      body { background: white; font-size: 10pt; }
+      .page-wrapper { max-width: 100%; box-shadow: none; }
+
+      /* Force cover onto its own page */
+      .cover { page-break-after: always; break-after: page; min-height: auto; padding: 40px 30px 30px; }
+      .cover::after { display: none; }
+
+      /* TOC on its own page */
+      .toc { page-break-after: always; break-after: page; }
+
+      /* Avoid breaking inside sections / callouts / scenarios */
+      section           { page-break-inside: avoid; break-inside: avoid; }
+      .scenario         { page-break-inside: avoid; break-inside: avoid; }
+      .callout          { page-break-inside: avoid; break-inside: avoid; }
+      .screenshot-placeholder { page-break-inside: avoid; break-inside: avoid; }
+      .status-grid      { page-break-inside: avoid; break-inside: avoid; }
+      .pipeline         { page-break-inside: avoid; break-inside: avoid; }
+      .qr-section       { page-break-inside: avoid; break-inside: avoid; }
+
+      /* Section headers should not be separated from their body */
+      .section-header { page-break-after: avoid; break-after: avoid; }
+      h3 { page-break-after: avoid; break-after: avoid; }
+
+      /* Keep quick-reference table together where possible */
+      .qr-table tr { page-break-inside: avoid; break-inside: avoid; }
+
+      /* Remove link colours for print */
+      a { color: inherit; text-decoration: none; }
+
+      .doc-footer { position: running(footer); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- ============================================================
+       COVER
+  ============================================================ -->
+  <div class="cover">
+    <div class="cover-badge">User Guide &mdash; Waiter / Server Role</div>
+    <h1>ILI Digital<br /><span>Restaurant POS</span></h1>
+    <p class="cover-subtitle">Complete Operating Guide for Front-of-House Staff</p>
+    <p class="cover-meta">Version 1.0 &nbsp;&bull;&nbsp; Built on ERPNext 17 &nbsp;&bull;&nbsp; ILI Digital &nbsp;&bull;&nbsp; 2026</p>
+  </div>
+
+  <!-- ============================================================
+       CONTENT
+  ============================================================ -->
+  <div class="content">
+
+    <!-- ============================================================
+         TABLE OF CONTENTS
+    ============================================================ -->
+    <nav class="toc" id="top">
+      <h2>Table of Contents</h2>
+      <ol>
+        <li>
+          <a href="#s1"><span class="toc-num">1</span> Introduction &amp; Login</a>
+        </li>
+        <li>
+          <a href="#s2"><span class="toc-num">2</span> Understanding the Floor Plan</a>
+        </li>
+        <li>
+          <a href="#s3"><span class="toc-num">3</span> Opening a Table</a>
+        </li>
+        <li>
+          <a href="#s4"><span class="toc-num">4</span> Adding Items to an Order</a>
+        </li>
+        <li>
+          <a href="#s5"><span class="toc-num">5</span> Editing Before Sending</a>
+        </li>
+        <li>
+          <a href="#s6"><span class="toc-num">6</span> Sending to Kitchen</a>
+        </li>
+        <li>
+          <a href="#s7"><span class="toc-num">7</span> Tracking Order Status</a>
+        </li>
+        <li>
+          <a href="#s8"><span class="toc-num">8</span> Adding More Items (Mid-Order)</a>
+        </li>
+        <li>
+          <a href="#s9"><span class="toc-num">9</span> Right-Click / Long-Press Menu</a>
+        </li>
+        <li>
+          <a href="#s10"><span class="toc-num">10</span> Payment</a>
+        </li>
+        <li>
+          <a href="#s11"><span class="toc-num">11</span> Bill Splitting</a>
+        </li>
+        <li>
+          <a href="#s12"><span class="toc-num">12</span> Common Scenarios</a>
+        </li>
+        <li>
+          <a href="#qr"><span class="toc-num">&#9733;</span> Quick Reference Card</a>
+        </li>
+      </ol>
+      <p class="toc-extra">This guide covers everyday waiter/server tasks in the ILI Digital Restaurant POS. Manager-level functions (menu management, void approvals, reporting) are covered in a separate guide.</p>
+    </nav>
+
+
+    <!-- ============================================================
+         SECTION 1 – INTRODUCTION & LOGIN
+    ============================================================ -->
+    <section id="s1">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <h2>Introduction &amp; Login</h2>
+      </div>
+
+      <p>
+        The <strong>ILI Digital Restaurant POS</strong> is a browser-based point-of-sale system built on ERPNext 17. It is designed to be used on tablets, touchscreens, and desktop workstations and requires no software installation — everything runs directly in the web browser. As a waiter or server, this system is your primary tool for managing tables, placing orders, communicating with the kitchen, and processing payments.
+      </p>
+
+      <h3>Accessing the System</h3>
+      <p>
+        Open any modern web browser (Chrome or Edge are recommended) and navigate to:
+      </p>
+      <p><code>http://[server]/desk/rpos</code></p>
+      <p>
+        Replace <code>[server]</code> with the IP address or hostname of your restaurant's server — your manager will provide this. On a dedicated POS terminal or tablet, a shortcut or bookmarked link should already be configured. If the address does not load, check that the device is connected to the restaurant's Wi-Fi or network.
+      </p>
+
+      <h3>Logging In</h3>
+      <p>
+        The system uses your ERPNext credentials — the same username and password you were assigned when your account was created. Enter your username (usually your staff email address or a short username) and your password, then tap or click <strong>Log In</strong>.
+      </p>
+
+      <div class="callout tip">
+        <div class="callout-icon">&#128274;</div>
+        <div class="callout-body">
+          <strong>Keep your login private.</strong>
+          Never share your password with other staff members. Each login is tied to your name, so all orders and transactions processed under your account are recorded against you. If you forget your password, ask a manager to reset it.
+        </div>
+      </div>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Login screen showing username and password fields</div>
+        <div class="ph-hint">Replace this box with an actual screenshot of the login page at /desk/rpos</div>
+      </div>
+
+      <h3>After Logging In</h3>
+      <p>
+        Once authenticated, the system takes you directly to the <strong>Floor Plan</strong> — a live, colour-coded map of all tables in the restaurant. This is your home screen for the duration of your shift. You do not need to navigate through menus or dashboards; every task starts and ends here.
+      </p>
+
+      <div class="callout note">
+        <div class="callout-icon">&#8505;</div>
+        <div class="callout-body">
+          <strong>Session timeout.</strong>
+          For security, the system will automatically log you out after a period of inactivity. If you return to the terminal and find yourself on the login page, simply log in again — any open orders will be preserved.
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 2 – FLOOR PLAN
+    ============================================================ -->
+    <section id="s2">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <h2>Understanding the Floor Plan</h2>
+      </div>
+
+      <p>
+        The Floor Plan is the central hub of the POS. It gives you an at-a-glance overview of every table's status, how long guests have been seated, and how much revenue is building at each table. Everything is updated in real time, meaning all terminals in the restaurant display the same live information simultaneously.
+      </p>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Floor plan showing table colours (green, amber, blue, purple)</div>
+        <div class="ph-hint">Replace this box with a screenshot of the full floor plan view in the POS</div>
+      </div>
+
+      <h3>Table Colour Legend</h3>
+      <p>Each table tile on the floor plan is colour-coded to indicate its current status at a glance:</p>
+
+      <div class="status-grid">
+        <div class="status-card sc-green">
+          <div class="sc-dot" style="background:#27AE60;">&#10003;</div>
+          <div class="sc-label">Green</div>
+          <div class="sc-desc">Available — ready to seat guests</div>
+        </div>
+        <div class="status-card sc-amber">
+          <div class="sc-dot" style="background:#F39C12;">&#9679;</div>
+          <div class="sc-label">Amber</div>
+          <div class="sc-desc">Occupied — guests seated, order in progress</div>
+        </div>
+        <div class="status-card sc-blue">
+          <div class="sc-dot" style="background:#2980B9;">&#128197;</div>
+          <div class="sc-label">Blue</div>
+          <div class="sc-desc">Reserved — booking confirmed for a future time</div>
+        </div>
+        <div class="status-card sc-purple">
+          <div class="sc-dot" style="background:#8E44AD;">&#10041;</div>
+          <div class="sc-label">Purple</div>
+          <div class="sc-desc">Cleaning — table cleared, being prepared</div>
+        </div>
+      </div>
+
+      <h3>Information Displayed on Each Table Tile</h3>
+      <p>Each coloured tile shows up to four pieces of information, depending on the table's status:</p>
+      <ul>
+        <li><strong>Table number</strong> — displayed prominently in the centre or top of the tile (e.g., "T12").</li>
+        <li><strong>Seat capacity</strong> — shown with a &#128100; (person) icon, indicating the maximum number of covers the table can accommodate (e.g., "&#128100; 4").</li>
+        <li><strong>Elapsed time</strong> — for occupied tables, a timer shows how long the current party has been seated (e.g., "42 min"). When this timer reaches or exceeds 60 minutes, it turns <strong style="color:var(--red);">red</strong> as a prompt to check on the table or encourage turnover.</li>
+        <li><strong>Running total</strong> — the current value of the open order at that table, updated every time an item is added (e.g., "£47.50").</li>
+      </ul>
+
+      <div class="callout tip">
+        <div class="callout-icon">&#9201;</div>
+        <div class="callout-body">
+          <strong>Red timer is a nudge, not an alarm.</strong>
+          A red elapsed-time indicator simply means the table has been occupied for over an hour. Use your judgement — it may be a leisurely dinner party or a special occasion. The intent is to help you prioritise table checks during a busy service.
+        </div>
+      </div>
+
+      <h3>Stats Bar</h3>
+      <p>
+        At the top of the Floor Plan screen, a horizontal stats bar displays a live count of tables in each status category: how many are Available, Occupied, Reserved, and Cleaning. This gives you an instant sense of how busy the floor is without counting individual tiles. Managers can use this view to plan staffing; as a waiter, it helps you know how many free tables remain when greeting walk-in guests.
+      </p>
+
+      <h3>Multiple Floors and Areas</h3>
+      <p>
+        If your restaurant has more than one dining area — such as a Main Dining Room, a Terrace, or a Private Dining room — each area is shown as a separate tab at the top of the Floor Plan. Tap the tab labelled with the area name to switch between floors. Each tab maintains its own colour-coded grid. You can switch between areas at any time without losing any open orders.
+      </p>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Floor plan tabs for Main Dining, Terrace, and Private Dining</div>
+        <div class="ph-hint">Replace this box with a screenshot showing the floor/area tab bar at the top of the floor plan</div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">&#8505;</div>
+        <div class="callout-body">
+          <strong>Real-time updates.</strong>
+          The floor plan refreshes automatically. If a colleague at another terminal opens a table or processes a payment, your view will update within a few seconds — you do not need to manually refresh the page.
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 3 – OPENING A TABLE
+    ============================================================ -->
+    <section id="s3">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <h2>Opening a Table</h2>
+      </div>
+
+      <p>
+        When guests are seated at a table, your first action is to open that table in the POS. This creates an active order linked to that table and starts the elapsed-time timer.
+      </p>
+
+      <h3>How to Open a Table</h3>
+      <ol class="steps">
+        <li>From the Floor Plan, locate the table where your guests are seated. It should be displayed in <strong style="color:var(--green);">green</strong> (Available).</li>
+        <li>Tap or click the green table tile once.</li>
+        <li>The Order Screen opens automatically for that table.</li>
+        <li>On the Floor Plan, the table tile immediately changes from green to <strong style="color:var(--amber);">amber</strong> (Occupied), visible to all terminals.</li>
+      </ol>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Order screen that opens after tapping a green table tile</div>
+        <div class="ph-hint">Replace this box with a screenshot of the order screen showing the left item catalogue panel and right running-order panel</div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">&#9888;</div>
+        <div class="callout-body">
+          <strong>Table already amber?</strong>
+          If a table you expect to be free is showing amber, it has already been opened — possibly by a colleague who seated guests moments before you. Tap it to view the existing order rather than trying to open a new one. Never attempt to open a table that is occupied by another party.
+        </div>
+      </div>
+
+      <p>
+        Once the Order Screen is open, you are ready to take the guests' order. The table will remain amber until payment is completed, at which point the system automatically resets it to green (or purple if it needs cleaning, depending on your restaurant's configuration).
+      </p>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 4 – ADDING ITEMS TO AN ORDER
+    ============================================================ -->
+    <section id="s4">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <h2>Adding Items to an Order</h2>
+      </div>
+
+      <p>
+        The Order Screen is divided into two main panels. The <strong>left panel</strong> is the item catalogue — a browsable, filterable list of everything on your menu. The <strong>right panel</strong> is the running order — the list of items you have added for this table, along with a live subtotal.
+      </p>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Order screen with left catalogue panel and right running-order panel</div>
+        <div class="ph-hint">Replace this box with a screenshot of the split-panel order screen, clearly showing both panels</div>
+      </div>
+
+      <h3>Using Category Pills to Filter the Menu</h3>
+      <p>
+        At the top of the left panel, a row of category pills (e.g., <strong>Starters</strong>, <strong>Mains</strong>, <strong>Beverages</strong>, <strong>Desserts</strong>) allows you to filter the catalogue to a specific course. Tap a pill to show only items in that category. Tap the <strong>All</strong> pill or tap the active category again to clear the filter and see the full menu. A search bar may also be available — type a few letters of an item name to find it quickly.
+      </p>
+
+      <h3>Adding an Item</h3>
+      <ol class="steps">
+        <li>Tap the category pill for the course you want (e.g., <strong>Starters</strong>).</li>
+        <li>Browse the item cards. Each card shows the item name, a brief description if available, and its price.</li>
+        <li>Tap an item card to add it to the order.</li>
+        <li>If the item has modifiers or options, a <strong>Modifier Pop-Up</strong> appears (see below).</li>
+        <li>If there are no modifiers, the item is added to the right panel immediately.</li>
+      </ol>
+
+      <h3>The Modifier Pop-Up</h3>
+      <p>
+        Many menu items have customisation options. When you tap an item that has modifiers configured, a pop-up window appears before the item is added to the order. This pop-up may contain:
+      </p>
+      <ul>
+        <li><strong>Required choices</strong> — marked with a <strong style="color:var(--red);">red label</strong> (e.g., "Cooking preference: Rare / Medium / Well Done"). You must select one before you can confirm. The item cannot be added without completing a required choice.</li>
+        <li><strong>Optional extras</strong> — shown with a price modifier (e.g., "+ £1.50 Extra Cheese"). These are optional; tap to toggle them on or off.</li>
+        <li><strong>Quantity</strong> — a numeric field allowing you to set how many of this item to add in one step (default is 1).</li>
+        <li><strong>Special notes</strong> — a free-text field where you can type any specific instruction from the guest (e.g., "nut allergy — please check sauce", "no onions"). Notes appear on the kitchen ticket.</li>
+      </ul>
+
+      <div class="callout danger">
+        <div class="callout-icon">&#9888;</div>
+        <div class="callout-body">
+          <strong>Always record allergy notes.</strong>
+          If a guest mentions a food allergy or intolerance, enter it clearly in the Special Notes field. Do not rely on verbal communication with the kitchen alone. These notes are printed on the kitchen ticket and logged against the order.
+        </div>
+      </div>
+
+      <p>
+        Once you have made all selections in the modifier pop-up, tap <strong>Add to Order</strong> (or <strong>Confirm</strong>). The item appears in the right panel with its chosen modifiers listed beneath it.
+      </p>
+
+      <h3>Item Status: Pending</h3>
+      <p>
+        All items added to the right panel before being sent to the kitchen are marked with an <strong>&#9203; Pending</strong> indicator. This means the kitchen has not yet received these items. You can freely edit, remove, or add to the order while items are in the Pending state. Nothing is committed until you tap <strong>Send to Kitchen</strong>.
+      </p>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Modifier pop-up showing required choices (red label), optional extras, and special notes field</div>
+        <div class="ph-hint">Replace this box with a screenshot of a modifier pop-up for a menu item such as a steak or burger</div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 5 – EDITING BEFORE SENDING
+    ============================================================ -->
+    <section id="s5">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <h2>Editing Before Sending</h2>
+      </div>
+
+      <p>
+        Before you tap Send to Kitchen, you have full flexibility to make changes to the order. Use this time to confirm the order back to the guests and catch any mistakes or missed items. Once the order is sent, editing requires manager involvement, so it is worth taking a moment to double-check.
+      </p>
+
+      <h3>Adjusting Quantity</h3>
+      <p>
+        Each item in the running order (right panel) has a <strong>+</strong> button and a <strong>&minus;</strong> button next to the quantity. Tap <strong>+</strong> to increase the quantity by one; tap <strong>&minus;</strong> to decrease it. Reducing to zero is equivalent to removing the item.
+      </p>
+
+      <h3>Removing an Item</h3>
+      <p>
+        To remove an item entirely from the pending order, tap the <strong>&#128465; bin (trash) icon</strong> on the item row. The item will be removed immediately. You will not be asked for confirmation — if you accidentally remove an item, simply tap it again in the left catalogue panel to re-add it.
+      </p>
+
+      <h3>Updating the Cover Count</h3>
+      <p>
+        The cover count records how many guests are seated at the table. This is used for per-cover reporting and management statistics. To update it, tap the <strong>&#128101; Covers</strong> button (usually shown with a person icon and the current count) and enter the correct number of guests. This does not affect pricing but is important for accurate management reporting.
+      </p>
+
+      <h3>Adding an Order Note</h3>
+      <p>
+        To add a general note that applies to the entire order rather than a specific item — for example, "guests celebrating a birthday" or "one guest has a severe nut allergy" — tap the <strong>&#128221; Order Note</strong> button. A text input appears; type your note and confirm. The note will be visible to kitchen staff on the printed docket and in the kitchen display.
+      </p>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Running order panel showing +/- quantity buttons, bin icon, covers button, and order note button</div>
+        <div class="ph-hint">Replace this box with a screenshot of the right-hand order panel with annotations highlighting the edit controls</div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">&#128161;</div>
+        <div class="callout-body">
+          <strong>Read the order back to the table.</strong>
+          Before tapping Send to Kitchen, it is good practice to read the full order back to the guests. This catches errors, clarifies modifiers, and avoids returns — which saves time for both you and the kitchen.
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 6 – SENDING TO KITCHEN
+    ============================================================ -->
+    <section id="s6">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <h2>Sending to Kitchen</h2>
+      </div>
+
+      <p>
+        Sending the order to the kitchen is the moment the items leave your control and enter the kitchen's workflow. Until this point, all changes are local to your screen. Once sent, the kitchen immediately receives the order ticket on their Kitchen Display System (KDS) or printer.
+      </p>
+
+      <h3>How to Send</h3>
+      <ol class="steps">
+        <li>Review all items in the right panel and confirm they are correct.</li>
+        <li>Tap the prominent orange <strong>Send to Kitchen</strong> button at the bottom of the right panel.</li>
+        <li>All items marked as <strong>&#9203; Pending</strong> are sent simultaneously in a single ticket.</li>
+        <li>Each item's status changes from &#9203; Pending to <strong>&#128232; Sent</strong>.</li>
+        <li>The kitchen sees the ticket immediately on their display.</li>
+      </ol>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Orange "Send to Kitchen" button at the bottom of the order panel</div>
+        <div class="ph-hint">Replace this box with a screenshot highlighting the Send to Kitchen button</div>
+      </div>
+
+      <h3>After Sending</h3>
+      <p>
+        Once items are sent, their status indicator in the right panel changes to &#128232; Sent. The items remain visible in your order panel so you can track their progress and know what is outstanding. You can still add new items to the order after sending — new additions will appear as &#9203; Pending until you send again.
+      </p>
+
+      <div class="callout danger">
+        <div class="callout-icon">&#128683;</div>
+        <div class="callout-body">
+          <strong>Sent items cannot be deleted without manager approval.</strong>
+          Once an item has been sent to the kitchen, it has been received and may already be in preparation. Removing or voiding it at this point requires a manager to enter their authorisation. This is a deliberate control to prevent waste and fraudulent voids. If a guest changes their mind after an item is sent, speak to your manager immediately.
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 7 – TRACKING ORDER STATUS
+    ============================================================ -->
+    <section id="s7">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <h2>Tracking Order Status</h2>
+      </div>
+
+      <p>
+        Every item on a sent order moves through a defined status pipeline. You can see the current status of every item on the Order Screen at all times. This allows you to manage guest expectations, time your table visits efficiently, and know exactly when to carry dishes from the pass to the table.
+      </p>
+
+      <h3>The Status Pipeline</h3>
+
+      <div class="pipeline">
+        <div class="pip-step">
+          <span class="pip-icon">&#9203;</span>
+          <div class="pip-label">Pending</div>
+        </div>
+        <div class="pip-arrow">&#8594;</div>
+        <div class="pip-step">
+          <span class="pip-icon">&#128232;</span>
+          <div class="pip-label">Sent</div>
+        </div>
+        <div class="pip-arrow">&#8594;</div>
+        <div class="pip-step">
+          <span class="pip-icon">&#128293;</span>
+          <div class="pip-label">Cooking</div>
+        </div>
+        <div class="pip-arrow">&#8594;</div>
+        <div class="pip-step">
+          <span class="pip-icon">&#9989;</span>
+          <div class="pip-label">Ready</div>
+        </div>
+        <div class="pip-arrow">&#8594;</div>
+        <div class="pip-step">
+          <span class="pip-icon">&#127860;</span>
+          <div class="pip-label">Served</div>
+        </div>
+      </div>
+
+      <ul>
+        <li><strong>&#9203; Pending</strong> — Item added to the order but not yet sent to the kitchen. Only exists on your screen.</li>
+        <li><strong>&#128232; Sent</strong> — Ticket delivered to the kitchen. Kitchen has received and acknowledged the order.</li>
+        <li><strong>&#128293; Cooking</strong> — Kitchen staff have begun preparing the item and have updated its status on the KDS.</li>
+        <li><strong>&#9989; Ready</strong> — Item is prepared and ready at the pass for collection. A green <strong>Mark Served</strong> button appears next to the item in your panel.</li>
+        <li><strong>&#127860; Served</strong> — You have confirmed delivery by tapping Mark Served. The item is complete.</li>
+      </ul>
+
+      <h3>Marking Items as Served</h3>
+      <p>
+        When an item reaches the <strong>&#9989; Ready</strong> status, a green <strong>Mark Served</strong> button appears beside it in your order panel. After you have physically carried the dish to the table and placed it in front of the guest, return to the terminal (or use a handheld device if available) and tap <strong>Mark Served</strong>. This updates the order record and clears the item from the kitchen display's "ready" queue.
+      </p>
+
+      <div class="callout tip">
+        <div class="callout-icon">&#128161;</div>
+        <div class="callout-body">
+          <strong>Check the order screen between courses.</strong>
+          Glancing at the order screen between trips to the floor keeps you informed of what is cooking and what is ready, helping you avoid the kitchen calling for a runner with no one available.
+        </div>
+      </div>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Order panel showing items in different statuses (Sent, Cooking, Ready) with the green Mark Served button visible</div>
+        <div class="ph-hint">Replace this box with a screenshot of the running order panel with multiple items in different status states</div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 8 – ADDING MORE ITEMS (MID-ORDER)
+    ============================================================ -->
+    <section id="s8">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <h2>Adding More Items (Mid-Order)</h2>
+      </div>
+
+      <p>
+        Guests frequently add items after the initial order has been sent — an extra side dish, a second round of drinks, or a dessert. The system is designed to handle this cleanly and efficiently, ensuring the kitchen only receives new items rather than a repeat of the full order.
+      </p>
+
+      <h3>How to Add Items to an Existing Order</h3>
+      <ol class="steps">
+        <li>From the Floor Plan, tap the <strong>amber</strong> (Occupied) table tile for the table in question.</li>
+        <li>The existing Order Screen opens, displaying all previously sent items with their current status.</li>
+        <li>Use the left catalogue panel to find and add the new items, exactly as you would when taking an initial order.</li>
+        <li>New items appear as <strong>&#9203; Pending</strong> alongside the already-sent items.</li>
+        <li>Tap <strong>Send to Kitchen</strong>. Only the new Pending items are transmitted — the kitchen receives a separate ticket for the additions.</li>
+      </ol>
+
+      <div class="callout tip">
+        <div class="callout-icon">&#9201;</div>
+        <div class="callout-body">
+          <strong>No duplication.</strong>
+          The system is intelligent about what has already been sent. When you tap Send to Kitchen with both sent items and new pending items in the order, only the pending items go to the kitchen. Previously sent items are not resent, regardless of how many times you tap the button.
+        </div>
+      </div>
+
+      <p>
+        The running total on the order screen (and on the floor plan tile) updates immediately to include the new items, giving you and your manager an up-to-date view of the table's spend at all times.
+      </p>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Order screen with a mix of already-sent items and new pending items, before tapping Send to Kitchen again</div>
+        <div class="ph-hint">Replace this box with a screenshot showing an order with mixed statuses (Sent + Cooking + new Pending items)</div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 9 – RIGHT-CLICK / LONG-PRESS MENU
+    ============================================================ -->
+    <section id="s9">
+      <div class="section-header">
+        <div class="section-num">9</div>
+        <h2>Right-Click / Long-Press Menu</h2>
+      </div>
+
+      <p>
+        The Floor Plan offers a context menu for each table tile that gives you access to actions beyond simply opening the order. This menu is designed to let you manage table statuses quickly without navigating away from the floor plan.
+      </p>
+
+      <h3>How to Access the Context Menu</h3>
+      <ul>
+        <li><strong>On a desktop or mouse-driven touchscreen:</strong> Right-click on any table tile to immediately open the context menu.</li>
+        <li><strong>On a tablet or touchscreen without a mouse:</strong> Press and hold (long-press) the table tile for approximately 0.6 seconds until the context menu appears. Do not lift your finger too quickly — a brief tap will open the order instead of the menu.</li>
+      </ul>
+
+      <h3>Context Menu Options</h3>
+      <p>The available options vary slightly depending on the current status of the table, but typically include:</p>
+
+      <ul>
+        <li>
+          <strong>Open Order</strong> — Opens the Order Screen for that table. This is equivalent to a single tap on an occupied table.
+        </li>
+        <li>
+          <strong>Add Reservation</strong> — Marks the table as Reserved (blue) and allows you to enter the guest's name, party size, and arrival time. Use this when a reservation needs to be logged during service for a table that is currently available.
+        </li>
+        <li>
+          <strong>Mark Cleaning</strong> — Changes the table status to Cleaning (purple). Use this immediately after a party departs and before the table has been cleared and reset. This prevents colleagues from accidentally seating new guests at an uncleared table.
+        </li>
+        <li>
+          <strong>Mark Available</strong> — Returns a table from Cleaning or Reserved status back to Available (green), signalling that the table is ready to accept new guests. Only use this once the table has been fully cleaned and reset.
+        </li>
+      </ul>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Right-click / long-press context menu open on a table tile, showing all four options</div>
+        <div class="ph-hint">Replace this box with a screenshot of the context menu appearing over a table tile on the floor plan</div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-icon">&#9888;</div>
+        <div class="callout-body">
+          <strong>Mark Cleaning promptly.</strong>
+          As soon as guests leave, use the context menu to mark their table as Cleaning. This ensures the floor plan is accurate for your manager and avoids confusion — especially during a busy service when multiple parties may be departing simultaneously.
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 10 – PAYMENT
+    ============================================================ -->
+    <section id="s10">
+      <div class="section-header">
+        <div class="section-num">10</div>
+        <h2>Payment</h2>
+      </div>
+
+      <p>
+        When guests are ready to pay, the payment process is handled entirely within the POS. The system calculates the total, applies any applicable taxes, calculates change, and provides a clear record of the transaction.
+      </p>
+
+      <h3>Opening the Payment Screen</h3>
+      <ol class="steps">
+        <li>Open the Order Screen for the table (tap the amber tile on the floor plan).</li>
+        <li>Tap the <strong>&#128179; Pay</strong> button in the order panel.</li>
+        <li>The Payment Screen opens, displaying a full itemised bill with individual item prices, any applicable service charge, and the total including tax.</li>
+      </ol>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Payment screen showing itemised bill, tax breakdown, and payment method buttons</div>
+        <div class="ph-hint">Replace this box with a screenshot of the full payment screen</div>
+      </div>
+
+      <h3>Processing a Single-Method Payment</h3>
+      <ol class="steps">
+        <li>Review the total with the guest.</li>
+        <li>Enter the amount tendered (for cash) in the amount field, or leave it at the total for card payments.</li>
+        <li>Tap the appropriate payment method button: <strong>Cash</strong>, <strong>Credit Card</strong>, <strong>Debit Card</strong>, or <strong>Online</strong>.</li>
+        <li>For cash payments, the system automatically calculates and displays the change due in <strong style="color:var(--green);">green</strong>.</li>
+        <li>Toggle <strong>Print Receipt</strong> on or off depending on the guest's preference.</li>
+        <li>Tap <strong>&#10003; Confirm Payment</strong> to finalise the transaction.</li>
+      </ol>
+
+      <p>
+        Upon confirmation, the order is closed, the receipt prints (if enabled), and the table on the floor plan <strong>resets to Available (green)</strong> — or to Cleaning (purple) if your venue uses that workflow.
+      </p>
+
+      <h3>Processing a Mixed Payment (Two Methods)</h3>
+      <p>
+        Guests sometimes wish to pay partly in cash and partly by card (for example, using up gift vouchers, or splitting a personal and business portion). The POS handles this in a straightforward sequence:
+      </p>
+      <ol class="steps">
+        <li>On the Payment Screen, enter the cash amount the guest is paying in cash into the amount field.</li>
+        <li>Tap <strong>Cash</strong>. The cash amount is recorded and the remaining outstanding balance is displayed.</li>
+        <li>Enter the card amount (or leave it at the remaining balance) in the amount field.</li>
+        <li>Tap <strong>Credit Card</strong> or <strong>Debit Card</strong> as appropriate.</li>
+        <li>The total tendered now matches or exceeds the bill total. Tap <strong>&#10003; Confirm Payment</strong>.</li>
+      </ol>
+
+      <div class="callout note">
+        <div class="callout-icon">&#8505;</div>
+        <div class="callout-body">
+          <strong>Multiple payment methods are unlimited.</strong>
+          You can add as many separate payment amounts and methods as needed before confirming. The Confirm Payment button only becomes active once the total tendered equals or exceeds the bill total.
+        </div>
+      </div>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Payment screen showing a mixed payment (cash amount recorded, remaining balance shown, card payment being entered)</div>
+        <div class="ph-hint">Replace this box with a screenshot of the payment screen mid-way through a split cash/card transaction</div>
+      </div>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 11 – BILL SPLITTING
+    ============================================================ -->
+    <section id="s11">
+      <div class="section-header">
+        <div class="section-num">11</div>
+        <h2>Bill Splitting</h2>
+      </div>
+
+      <p>
+        Guests at the same table may wish to pay separately — either by dividing the bill evenly or by assigning specific items to specific people. The Split Bill feature allows you to allocate each item on the order to a separate bill, then settle each one independently.
+      </p>
+
+      <h3>How to Split a Bill</h3>
+      <ol class="steps">
+        <li>From the Order Screen, tap the <strong>&#9986; Split Bill</strong> button.</li>
+        <li>The Split Bill screen opens, showing all ordered items in a central panel with two default bills: <strong>Bill A</strong> and <strong>Bill B</strong>.</li>
+        <li>For each item, tap the bill label you wish to assign it to (Bill A, Bill B, etc.). The item moves to that bill's column.</li>
+        <li>If the party has more than two separate bills, tap <strong>+ Add Bill</strong> to add additional bill columns (Bill C, Bill D, and so on).</li>
+        <li>Continue assigning all items until every item is allocated to a bill.</li>
+        <li>Tap <strong>Confirm Split</strong> to finalise the allocation.</li>
+        <li>You are returned to a modified payment screen where each bill (Bill A, Bill B, etc.) is listed separately with its own total.</li>
+        <li>Process payment for Bill A using the normal payment process, then repeat for Bill B, and so on.</li>
+      </ol>
+
+      <div class="screenshot-placeholder">
+        <span class="ph-icon">&#128247;</span>
+        <div class="ph-caption">SCREENSHOT: Split Bill screen showing items being allocated to Bill A and Bill B with the "+ Add Bill" button visible</div>
+        <div class="ph-hint">Replace this box with a screenshot of the bill splitting interface</div>
+      </div>
+
+      <div class="callout tip">
+        <div class="callout-icon">&#128161;</div>
+        <div class="callout-body">
+          <strong>Tip for large groups.</strong>
+          For parties where everyone wants to pay equally rather than by item, it is often faster to process a single payment for the full amount and then manually collect equal contributions from the guests — splitting by item is most useful when individuals ordered distinct items and want to pay only for what they had.
+        </div>
+      </div>
+
+      <div class="callout note">
+        <div class="callout-icon">&#8505;</div>
+        <div class="callout-body">
+          <strong>Shared items (e.g., a bottle of wine for the table).</strong>
+          Items that are genuinely shared can be assigned to one bill, with the understanding that that guest pays for it and is reimbursed by others. Alternatively, if a shared item needs to be split financially, speak to your manager, who can adjust the price on individual bills.
+        </div>
+      </div>
+
+      <p>
+        Once all sub-bills are settled, the table closes and resets to Available exactly as it would after a single payment.
+      </p>
+    </section>
+
+
+    <!-- ============================================================
+         SECTION 12 – COMMON SCENARIOS
+    ============================================================ -->
+    <section id="s12">
+      <div class="section-header">
+        <div class="section-num">12</div>
+        <h2>Common Scenarios</h2>
+      </div>
+
+      <p>The following Q&amp;A scenarios address the situations you are most likely to encounter during a shift. Keep this section handy as a reference when something unexpected arises.</p>
+
+      <!-- Scenario 1 -->
+      <div class="scenario">
+        <div class="scenario-q">
+          <span class="sq-icon">&#8265;</span>
+          A guest wants to add items after the initial order has already been sent to the kitchen
+        </div>
+        <div class="scenario-a">
+          <p>This is a completely normal and supported workflow. There is no need to close and reopen the order.</p>
+          <ol>
+            <li>From the Floor Plan, tap the amber table tile to open the existing Order Screen.</li>
+            <li>Add the new items from the catalogue panel in exactly the same way as the initial order.</li>
+            <li>New items appear as &#9203; Pending alongside the already-sent items.</li>
+            <li>Tap <strong>Send to Kitchen</strong>. Only the new pending items are transmitted — the kitchen receives a supplementary ticket clearly labelled as an addition to the existing order.</li>
+          </ol>
+          <p>The table's running total updates automatically to include the new items.</p>
+        </div>
+      </div>
+
+      <!-- Scenario 2 -->
+      <div class="scenario">
+        <div class="scenario-q">
+          <span class="sq-icon">&#8265;</span>
+          A wrong item was sent to the kitchen and the guest does not want it
+        </div>
+        <div class="scenario-a">
+          <p>Once an item has been sent, it cannot be removed without manager authorisation. Here is what to do:</p>
+          <ol>
+            <li>Immediately alert your manager and explain the situation.</li>
+            <li>The manager will log in with their credentials and authorise a void on the specific item.</li>
+            <li>If the kitchen has already started preparing the item, the manager will also communicate with the kitchen to stop preparation (where possible).</li>
+            <li>Once voided, the item is removed from the order and the total adjusts accordingly.</li>
+          </ol>
+          <p>To avoid this situation, always read the order back to the guest before tapping Send to Kitchen.</p>
+        </div>
+      </div>
+
+      <!-- Scenario 3 -->
+      <div class="scenario">
+        <div class="scenario-q">
+          <span class="sq-icon">&#8265;</span>
+          Guests have left and the table needs cleaning before it can be reseated
+        </div>
+        <div class="scenario-a">
+          <p>Use the context menu to update the table status without affecting any system records:</p>
+          <ol>
+            <li>On the Floor Plan, right-click (desktop) or long-press (tablet) the now-vacated table tile.</li>
+            <li>Select <strong>Mark Cleaning</strong> from the context menu. The tile turns purple.</li>
+            <li>The table is now clearly flagged as unavailable while it is being cleared and reset.</li>
+            <li>Once the table is fully clean and set, right-click / long-press again and select <strong>Mark Available</strong>. The tile returns to green.</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Scenario 4 -->
+      <div class="scenario">
+        <div class="scenario-q">
+          <span class="sq-icon">&#8265;</span>
+          A guest wants to pay using two different payment methods (e.g., part cash, part card)
+        </div>
+        <div class="scenario-a">
+          <p>The POS supports mixed-method payments natively:</p>
+          <ol>
+            <li>Tap <strong>&#128179; Pay</strong> to open the Payment Screen.</li>
+            <li>Enter the cash amount in the amount field and tap <strong>Cash</strong>. The outstanding balance updates to show the remainder.</li>
+            <li>Enter the remaining amount in the amount field and tap the appropriate card type (<strong>Credit Card</strong> or <strong>Debit Card</strong>).</li>
+            <li>Confirm the total tendered covers the bill, then tap <strong>&#10003; Confirm Payment</strong>.</li>
+          </ol>
+          <p>The receipt will itemise both payment methods for the guest's record.</p>
+        </div>
+      </div>
+
+      <!-- Scenario 5 -->
+      <div class="scenario">
+        <div class="scenario-q">
+          <span class="sq-icon">&#8265;</span>
+          A reserved guest arrives and you need to seat them at a blue table
+        </div>
+        <div class="scenario-a">
+          <p>Reserved tables (blue tiles) are pre-allocated to incoming guests. When the reserved party arrives:</p>
+          <ol>
+            <li>On the Floor Plan, right-click / long-press the blue reserved table tile.</li>
+            <li>Select <strong>Open Order</strong> from the context menu to open the order for that table.</li>
+            <li>The table transitions from Reserved (blue) to Occupied (amber) as soon as the order screen opens.</li>
+            <li>Proceed to take the guests' order normally.</li>
+          </ol>
+          <p>If a reserved guest does not arrive and the reservation needs to be cancelled, speak to your manager, who can clear the reservation and return the table to Available.</p>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ============================================================
+         QUICK REFERENCE CARD
+    ============================================================ -->
+    <div class="qr-section" id="qr">
+      <h2>&#9733; Quick Reference Summary Card</h2>
+      <table class="qr-table">
+        <thead>
+          <tr>
+            <th style="width:26%;">Task</th>
+            <th style="width:36%;">How to Do It</th>
+            <th>Key Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Log in</td>
+            <td>Open <code>http://[server]/desk/rpos</code>, enter ERPNext credentials</td>
+            <td>Opens directly to Floor Plan. Keep password private.</td>
+          </tr>
+          <tr>
+            <td>Open a table</td>
+            <td>Tap a green (Available) table tile</td>
+            <td>Table turns amber immediately. Order screen opens.</td>
+          </tr>
+          <tr>
+            <td>Add items</td>
+            <td>Tap category pill &rarr; tap item card &rarr; complete modifier pop-up if shown</td>
+            <td>Required modifiers are marked red. Record allergy notes.</td>
+          </tr>
+          <tr>
+            <td>Edit pending items</td>
+            <td>Use +/&minus; for quantity; bin icon to remove; &#128101; for covers; &#128221; for order note</td>
+            <td>Only possible before Send to Kitchen.</td>
+          </tr>
+          <tr>
+            <td>Send to kitchen</td>
+            <td>Tap orange <strong>Send to Kitchen</strong> button</td>
+            <td>All pending items sent at once. Sent items need manager approval to void.</td>
+          </tr>
+          <tr>
+            <td>Track order status</td>
+            <td>View status icons in right panel: &#9203; &rarr; &#128232; &rarr; &#128293; &rarr; &#9989; &rarr; &#127860;</td>
+            <td>Tap green Mark Served after delivering Ready items.</td>
+          </tr>
+          <tr>
+            <td>Add items mid-order</td>
+            <td>Tap amber table &rarr; add items &rarr; Send to Kitchen</td>
+            <td>Only new pending items are sent. No duplication.</td>
+          </tr>
+          <tr>
+            <td>Context menu</td>
+            <td>Right-click (desktop) or long-press ~0.6 s (tablet) any table tile</td>
+            <td>Options: Open Order, Add Reservation, Mark Cleaning, Mark Available</td>
+          </tr>
+          <tr>
+            <td>Take payment</td>
+            <td>Open order &rarr; tap &#128179; Pay &rarr; enter amount &rarr; tap method &rarr; Confirm Payment</td>
+            <td>Table resets to green after confirmation. Change shown in green for cash.</td>
+          </tr>
+          <tr>
+            <td>Mixed payment</td>
+            <td>Enter cash amount &rarr; tap Cash &rarr; enter remaining &rarr; tap card method &rarr; Confirm</td>
+            <td>Add as many payment methods as needed before confirming.</td>
+          </tr>
+          <tr>
+            <td>Split bill</td>
+            <td>Tap &#9986; Split Bill &rarr; assign items to bills &rarr; + Add Bill for more &rarr; Confirm Split &rarr; pay each bill</td>
+            <td>Each sub-bill is settled independently.</td>
+          </tr>
+          <tr>
+            <td>Mark table cleaning</td>
+            <td>Right-click / long-press &rarr; Mark Cleaning (purple)</td>
+            <td>Use immediately after guests leave. Mark Available once reset.</td>
+          </tr>
+          <tr>
+            <td>Seat a reservation</td>
+            <td>Right-click / long-press blue tile &rarr; Open Order</td>
+            <td>Table changes from blue (Reserved) to amber (Occupied).</td>
+          </tr>
+          <tr>
+            <td>Void a sent item</td>
+            <td>Ask your manager — manager authorisation required</td>
+            <td>Cannot be done by waiter alone after item is sent.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /.content -->
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <div class="doc-footer">
+    <div><strong>ILI Digital Restaurant POS</strong> &mdash; Waiter/Server Guide v1.0</div>
+    <div>For support: <strong>wajihuz.zaman@ili.digital</strong></div>
+    <div>&#169; 2026 ILI Digital. All rights reserved.</div>
+  </div>
+
+</div><!-- /.page-wrapper -->
+
+</body>
+</html>

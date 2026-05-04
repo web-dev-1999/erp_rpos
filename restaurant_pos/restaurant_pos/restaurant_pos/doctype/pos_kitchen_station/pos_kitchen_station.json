@@ -1,0 +1,89 @@
+{
+ "actions": [],
+ "autoname": "field:station_name",
+ "creation": "2024-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "station_name",
+  "station_type",
+  "col_break_top",
+  "is_active",
+  "is_default",
+  "display_color"
+ ],
+ "fields": [
+  {
+   "fieldname": "station_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Station Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "station_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "General\nGrill\nBar\nCold Prep\nPastry\nHot Line\nDrinks\nDessert"
+  },
+  {
+   "fieldname": "col_break_top",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_default",
+   "fieldtype": "Check",
+   "label": "Is Default Station",
+   "description": "Items with no routing rule go here"
+  },
+  {
+   "default": "#3498db",
+   "fieldname": "display_color",
+   "fieldtype": "Color",
+   "label": "Display Color"
+  }
+ ],
+ "links": [],
+ "modified": "2024-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Restaurant POS",
+ "name": "POS Kitchen Station",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 0,
+   "read": 1,
+   "role": "POS Manager",
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "read": 1,
+   "role": "Kitchen Staff",
+   "write": 0
+  }
+ ],
+ "sort_field": "station_name",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 0
+}
