@@ -250,6 +250,20 @@ def send_to_kitchen(order_name, item_idxs=None, client_version=None):
     return _order_to_dict(order)
 
 
+# ── Customer ─────────────────────────────────────────────────────────────────
+
+@frappe.whitelist()
+def set_customer(order_name, customer=None):
+    """Assign or clear the customer on an open order."""
+    order = frappe.get_doc("POS Order", order_name)
+    if order.status in ("SETTLED", "CLOSED", "CANCELLED"):
+        frappe.throw(_("Cannot change customer on a {0} order").format(order.status))
+    order.customer = customer or None
+    order.save(ignore_permissions=True)
+    frappe.db.commit()
+    return _order_to_dict(order)
+
+
 # ── Status shortcuts ──────────────────────────────────────────────────────────
 
 @frappe.whitelist()

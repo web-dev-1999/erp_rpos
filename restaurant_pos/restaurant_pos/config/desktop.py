@@ -6,7 +6,7 @@ def get_data():
         {
             "module_name": "Restaurant POS",
             "color": "#e74c3c",
-            "icon": "octicon octicon-flame",
+            "icon": "utensils",
             "type": "module",
             "label": _("Restaurant POS"),
         }

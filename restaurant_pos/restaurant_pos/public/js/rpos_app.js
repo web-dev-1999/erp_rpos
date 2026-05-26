@@ -25,14 +25,15 @@ rpos._money = function (val) {
 
 rpos.App = class {
     constructor(wrapper) {
-        this.wrapper  = wrapper;
+        this.wrapper    = wrapper;
         this.posProfile = null;
+        this.posSession = null;   // active POS Opening Entry name
         this.currentView = null;
 
         this._buildShell();
-        this._loadPOSProfile().then(() => {
+        this._loadPOSProfile().then(async () => {
             this._setupRealtime();
-            this.showFloor();
+            await this._checkSession();
         });
     }
 
@@ -68,6 +69,9 @@ rpos.App = class {
                         <button class="rpos-btn rpos-btn-ghost rpos-btn-sm" id="rpos-floor-editor-btn">
                             ✏️ Edit Floor
                         </button>
+                        <button class="rpos-btn rpos-btn-ghost rpos-btn-sm rpos-session-close-btn" id="rpos-session-btn" style="display:none">
+                            🔒 Close Session
+                        </button>
                         <span class="rpos-user">${frappe.session.user_fullname || frappe.session.user}</span>
                     </div>
                 </div>
@@ -87,6 +91,7 @@ rpos.App = class {
         this.$app.find("#rpos-floor-editor-btn").on("click", () => {
             if (this.floorView) this.floorView.toggleEditMode();
         });
+        this.$app.find("#rpos-session-btn").on("click", () => this._showCloseSessionDialog());
 
         // Cleanup on page unload
         $(window).on("beforeunload.rpos", () => this._destroy());
@@ -130,7 +135,181 @@ rpos.App = class {
             method: "frappe.client.get",
             args: { doctype: "POS Profile", name: this.posProfile.name },
         });
-        this.posProfile.payments = (full.message?.payments || []).map(p => p.mode_of_payment);
+        this.posProfile.payments  = (full.message?.payments || []).map(p => p.mode_of_payment);
+        this.posProfile.customer  = full.message?.customer || null;
+    }
+
+    // ── Session ────────────────────────────────────────────────────────────
+
+    async _checkSession() {
+        if (!this.posProfile) return;
+        const res = await frappe.call({
+            method: "restaurant_pos.api.session.get_active_session",
+            args: { pos_profile: this.posProfile.name },
+        });
+        if (res.message) {
+            if (res.message.is_outdated) {
+                this._showOutdatedSessionDialog(res.message.name);
+            } else {
+                this.posSession = res.message.name;
+                this.$app.find("#rpos-session-btn").show();
+                this.showFloor();
+            }
+        } else {
+            this._showOpenSessionDialog();
+        }
+    }
+
+    _showOutdatedSessionDialog(opening_entry) {
+        const d = new frappe.ui.Dialog({
+            title: "⚠ Session from Previous Day",
+            fields: [
+                {
+                    fieldtype: "HTML",
+                    options: `<div class="rpos-session-summary">
+                        <p style="margin:8px 0">The session <b>${opening_entry}</b> was opened on a previous date.</p>
+                        <p style="margin:8px 0;color:#888">You must close the old session before taking new orders. Enter the closing cash count and click <b>Close &amp; Start New Session</b>.</p>
+                    </div>`,
+                },
+                {
+                    fieldtype:   "Float",
+                    fieldname:   "closing_cash",
+                    label:       "Closing Cash Count (old session)",
+                    default:     0,
+                    description: "Count the cash currently in the drawer",
+                },
+                {
+                    fieldtype:   "Float",
+                    fieldname:   "opening_cash",
+                    label:       "Opening Cash Float (new session)",
+                    default:     0,
+                    description: "Amount to start the new session with",
+                },
+            ],
+            primary_action_label: "Close & Start New Session",
+            primary_action: async (vals) => {
+                d.disable_primary_action();
+                try {
+                    await frappe.call({
+                        method: "restaurant_pos.api.session.close_session",
+                        args: { opening_entry, closing_cash: vals.closing_cash || 0 },
+                    });
+                    const r2 = await frappe.call({
+                        method: "restaurant_pos.api.session.open_session",
+                        args: {
+                            pos_profile:  this.posProfile.name,
+                            opening_cash: vals.opening_cash || 0,
+                        },
+                    });
+                    if (r2.message) {
+                        this.posSession = r2.message;
+                        this.$app.find("#rpos-session-btn").show();
+                        d.hide();
+                        frappe.show_alert({ message: "New session started", indicator: "green" });
+                        this.showFloor();
+                    }
+                } catch (err) {
+                    frappe.show_alert({ message: err.message || "Failed to renew session", indicator: "red" });
+                    d.enable_primary_action();
+                }
+            },
+        });
+        d.$wrapper.find(".modal-header .close").hide();
+        d.show();
+    }
+
+    _showOpenSessionDialog() {
+        const d = new frappe.ui.Dialog({
+            title: "🍽 Open POS Session",
+            fields: [{
+                fieldtype:   "Float",
+                fieldname:   "opening_cash",
+                label:       "Opening Cash Float",
+                default:     0,
+                description: "Amount placed in the cash drawer at the start of this shift",
+            }],
+            primary_action_label: "Open Session",
+            primary_action: async (vals) => {
+                d.disable_primary_action();
+                try {
+                    const res = await frappe.call({
+                        method: "restaurant_pos.api.session.open_session",
+                        args: {
+                            pos_profile:  this.posProfile.name,
+                            opening_cash: vals.opening_cash || 0,
+                        },
+                    });
+                    if (res.message) {
+                        this.posSession = res.message;
+                        this.$app.find("#rpos-session-btn").show();
+                        d.hide();
+                        this.showFloor();
+                    }
+                } catch (err) {
+                    frappe.show_alert({ message: err.message || "Failed to open session", indicator: "red" });
+                    d.enable_primary_action();
+                }
+            },
+        });
+        // Hide the × so the user must click Open Session
+        d.$wrapper.find(".modal-header .close").hide();
+        d.show();
+    }
+
+    async _showCloseSessionDialog() {
+        const res = await frappe.call({
+            method: "restaurant_pos.api.session.get_session_summary",
+            args: { opening_entry: this.posSession },
+        });
+        const s = res.message || {};
+        const startTime = s.period_start
+            ? new Date(s.period_start.replace(" ", "T")).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+            : "—";
+
+        const d = new frappe.ui.Dialog({
+            title: "Close POS Session",
+            fields: [
+                {
+                    fieldtype: "HTML",
+                    options: `
+                        <div class="rpos-session-summary">
+                            <div class="rpos-session-stat"><span>Session opened</span><b>${startTime}</b></div>
+                            <div class="rpos-session-stat"><span>Invoices</span><b>${s.invoice_count || 0}</b></div>
+                            <div class="rpos-session-stat"><span>Total sales</span><b>${rpos._money(s.total_sales || 0)}</b></div>
+                            <div class="rpos-session-stat rpos-session-cash-row"><span>Expected cash in drawer</span><b>${rpos._money(s.expected_cash || 0)}</b></div>
+                        </div>`,
+                },
+                {
+                    fieldtype:   "Float",
+                    fieldname:   "closing_cash",
+                    label:       "Actual Closing Cash Count",
+                    reqd:        1,
+                    description: "Count the cash in the drawer and enter the total",
+                },
+            ],
+            primary_action_label: "Close Session",
+            primary_action: async (vals) => {
+                d.disable_primary_action();
+                try {
+                    await frappe.call({
+                        method: "restaurant_pos.api.session.close_session",
+                        args: {
+                            opening_entry: this.posSession,
+                            closing_cash:  vals.closing_cash || 0,
+                        },
+                    });
+                    this.posSession = null;
+                    this.$app.find("#rpos-session-btn").hide();
+                    d.hide();
+                    frappe.show_alert({ message: "Session closed successfully", indicator: "green" });
+                    this._showOpenSessionDialog();
+                } catch (err) {
+                    frappe.show_alert({ message: err.message || "Failed to close session", indicator: "red" });
+                    d.enable_primary_action();
+                }
+            },
+        });
+        d.show();
     }
 
     // ── Navigation ─────────────────────────────────────────────────────────
@@ -592,7 +771,14 @@ rpos.OrderView = class {
                         <div class="rpos-order-actions-top">
                             <button class="rpos-btn rpos-btn-sm rpos-btn-ghost" id="rpos-covers-btn">👥 Covers</button>
                             <button class="rpos-btn rpos-btn-sm rpos-btn-ghost" id="rpos-note-btn">📝 Note</button>
+                            <button class="rpos-btn rpos-btn-sm rpos-btn-ghost" id="rpos-customer-btn">👤 Guest</button>
                             <button class="rpos-btn rpos-btn-sm rpos-btn-danger" id="rpos-cancel-order-btn">✕ Cancel</button>
+                        </div>
+                        <div class="rpos-customer-row" style="display:none">
+                            <span class="rpos-customer-chip">
+                                <span class="rpos-customer-name"></span>
+                                <button class="rpos-btn-icon" id="rpos-clear-customer-btn" title="Remove">✕</button>
+                            </span>
                         </div>
                     </div>
                     <div class="rpos-order-items"></div>
@@ -636,13 +822,15 @@ rpos.OrderView = class {
 
         this.$search.on("input", _debounce(() => this._searchItems(this.$search.val()), 300));
 
-        this.$el.find("#rpos-kitchen-btn").on("click",       () => this._sendToKitchen());
-        this.$el.find("#rpos-pay-btn").on("click",           () => this._openPayment());
-        this.$el.find("#rpos-split-btn").on("click",         () => this._openSplit());
-        this.$el.find("#rpos-cancel-order-btn").on("click",  () => this._cancelOrder());
-        this.$el.find("#rpos-discount-btn").on("click",      () => this._openDiscount());
-        this.$el.find("#rpos-covers-btn").on("click",        () => this._editCovers());
-        this.$el.find("#rpos-note-btn").on("click",          () => this._editNote());
+        this.$el.find("#rpos-kitchen-btn").on("click",         () => this._sendToKitchen());
+        this.$el.find("#rpos-pay-btn").on("click",             () => this._openPayment());
+        this.$el.find("#rpos-split-btn").on("click",           () => this._openSplit());
+        this.$el.find("#rpos-cancel-order-btn").on("click",    () => this._cancelOrder());
+        this.$el.find("#rpos-discount-btn").on("click",        () => this._openDiscount());
+        this.$el.find("#rpos-covers-btn").on("click",          () => this._editCovers());
+        this.$el.find("#rpos-note-btn").on("click",            () => this._editNote());
+        this.$el.find("#rpos-customer-btn").on("click",        () => this._selectCustomer());
+        this.$el.find("#rpos-clear-customer-btn").on("click",  () => this._clearCustomer());
     }
 
     async load(tableData) {
@@ -810,6 +998,14 @@ rpos.OrderView = class {
     _renderOrderMeta() {
         if (!this.order) return;
         this.$el.find(".rpos-covers-badge").text(`👥 ${this.order.covers || this.order.guest_count || 1}`);
+        const cust = this.order.customer;
+        const $row = this.$el.find(".rpos-customer-row");
+        if (cust) {
+            this.$el.find(".rpos-customer-name").text(cust);
+            $row.show();
+        } else {
+            $row.hide();
+        }
     }
 
     _renderOrderItems() {
@@ -966,6 +1162,42 @@ rpos.OrderView = class {
             }, "Order Note", "Save");
     }
 
+    _selectCustomer() {
+        if (!this.order) return;
+        const d = new frappe.ui.Dialog({
+            title: "Assign Customer",
+            fields: [{
+                fieldtype: "Link",
+                fieldname: "customer",
+                label:     "Customer",
+                options:   "Customer",
+                default:   this.order.customer || "",
+            }],
+            primary_action_label: "Assign",
+            primary_action: async (vals) => {
+                if (!vals.customer) return;
+                await frappe.call({
+                    method: "restaurant_pos.api.order.set_customer",
+                    args: { order_name: this.order.name, customer: vals.customer },
+                });
+                this.order.customer = vals.customer;
+                this._renderOrderMeta();
+                d.hide();
+            },
+        });
+        d.show();
+    }
+
+    async _clearCustomer() {
+        if (!this.order) return;
+        await frappe.call({
+            method: "restaurant_pos.api.order.set_customer",
+            args: { order_name: this.order.name, customer: "" },
+        });
+        this.order.customer = null;
+        this._renderOrderMeta();
+    }
+
     _cancelOrder() {
         frappe.confirm("Cancel this order? All items will be removed.", async () => {
             await frappe.call({
@@ -1022,6 +1254,7 @@ rpos.PaymentView = class {
         this.order = order;
         this.payments = {};
         this.$el.show();
+        this._renderPaymentCustomer();
         this._loadPreview();
     }
 
@@ -1035,6 +1268,11 @@ rpos.PaymentView = class {
                         <button class="rpos-btn rpos-btn-ghost" id="rpos-pay-back">← Back</button>
                         <h2>Payment</h2>
                         <span class="rpos-pay-order-name"></span>
+                    </div>
+                    <div class="rpos-pay-customer-row">
+                        <span class="rpos-pay-customer-icon">👤</span>
+                        <span class="rpos-pay-customer"></span>
+                        <button class="rpos-btn rpos-btn-xs rpos-btn-ghost" id="rpos-pay-change-customer">Change</button>
                     </div>
                     <div class="rpos-pay-items"></div>
                     <div class="rpos-pay-summary">
@@ -1068,8 +1306,9 @@ rpos.PaymentView = class {
             </div>
         `);
 
-        this.$el.find("#rpos-pay-back").on("click", () => this.app.backToOrder());
-        this.$el.find("#rpos-confirm-pay").on("click", () => this._confirmPayment());
+        this.$el.find("#rpos-pay-back").on("click",             () => this.app.backToOrder());
+        this.$el.find("#rpos-confirm-pay").on("click",          () => this._confirmPayment());
+        this.$el.find("#rpos-pay-change-customer").on("click",  () => this._changeCustomer());
 
         this._buildNumpad();
     }
@@ -1187,6 +1426,36 @@ rpos.PaymentView = class {
         this.$el.find(".rpos-change-val").text(rpos._money(change));
     }
 
+    _renderPaymentCustomer() {
+        const cust = this.order?.customer || this.app.posProfile?.customer || "Walk-in Guest";
+        this.$el.find(".rpos-pay-customer").text(cust);
+    }
+
+    _changeCustomer() {
+        const d = new frappe.ui.Dialog({
+            title: "Change Customer",
+            fields: [{
+                fieldtype: "Link",
+                fieldname: "customer",
+                label:     "Customer",
+                options:   "Customer",
+                default:   this.order?.customer || "",
+            }],
+            primary_action_label: "Assign",
+            primary_action: async (vals) => {
+                if (!vals.customer) return;
+                await frappe.call({
+                    method: "restaurant_pos.api.order.set_customer",
+                    args: { order_name: this.order.name, customer: vals.customer },
+                });
+                this.order.customer = vals.customer;
+                this._renderPaymentCustomer();
+                d.hide();
+            },
+        });
+        d.show();
+    }
+
     async _confirmPayment() {
         if (!this.preview) return;
         const paid  = Object.values(this.payments).reduce((a, b) => a + b, 0);
@@ -1213,6 +1482,7 @@ rpos.PaymentView = class {
                     order_name:     this.order.name,
                     payments:       JSON.stringify(payArr),
                     client_version: this.order.version,
+                    opening_entry:  this.app.posSession || null,
                 },
             });
 

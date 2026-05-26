@@ -6,9 +6,11 @@
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
+ "type": "Workspace",
  "for_user": "",
+ "parent_page": "",
  "hide_custom": 0,
- "icon": "restaurant",
+ "icon": "utensils",
  "idx": 0,
  "indicator_color": "orange",
  "is_hidden": 0,
@@ -195,7 +197,7 @@
  "public": 1,
  "restrict_to_domain": "",
  "roles": [],
- "sequence_id": 99.0,
+ "sequence_id": 3.0,
  "shortcuts": [
   {
    "color": "Red",

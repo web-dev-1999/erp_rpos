@@ -1452,3 +1452,84 @@ body.rpos-fullscreen .page-content {
   background:    #cbd5e1;
   border-radius: 2px;
 }
+
+/* ── Session styles ─────────────────────────────────────────── */
+.rpos-session-close-btn {
+  border-color: var(--rpos-warning) !important;
+  color:        var(--rpos-warning) !important;
+}
+.rpos-session-close-btn:hover {
+  background: rgba(249,115,22,.12) !important;
+}
+
+.rpos-session-summary {
+  background:    var(--rpos-surface-2);
+  border-radius: var(--rpos-radius-sm);
+  padding:       0.75rem 1rem;
+  margin-bottom: 0.5rem;
+}
+.rpos-session-stat {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  padding:         0.35rem 0;
+  font-size:       0.9rem;
+  border-bottom:   1px solid var(--rpos-border);
+}
+.rpos-session-stat:last-child { border-bottom: none; }
+.rpos-session-stat span       { color: var(--rpos-text-muted); }
+.rpos-session-stat b          { font-weight: 600; }
+.rpos-session-cash-row b      { color: var(--rpos-success); font-size: 1rem; }
+
+/* ── Customer chip in Order sidebar ─────────────────────────── */
+.rpos-customer-row {
+  padding:         0.25rem 0.75rem 0.5rem;
+  animation:       rpos-fadein .15s ease;
+}
+.rpos-customer-chip {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             0.4rem;
+  background:      rgba(59,130,246,.12);
+  border:          1px solid rgba(59,130,246,.3);
+  border-radius:   999px;
+  padding:         0.2rem 0.5rem 0.2rem 0.75rem;
+  font-size:       0.8rem;
+  color:           var(--rpos-info);
+  font-weight:     500;
+}
+.rpos-btn-icon {
+  background:    none;
+  border:        none;
+  cursor:        pointer;
+  line-height:   1;
+  padding:       0 2px;
+  color:         inherit;
+  font-size:     0.75rem;
+  opacity:       0.7;
+}
+.rpos-btn-icon:hover { opacity: 1; }
+
+/* ── Customer row in Payment view ───────────────────────────── */
+.rpos-pay-customer-row {
+  display:      flex;
+  align-items:  center;
+  gap:          0.5rem;
+  padding:      0.4rem 1rem;
+  background:   rgba(59,130,246,.08);
+  border-bottom: 1px solid var(--rpos-border);
+  font-size:    0.85rem;
+}
+.rpos-pay-customer-icon { font-size: 1rem; }
+.rpos-pay-customer      { flex: 1; font-weight: 500; color: var(--rpos-text); }
+
+.rpos-btn-xs {
+  padding:     0.15rem 0.5rem;
+  font-size:   0.75rem;
+  border-radius: var(--rpos-radius-sm);
+}
+
+@keyframes rpos-fadein {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

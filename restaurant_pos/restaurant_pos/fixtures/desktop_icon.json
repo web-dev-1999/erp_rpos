@@ -1,0 +1,19 @@
+[
+ {
+  "app": "restaurant_pos",
+  "docstatus": 0,
+  "doctype": "Desktop Icon",
+  "hidden": 0,
+  "icon": "utensils",
+  "icon_type": "Icon",
+  "idx": 0,
+  "label": "Restaurant POS",
+  "link_to": "Restaurant POS",
+  "link_type": "Workspace Sidebar",
+  "name": "Restaurant POS",
+  "owner": "Administrator",
+  "parent_icon": "",
+  "restrict_removal": 0,
+  "standard": 1
+ }
+]

@@ -433,4 +433,4 @@ Tap **▶** on item chip → Sent → Cooking → Ready
 ---
 
 *For technical issues or system access problems, contact your system administrator.*  
-*Powered by ILI Digital Restaurant POS*
+*Powered by DineOS*

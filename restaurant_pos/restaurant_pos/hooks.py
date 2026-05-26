@@ -58,4 +58,8 @@ fixtures = [
         "doctype": "Custom Role",
         "filters": [["role_name", "in", ["POS Manager", "POS Cashier", "Kitchen Staff"]]],
     },
+    {
+        "doctype": "Desktop Icon",
+        "filters": [["name", "=", "Restaurant POS"]],
+    },
 ]

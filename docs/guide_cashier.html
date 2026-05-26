@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cashier User Guide — ILI Digital Restaurant POS</title>
+  <title>Cashier User Guide — DineOS</title>
   <style>
     /* ===== RESET & BASE ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -498,7 +498,7 @@
 <!-- ============================================================ COVER -->
 <div class="cover">
   <div class="role-badge">Cashier Role Guide</div>
-  <h1>ILI Digital Restaurant POS</h1>
+  <h1>DineOS</h1>
   <p class="subtitle">Complete User Guide &mdash; Payment Processing, Splitting &amp; End-of-Day</p>
   <div class="meta">
     <span>Version 1.0</span>
@@ -527,6 +527,8 @@
       <div class="toc-item"><span class="toc-num">10</span><a href="#s10">Handling Voids</a></div>
       <div class="toc-item"><span class="toc-num">11</span><a href="#s11">End-of-Day Checklist</a></div>
       <div class="toc-item"><span class="toc-num">12</span><a href="#s12">Common Scenarios</a></div>
+      <div class="toc-item"><span class="toc-num">13</span><a href="#s13">Opening &amp; Closing a Session</a></div>
+      <div class="toc-item"><span class="toc-num">14</span><a href="#s14">Assigning a Customer</a></div>
       <div class="toc-item"><span class="toc-num">&mdash;</span><a href="#qr">Quick Reference Card</a></div>
     </div>
   </div>
@@ -1079,8 +1081,8 @@
     <div class="callout callout-info" style="margin-top:1.2rem;">
       <span class="callout-icon">&#9432;</span>
       <div class="callout-body">
-        <strong>POS Closing Entry</strong>
-        <p>Your manager will close the POS session in ERPNext (POS Closing Entry), which generates the official daily sales report. You do not need to create this entry yourself, but you may be asked to confirm the closing cash amount.</p>
+        <strong>Close the POS Session before logging out</strong>
+        <p>After completing the end-of-day checklist, close the POS session using the <strong>🔒 Close Session</strong> button in the top-right header. This creates a POS Closing Entry in ERPNext and locks the session until a new one is opened. See <a href="#s13">Section 13</a> for full steps.</p>
       </div>
     </div>
   </div>
@@ -1238,11 +1240,110 @@
   </div>
 </div>
 
+<!-- ============================================================ SECTION 13 -->
+<div class="section" id="s13">
+  <div class="section-header">
+    <span class="section-num">13</span>
+    <h2>Opening &amp; Closing a POS Session</h2>
+  </div>
+  <div class="section-body">
+    <p>Every working shift must begin with an <strong>Open Session</strong> and end with a <strong>Close Session</strong>. A session ties all invoices processed during the shift to a single accounting record in ERPNext, enabling accurate cash reconciliation and shift-level sales reporting.</p>
+
+    <h3>Opening a Session (Start of Shift)</h3>
+    <ol class="steps">
+      <li>Log in to the POS at <code>http://[server]/desk/rpos</code>.</li>
+      <li>If no session is active for this POS terminal, the system automatically shows the <strong>Open POS Session</strong> dialog. You cannot use the POS until this is completed.</li>
+      <li>Count the cash placed in the cash drawer at the start of the shift and enter the total in the <strong>Opening Cash Float</strong> field.</li>
+      <li>Click <span class="btn-label btn-green">Open Session</span>. The Floor Plan appears and the POS is now active.</li>
+    </ol>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 13.1 &mdash; Open POS Session dialog displayed on first load when no active session exists.</figcaption>
+    </div>
+
+    <div class="callout callout-info">
+      <span class="callout-icon">&#9432;</span>
+      <div class="callout-body">
+        <strong>What if there is already an active session?</strong>
+        <p>If a previous shift's session was left open, the system will use it. Ask your manager to close the stale session from the ERPNext back-office before you open a new one.</p>
+      </div>
+    </div>
+
+    <h3>Closing a Session (End of Shift)</h3>
+    <ol class="steps">
+      <li>Ensure all tables have been settled — no amber (bill-requested) tiles should remain on the Floor Plan.</li>
+      <li>Click the <strong>🔒 Close Session</strong> button in the top-right header area of the POS.</li>
+      <li>The <strong>Close POS Session</strong> dialog appears showing a shift summary:
+        <ul>
+          <li><em>Session opened</em> — the time the session was started</li>
+          <li><em>Invoices</em> — total number of bills processed this shift</li>
+          <li><em>Total sales</em> — gross revenue for the shift</li>
+          <li><em>Expected cash in drawer</em> — opening float plus all cash payments collected</li>
+        </ul>
+      </li>
+      <li>Count the physical cash in the drawer and enter the total in <strong>Actual Closing Cash Count</strong>.</li>
+      <li>Click <span class="btn-label btn-green">Close Session</span>. ERPNext creates a POS Closing Entry recording the cash variance (over/short).</li>
+      <li>The Open Session dialog reappears, ready for the next shift.</li>
+    </ol>
+
+    <div class="screenshot">
+      <span class="ph-icon">&#128247;</span>
+      <div class="ph-label">Screenshot Placeholder</div>
+      <figcaption>Fig 13.2 &mdash; Close POS Session dialog showing shift summary and closing cash count field.</figcaption>
+    </div>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">&#9888;</span>
+      <div class="callout-body">
+        <strong>Always close before logging out</strong>
+        <p>Logging out without closing the session leaves the session open for the next shift. This merges two shifts' sales into a single session and makes cash reconciliation incorrect. Always close the session first, then log out.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ SECTION 14 -->
+<div class="section" id="s14">
+  <div class="section-header">
+    <span class="section-num">14</span>
+    <h2>Assigning a Customer</h2>
+  </div>
+  <div class="section-body">
+    <p>For most walk-in guests, no customer assignment is needed — the system automatically bills to a default <em>Walk-in Guest</em> account. For loyalty members, corporate accounts, or hotel guests, you can assign a specific customer to the order so the invoice is issued in their name.</p>
+
+    <h3>Assigning at the Order Screen</h3>
+    <ol class="steps">
+      <li>From the Order Screen, tap the <span class="btn-label">👤 Guest</span> button in the order header (next to the Covers and Note buttons).</li>
+      <li>A customer search dialog opens. Type the customer's name or account number; the system filters results in real time.</li>
+      <li>Select the correct customer from the list and tap <span class="btn-label btn-green">Assign</span>.</li>
+      <li>A blue chip with the customer's name appears below the order header confirming the assignment.</li>
+      <li>To remove the assignment, tap the <strong>✕</strong> on the blue chip.</li>
+    </ol>
+
+    <h3>Changing at the Payment Screen</h3>
+    <ol class="steps">
+      <li>Open the Payment Screen. The assigned customer's name (or <em>Walk-in Guest</em>) appears in a banner at the top of the payment panel.</li>
+      <li>To change the customer at this stage, tap the <strong>Change</strong> link next to the customer name.</li>
+      <li>Select the correct customer and tap Assign.</li>
+    </ol>
+
+    <div class="callout callout-info">
+      <span class="callout-icon">&#9432;</span>
+      <div class="callout-body">
+        <strong>Why assign a customer?</strong>
+        <p>Assigning a named customer links the POS Invoice to their customer record in ERPNext. This enables loyalty point accrual, corporate billing, and per-customer sales history. The invoice and receipt will print with the customer's name and address instead of <em>Walk-in Guest</em>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ============================================================ FOOTER -->
 <div class="doc-footer">
-  <span>ILI Digital Restaurant POS &mdash; Cashier User Guide v1.0</span>
+  <span>DineOS &mdash; Cashier User Guide v1.1</span>
   <span>ERPNext 17 | May 2026</span>
-  <span>ILI Digital &mdash; wajihuz.zaman@ili.digital</span>
+  <span>DineOS &mdash; wajihuz.zaman@ili.digital</span>
 </div>
 
 </body>

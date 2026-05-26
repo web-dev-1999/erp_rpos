@@ -33,7 +33,7 @@ from restaurant_pos.api._helpers import (
 # ── Main settlement entry point ───────────────────────────────────────────────
 
 @frappe.whitelist()
-def settle_order(order_name, payments, client_version=None):
+def settle_order(order_name, payments, client_version=None, opening_entry=None):
     """
     Create and submit a POS Invoice for a completed/split POS Order.
 
@@ -70,7 +70,7 @@ def settle_order(order_name, payments, client_version=None):
     if not order.items:
         frappe.throw(_("Cannot settle an empty order"))
 
-    invoice = _create_pos_invoice(order, payments)
+    invoice = _create_pos_invoice(order, payments, opening_entry=opening_entry)
 
     order.pos_invoice = invoice.name
     order.status = "SETTLED"
@@ -78,8 +78,10 @@ def settle_order(order_name, payments, client_version=None):
     order.version = (order.version or 0) + 1
     order.save(ignore_permissions=True)
 
-    # Release table if this is a root order (no parent) and all siblings settled
+    # If this is a root order, cancel any leftover unsettled children
+    # (e.g. an aborted split where the parent is paid directly instead)
     if not order.parent_order:
+        _cancel_orphaned_children(order.name)
         _maybe_release_table(order)
     else:
         _maybe_close_parent(order.parent_order)
@@ -95,7 +97,7 @@ def settle_order(order_name, payments, client_version=None):
 
 
 @frappe.whitelist()
-def get_settlement_preview(order_name):
+def get_settlement_preview(order_name, opening_entry=None):
     """
     Return a pre-computed breakdown for the payment dialog.
     Taxes are estimated using the POS Profile template (not finalised yet).
@@ -107,7 +109,7 @@ def get_settlement_preview(order_name):
 
     # Build a temporary invoice to get ERPNext to compute taxes
     tmp = frappe.new_doc("POS Invoice")
-    _populate_invoice_header(tmp, order, profile)
+    _populate_invoice_header(tmp, order, profile, opening_entry=opening_entry)
     for oi in order.items:
         tmp.append("items", _invoice_item_row(oi))
     tmp.run_method("set_missing_values")
@@ -140,11 +142,11 @@ def get_settlement_preview(order_name):
 
 # ── Private helpers ───────────────────────────────────────────────────────────
 
-def _create_pos_invoice(order, payments: list):
+def _create_pos_invoice(order, payments: list, opening_entry=None):
     profile = frappe.get_doc("POS Profile", order.pos_profile)
 
     invoice = frappe.new_doc("POS Invoice")
-    _populate_invoice_header(invoice, order, profile)
+    _populate_invoice_header(invoice, order, profile, opening_entry=opening_entry)
 
     for oi in order.items:
         invoice.append("items", _invoice_item_row(oi))
@@ -170,11 +172,13 @@ def _create_pos_invoice(order, payments: list):
     return invoice
 
 
-def _populate_invoice_header(invoice, order, profile):
+def _populate_invoice_header(invoice, order, profile, opening_entry=None):
     """Copy POS-relevant header fields from profile and order."""
     invoice.pos_profile = order.pos_profile
     invoice.company = order.company
     invoice.customer = order.customer or profile.customer
+    if opening_entry:
+        invoice.pos_opening_entry = opening_entry
     invoice.is_pos = 1
     invoice.update_stock = profile.update_stock
 
@@ -199,6 +203,20 @@ def _invoice_item_row(oi) -> dict:
         "qty": flt(oi.qty),
         "rate": flt(oi.rate),
     }
+
+
+def _cancel_orphaned_children(parent_order_name: str):
+    """Cancel any unsettled child orders when the parent is settled directly."""
+    children = frappe.get_all(
+        "POS Order",
+        filters={
+            "parent_order": parent_order_name,
+            "status": ["not in", ["SETTLED", "CLOSED", "CANCELLED"]],
+        },
+        pluck="name",
+    )
+    for child_name in children:
+        frappe.db.set_value("POS Order", child_name, "status", "CANCELLED")
 
 
 def _maybe_release_table(order):

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manager Guide — Restaurant POS</title>
+  <title>Manager Guide — DineOS</title>
   <style>
     /* ── Reset & base ─────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -468,10 +468,10 @@
 <div class="cover">
   <div class="crown">&#128081;</div>
   <div class="role-badge">Manager</div>
-  <h1>Restaurant POS<br><span>Manager Guide</span></h1>
+  <h1>DineOS<br><span>Manager Guide</span></h1>
   <p class="subtitle">Full-access reference covering voids, discounts, floor editing, reservations, reports, and user management.</p>
   <div class="meta">
-    Restaurant POS &nbsp;|&nbsp; ERPNext 17 &nbsp;|&nbsp; Version 1.0 &nbsp;|&nbsp; May 2026
+    DineOS &nbsp;|&nbsp; ERPNext 17 &nbsp;|&nbsp; Version 1.0 &nbsp;|&nbsp; May 2026
   </div>
 </div>
 
@@ -494,6 +494,7 @@
       <li><a href="#reports">Reports &amp; Analytics</a><span class="page-dots"></span></li>
       <li><a href="#users">User &amp; Access Management</a><span class="page-dots"></span></li>
       <li><a href="#scenarios">Common Manager Scenarios</a><span class="page-dots"></span></li>
+      <li><a href="#sessions">Session Management</a><span class="page-dots"></span></li>
       <li><a href="#qr">Quick Reference Card</a><span class="page-dots"></span></li>
     </ol>
   </nav>
@@ -505,7 +506,7 @@
       <h2>Introduction</h2>
     </div>
 
-    <p>The <strong>Manager role</strong> is the highest-privilege level in the Restaurant POS. It includes everything a Waiter or Cashier can do — opening tables, taking orders, processing payments, splitting bills — plus elevated actions such as voiding sent items, applying discounts beyond the standard threshold, editing the floor layout, managing reservations, and pulling reports.</p>
+    <p>The <strong>Manager role</strong> is the highest-privilege level in DineOS. It includes everything a Waiter or Cashier can do — opening tables, taking orders, processing payments, splitting bills — plus elevated actions such as voiding sent items, applying discounts beyond the standard threshold, editing the floor layout, managing reservations, and pulling reports.</p>
 
     <h3>Accessing the POS</h3>
     <p>Open any browser and navigate to:</p>
@@ -944,10 +945,10 @@
       <div class="qa-q">End-of-day cash reconciliation</div>
       <div class="qa-a">
         <ol style="margin:0; padding-left:18px;">
-          <li>From the POS, tap <strong>Close Shift</strong> (or <strong>End of Day</strong>) in the top-right menu.</li>
-          <li>Count the physical cash in the till. Enter the counted amount in the <em>Closing Amount</em> field.</li>
-          <li>The system compares counted amount against expected (opening float + cash sales). Any discrepancy is flagged.</li>
-          <li>Save and print the End-of-Day summary. File it with your daily paperwork.</li>
+          <li>Confirm all tables are settled — no amber tiles remain on the Floor Plan.</li>
+          <li>From the POS, tap <strong>🔒 Close Session</strong> in the top-right header. See <a href="#sessions">Section 11 — Session Management</a> for full steps.</li>
+          <li>Enter the actual closing cash count in the dialog. The system displays the expected amount (opening float + cash collected).</li>
+          <li>Confirm the session. ERPNext creates a POS Closing Entry recording any over/short variance.</li>
           <li>Deposit surplus cash in the safe and set the opening float for the next shift.</li>
         </ol>
       </div>
@@ -984,6 +985,62 @@
       <div class="ss-icon">&#128247;</div>
       <div class="ss-label">Screenshot placeholder</div>
       <div class="ss-caption">End-of-Day summary screen showing opening float, cash sales total, expected closing balance, counted balance, and a variance indicator.</div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 11 – SESSION MANAGEMENT ─────────────────────────────── -->
+  <section class="section" id="sessions">
+    <div class="section-header">
+      <div class="section-number">11</div>
+      <h2>Session Management</h2>
+    </div>
+
+    <p>Every working shift on the POS must be bounded by an <strong>Open Session</strong> and a <strong>Close Session</strong>. Sessions tie all POS Invoices to a single <em>POS Opening Entry</em> in ERPNext, making shift-level cash reconciliation and sales reporting accurate.</p>
+
+    <h3>Opening a Session</h3>
+    <p>When a cashier or manager logs into the POS and no active session exists, the <strong>Open POS Session</strong> dialog appears automatically. The user enters the opening cash float (the amount placed in the cash drawer) and clicks <strong>Open Session</strong>. The POS is inaccessible until this step is completed.</p>
+
+    <div class="callout callout-note">
+      <span class="callout-icon">&#8505;</span>
+      <div>Each POS Profile / terminal has its own session. If you have two POS terminals, each must open and close its session independently.</div>
+    </div>
+
+    <h3>Monitoring Active Sessions (Back Office)</h3>
+    <ol class="steps">
+      <li>In the ERPNext desk, go to <strong>Point of Sale &rarr; POS Opening Entry</strong>.</li>
+      <li>Filter by Status = <em>Open</em> to see all active sessions across all terminals.</li>
+      <li>If a session is stale (left open from a previous day), you can manually set its status to <em>Closed</em> from the Opening Entry record.</li>
+    </ol>
+
+    <h3>Closing a Session</h3>
+    <ol class="steps">
+      <li>Ensure all tables are settled.</li>
+      <li>Click the <strong>🔒 Close Session</strong> button in the POS top-right header.</li>
+      <li>Review the shift summary:
+        <ul>
+          <li><strong>Session opened</strong> — start time of the session</li>
+          <li><strong>Invoices</strong> — count of invoices processed this session</li>
+          <li><strong>Total sales</strong> — gross revenue for the session</li>
+          <li><strong>Expected cash in drawer</strong> — opening float + all cash payments received</li>
+        </ul>
+      </li>
+      <li>Count the physical cash and enter the total in <strong>Actual Closing Cash Count</strong>.</li>
+      <li>Click <strong>Close Session</strong>. ERPNext creates a <em>POS Closing Entry</em> recording the difference between expected and actual cash (variance).</li>
+    </ol>
+
+    <h3>Reviewing Closing Entries (Back Office)</h3>
+    <ol class="steps">
+      <li>Go to <strong>Point of Sale &rarr; POS Closing Entry</strong>.</li>
+      <li>Open any entry to view the full payment reconciliation by mode (cash, card, etc.) and the cash variance.</li>
+      <li>Run the <strong>POS Daily Sales Summary</strong> report for a revenue breakdown filtered by session.</li>
+    </ol>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">&#9888;</span>
+      <div class="callout-body">
+        <strong>Cash variance policy</strong>
+        <p>A positive variance (more cash than expected) should be documented and deposited. A negative variance (less cash) must be investigated before the cashier leaves the premises. Any variance exceeding your restaurant's threshold (set by management) requires a signed discrepancy form.</p>
+      </div>
     </div>
   </section>
 
